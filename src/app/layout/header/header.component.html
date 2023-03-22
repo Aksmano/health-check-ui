@@ -1,0 +1,18 @@
+<div class="flex justify-content-center h-5rem w-full shadow-3">
+    <div class="navbar">
+        <!-- <p-sidebar [(visible)]="sidebar" [baseZIndex]="10000">
+            <h3>Left Sidebar</h3>
+        </p-sidebar>
+        <p-button (click)="sidebar = true" class="navbar-hamburger" icon="pi pi-bars"></p-button> -->
+        <img class="navbar-logo" src="../../../assets/health-check.png" alt="health-check-icon" />
+        <div class="navbar-title">Health Check</div>
+        <div class="navbar-button">Patient</div>
+        <div class="navbar-button">Doctor</div>
+        <div class="navbar-button">Contact</div>
+        <div class="navbar-button">About</div>
+        <div class="flex-grow-1"></div>
+        <p-menu #menu [model]="avatarMenuItems" [popup]="true"></p-menu>
+        <p-avatar pTooltip="" class="flex align-items-center cursor-pointer" (click)="menu.toggle($event)"
+            icon="pi pi-user"></p-avatar>
+    </div>
+</div>
