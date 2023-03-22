@@ -8,7 +8,10 @@ const routes: Routes = [
     path: '',
     component: ContentLayoutComponent,
     children: [
+      // {
+      //   path: '',
 
+      // }
     ]
   }
 ];

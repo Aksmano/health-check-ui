@@ -13,3 +13,11 @@ body {
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
+
+.p-avatar, .p-menuitem-link {
+    @include styleclass('cursor-pointer transition-colors transition-duration-100 bg-white hover:bg-teal-500 hover:text-50');
+}
+
+.p-menuitem-link:hover span {
+    @include styleclass('text-50')
+}

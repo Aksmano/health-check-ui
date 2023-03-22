@@ -12,7 +12,6 @@
         <div class="navbar-button">About</div>
         <div class="flex-grow-1"></div>
         <p-menu #menu [model]="avatarMenuItems" [popup]="true"></p-menu>
-        <p-avatar pTooltip="" class="flex align-items-center cursor-pointer" (click)="menu.toggle($event)"
-            icon="pi pi-user"></p-avatar>
+        <p-avatar class="navbar-avatar" (click)="menu.toggle($event)" icon="pi pi-user"></p-avatar>
     </div>
 </div>
