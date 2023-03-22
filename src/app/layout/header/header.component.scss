@@ -1,0 +1,26 @@
+@import 'primeflex/primeflex.scss';
+
+.navbar {
+    @include styleclass('flex h-5rem mx-5');
+    width: 70rem;
+}
+
+.navbar-hamburger {
+    @include styleclass('hidden');
+}
+
+.navbar-logo {
+    @include styleclass('flex align-self-center w-3rem h-3rem mr-2 cursor-pointer');
+}
+
+.navbar-title {
+    @include styleclass('flex align-items-center text-center h-full text-2xl mr-5 cursor-pointer');
+}
+
+.navbar-button {
+    @include styleclass('flex align-items-center text-center h-full text-xl transition-duration-100 px-5 mr-1 cursor-pointer transition-colors hover:bg-teal-500 hover:text-50');
+}
+
+.navbar-text {
+    height: fit-content;
+}
