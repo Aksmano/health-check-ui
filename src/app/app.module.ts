@@ -12,6 +12,10 @@ import { AvatarModule } from 'primeng/avatar';
 import { SidebarModule } from 'primeng/sidebar';
 import { ButtonModule } from 'primeng/button'
 import { MenuModule } from 'primeng/menu';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './redux/index.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { effects } from './redux/index.effects';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -46,7 +50,11 @@ function initializeKeycloak(keycloak: KeycloakService) {
     AvatarModule,
     SidebarModule,
     ButtonModule,
-    MenuModule
+    MenuModule,
+    StoreModule.forRoot(reducers, {
+      metaReducers
+    }),
+    EffectsModule.forRoot(effects)
   ],
   providers: [
     {
