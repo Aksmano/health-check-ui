@@ -1,0 +1,20 @@
+<p-card header="Find a medical facility" [style]="{ width: '360px' }">
+    <ng-template pTemplate="header">
+        <img alt="Card" src="../assets/medical-facility.jpg" />
+    </ng-template>
+    <span class="p-input-icon-left flex flex-column gap-2">
+        <label for="city-input-ac">Pick a city</label>
+        <i class="pi pi-search"></i>
+        <p-autoComplete [(ngModel)]="selectedCity" id="city-input-ac" [dropdown]="true" [suggestions]="filteredCities"
+            (completeMethod)="filterCity($event)" field="name" [style]="{'color': 'red'}"></p-autoComplete>
+    </span>
+    <span class="p-input-icon-left flex flex-column gap-2 mt-3">
+        <label for="city-input-ac">Pick an address</label>
+        <i class="pi pi-search"></i>
+        <p-autoComplete [(ngModel)]="selectedCity" id="city-input-ac" [dropdown]="true" [suggestions]="filteredCities"
+            (completeMethod)="filterCity($event)" field="name" [style]="{'color': 'red'}"></p-autoComplete>
+    </span>
+    <ng-template pTemplate="footer">
+        <p-button label="Search" icon="pi pi-search"></p-button>
+    </ng-template>
+</p-card>

@@ -2,17 +2,30 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/guards/auth/auth.guard';
 import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
+import { HeaderComponent } from './layout/header/header.component';
 
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/app',
+    pathMatch: 'full'
+  },
+  {
+    path: 'app',
     component: ContentLayoutComponent,
+    // canActivate: [AuthGuard],
     children: [
-      // {
-      //   path: '',
-
-      // }
+      {
+        path: 'patient',
+        loadChildren: () =>
+          import('./modules/patient/patient.module').then(m => m.PatientModule)
+      }
     ]
+  },
+  {
+    path: '**',
+    redirectTo: '/app',
+    pathMatch: 'full'
   }
 ];
 

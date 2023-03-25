@@ -1,4 +1,19 @@
+@import 'primeflex/primeflex.scss';
+
 :host {
     display: block;
     height: 100%;
+}
+
+.content-container {
+
+    @include styleclass('flex w-full align-items-center justify-content-center');
+    // min-height: calc(100% - 5rem);
+    height: calc(100% - 5rem);
+}
+
+.content {
+    @include styleclass('flex align-items-center justify-content-center mx-5 py-3');
+    width: 60rem;
+    min-height: 100%;
 }

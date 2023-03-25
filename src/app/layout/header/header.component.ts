@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { MenuItem } from 'primeng/api/menuitem';
+import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
   selector: 'app-header',
@@ -12,6 +13,7 @@ export class HeaderComponent implements OnInit {
   public avatarMenuItems: MenuItem[] = [];
 
   constructor(
+    public readonly navigationService: NavigationService,
     private readonly keycloak: KeycloakService
   ) { }
 

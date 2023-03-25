@@ -2,7 +2,7 @@
 
 .navbar {
     @include styleclass('flex h-5rem mx-5');
-    width: 70rem;
+    width: 60rem;
 }
 
 .navbar-hamburger {
@@ -14,7 +14,7 @@
 }
 
 .navbar-title {
-    @include styleclass('flex align-items-center text-center h-full text-2xl mr-5 cursor-pointer');
+    @include styleclass('flex align-items-center text-center h-full text-2xl mr-5 cursor-pointer transition-colors transition-duration-100 hover:text-teal-500');
 }
 
 .navbar-button {
