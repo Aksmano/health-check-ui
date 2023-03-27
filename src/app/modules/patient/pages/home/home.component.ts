@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AutoCompleteItem } from 'src/app/data/model/entities/AutoComplete';
+import { MedicalFacilityService } from 'src/app/data/services/medical-facility/medical-facility.service';
 
 @Component({
   selector: 'app-home',
@@ -7,31 +8,21 @@ import { AutoCompleteItem } from 'src/app/data/model/entities/AutoComplete';
   styleUrls: ['./home.component.scss']
 })
 
-export class HomeComponent {
-  public cities: AutoCompleteItem[] = [
-    {
-      name: 'Krakow',
-      code: 'KR'
-    },
-    {
-      name: 'Warszawa',
-      code: 'WW'
-    },
-    {
-      name: 'Poznan',
-      code: 'PO'
-    },
-    {
-      name: 'Wrocław',
-      code: 'WR'
-    },
-    {
-      name: 'Gdańsk',
-      code: 'GD'
-    }
-  ]
+export class HomeComponent implements OnInit {
   public selectedCity: AutoCompleteItem = {} as AutoCompleteItem;
   public filteredCities: AutoCompleteItem[] = [];
+
+  private cities: AutoCompleteItem[] = [];
+
+  constructor(
+    private readonly medicalFacilityService: MedicalFacilityService
+  ) { }
+
+  ngOnInit() {
+    this.medicalFacilityService
+      .getMedicalFacilitiesCities()
+      .subscribe((cities) => this.cities = cities);
+  }
 
   public filterCity(event: any) {
     let filtered: AutoCompleteItem[] = [];

@@ -16,6 +16,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducers, metaReducers } from './redux/index.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from './redux/index.effects';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -45,6 +46,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
     KeycloakAngularModule,
     AvatarModule,

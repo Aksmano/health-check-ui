@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
 import { MenuItem } from 'primeng/api/menuitem';
+import { AuthService } from 'src/app/core/services/auth/auth.service';
 import { NavigationService } from 'src/app/core/services/navigation.service';
 
 @Component({
@@ -14,6 +15,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     public readonly navigationService: NavigationService,
+    private readonly authService: AuthService,
     private readonly keycloak: KeycloakService
   ) { }
 
@@ -39,7 +41,7 @@ export class HeaderComponent implements OnInit {
           label: 'Sign in',
           icon: 'pi pi-sign-in',
           command: () => {
-            this.keycloak.login()
+            this.authService.loginUser()
           },
         },
         {
