@@ -1,3 +1,5 @@
-.p-card {
-    width: 360px;
+@import 'primeflex/primeflex.scss';
+
+.home {
+    @include styleclass('flex flex-row flex-wrap gap-5 w-full justify-content-center align-items-center m-auto')
 }

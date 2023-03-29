@@ -1,8 +1,9 @@
 @import 'primeflex/primeflex.scss';
+@import "../../../vars.scss";
 
 .navbar {
     @include styleclass('flex h-5rem mx-5');
-    width: 60rem;
+    width: $site-width;
 }
 
 .navbar-hamburger {

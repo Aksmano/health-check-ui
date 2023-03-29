@@ -6,14 +6,15 @@ import {
   createSelector,
   MetaReducer
 } from '@ngrx/store';
+import { medicalOfferReducer, MedicalOfferState } from './reducers/medical-offer.reducer';
 
-export interface State {
-
+export interface AppState {
+  medicalOffer: MedicalOfferState
 }
 
-export const reducers: ActionReducerMap<State> = {
-
+export const reducers: ActionReducerMap<AppState> = {
+  medicalOffer: medicalOfferReducer
 };
 
 
-export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : [];
+export const metaReducers: MetaReducer<AppState>[] = isDevMode() ? [] : [];

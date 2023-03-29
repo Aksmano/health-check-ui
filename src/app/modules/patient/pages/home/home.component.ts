@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AutoCompleteItem } from 'src/app/data/model/entities/AutoComplete';
-import { MedicalFacilityService } from 'src/app/data/services/medical-facility/medical-facility.service';
+import { Store } from '@ngrx/store';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { AutoCompleteEvent, AutoCompleteItem, LocationSearchItem } from 'src/app/data/model/entities/AutoComplete';
+import { MedicalOfferService } from 'src/app/data/services/medical-facility/medical-offer.service';
+import { fetchCitiesRequest } from 'src/app/redux/actions/medical-offer.actions';
+import { AppState } from 'src/app/redux/index.reducers';
+import { selectIsFetchingCities, selectLocations } from 'src/app/redux/selectors/medical-offer.selectors';
 
 @Component({
   selector: 'app-home',
@@ -10,33 +16,67 @@ import { MedicalFacilityService } from 'src/app/data/services/medical-facility/m
 
 export class HomeComponent implements OnInit {
   public selectedCity: AutoCompleteItem = {} as AutoCompleteItem;
-  public filteredCities: AutoCompleteItem[] = [];
+  public selectedAddress: AutoCompleteItem = {} as AutoCompleteItem;
 
-  private cities: AutoCompleteItem[] = [];
+  public cityPicked = false;
+  public addressPicked = false;
+  public fetchingCities = false;
+
+  public filteredCities: AutoCompleteItem[] = [];
+  public filteredAddresses: AutoCompleteItem[] = [];
+
+  private cities: LocationSearchItem[] = [];
+  private addresses: AutoCompleteItem[] = [];
+
+  private readonly ngUnsubscribe = new Subject();
 
   constructor(
-    private readonly medicalFacilityService: MedicalFacilityService
+    private readonly store: Store<AppState>,
+    private readonly navigationService: NavigationService
   ) { }
 
   ngOnInit() {
-    this.medicalFacilityService
-      .getMedicalFacilitiesCities()
-      .subscribe((cities) => this.cities = cities);
+    this.store.select(selectLocations)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(locations => {
+        console.log(locations);
+
+        this.cities = locations
+      });
+    this.store.select(selectIsFetchingCities)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(fetchingCities => {
+        console.log(fetchingCities);
+
+        this.fetchingCities = fetchingCities
+      });
   }
 
-  public filterCity(event: any) {
-    let filtered: AutoCompleteItem[] = [];
-    let query = event.query;
+  public onCitySelect(value: LocationSearchItem) {
+    this.addresses = value.addresses;
+    this.selectedAddress = {} as AutoCompleteItem;
+    this.cityPicked = true;
+    this.addressPicked = false;
 
-    for (let i = 0; i < this.cities.length; i++) {
-      let city = this.cities[i];
+    this.filterAddresses({ query: '' } as AutoCompleteEvent);
+  }
 
-      if (city.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
-        filtered.push(city);
-        console.log(city);
+  public filterCity(event: AutoCompleteEvent) {
+    this.filteredCities = this.cities.
+      filter(city => city.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0);
+  }
+
+  public filterAddresses(event: AutoCompleteEvent) {
+    this.filteredAddresses = this.addresses
+      .filter(address => address.name.toLowerCase().indexOf(event.query.toLowerCase()) === 0)
+  }
+
+  public searchForAvailableAppointments() {
+    this.navigationService.toPatientsPortal([`catalog`], {
+      queryParams: {
+        city: this.selectedCity.name,
+        address: this.selectedAddress.name
       }
-    }
-
-    this.filteredCities = filtered;
+    });
   }
 }

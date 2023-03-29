@@ -8,14 +8,16 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FormsModule }   from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { CatalogComponent } from './pages/catalog/catalog.component';
-
+import { DataViewModule } from 'primeng/dataview';
+import { ProductItemComponent } from './pages/catalog/product-item/product-item.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
     HomeComponent,
-    CatalogComponent
+    CatalogComponent,
+    ProductItemComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +26,9 @@ import { CatalogComponent } from './pages/catalog/catalog.component';
     CardModule,
     FormsModule,
     InputTextModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    DataViewModule,
+    SharedModule
   ]
 })
 export class PatientModule { }

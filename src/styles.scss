@@ -21,3 +21,15 @@ body {
 .p-menuitem-link:hover span {
     @include styleclass('text-50')
 }
+
+.p-card {
+    min-height: 22.5rem;
+}
+
+.p-card .p-card-body {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100% - 15rem);
+    align-items: stretch;
+}

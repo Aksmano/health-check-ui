@@ -1,3 +1,5 @@
-import { AppEffects } from "src/app/redux/effects/app.effects";
+import { MedicalOfferEffects } from "./effects/medical-offer.effects";
 
-export const effects = [AppEffects]
+export const effects = [
+    MedicalOfferEffects
+]

@@ -41,7 +41,6 @@ function initializeKeycloak(keycloak: KeycloakService) {
     FooterComponent,
     HeaderComponent,
     ContentLayoutComponent,
-
   ],
   imports: [
     BrowserModule,
