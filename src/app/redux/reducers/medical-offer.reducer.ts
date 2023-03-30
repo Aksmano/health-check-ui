@@ -34,13 +34,15 @@ export const medicalOfferReducer = createReducer(
         })),
     on(SearchOfferActions.loadMedicalOffersRequest,
         state => ({
-            ...state
+            ...state,
+            loadingOffers: true
         })
     ),
     on(SearchOfferActions.loadMedicalOffersSuccess,
         (state, { medicalOfferItems }) => ({
             ...state,
-            offers: medicalOfferItems
+            offers: medicalOfferItems,
+            loadingOffers: false
         })
     )
 );

@@ -136,5 +136,6 @@ export const medicalOfferItems: MedicalOfferItem[] = [
     code: "WUDM",
     category: MedicalOfferItemCategoryType.Test,
     price: 300
-  }
+  },
+  
 ]

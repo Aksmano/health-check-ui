@@ -11,6 +11,7 @@ import { NavigationService } from 'src/app/core/services/navigation/navigation.s
 export class HeaderComponent implements OnInit {
   public sidebar = false;
   public avatarMenuItems: MenuItem[] = [];
+  public avatarName: string = '';
 
   constructor(
     public readonly navigationService: NavigationService,
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit {
   private async initAvatarMenuItems() {
     const loggedIn = await this.keycloak.isLoggedIn();
     if (loggedIn) {
+      this.avatarName = 'Sign out';
       this.avatarMenuItems = [
         {
           label: 'Sign out',
@@ -34,6 +36,7 @@ export class HeaderComponent implements OnInit {
         }
       ]
     } else {
+      this.avatarName = 'Sign in';
       this.avatarMenuItems = [
         {
           label: 'Sign in',

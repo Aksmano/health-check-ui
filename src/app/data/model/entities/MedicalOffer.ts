@@ -7,6 +7,6 @@ export interface MedicalOfferItem {
 }
 
 export enum MedicalOfferItemCategoryType {
-    Test,
-    Appointment
+    Test = 'Test',
+    Appointment = 'Appointment'
 }

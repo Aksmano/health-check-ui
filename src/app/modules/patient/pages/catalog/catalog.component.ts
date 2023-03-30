@@ -5,7 +5,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { MedicalOfferItem } from 'src/app/data/model/entities/MedicalOffer';
 import { loadMedicalOffersRequest } from 'src/app/redux/actions/medical-offer.actions';
 import { AppState } from 'src/app/redux/index.reducers';
-import { selectOffers } from 'src/app/redux/selectors/medical-offer.selectors';
+import { selectAreOffersLoading, selectOffers } from 'src/app/redux/selectors/medical-offer.selectors';
 
 @Component({
   selector: 'app-catalog',
@@ -14,6 +14,7 @@ import { selectOffers } from 'src/app/redux/selectors/medical-offer.selectors';
 })
 export class CatalogComponent implements OnInit {
   public offers: MedicalOfferItem[] = [];
+  public loadingOffers = false;
 
   private params: ParamMap = {} as ParamMap;
   private readonly ngUnsubscribe = new Subject();
@@ -34,8 +35,10 @@ export class CatalogComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(selectOffers)
-      .subscribe(offers => {
-        this.offers = offers
-      })
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(offers => this.offers = offers);
+    this.store.select(selectAreOffersLoading)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(loadingOffers => this.loadingOffers = loadingOffers);
   }
 }

@@ -4,7 +4,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
 import { AutoCompleteEvent, AutoCompleteItem, LocationSearchItem } from 'src/app/data/model/entities/AutoComplete';
 import { MedicalOfferService } from 'src/app/data/services/medical-facility/medical-offer.service';
-import { fetchCitiesRequest } from 'src/app/redux/actions/medical-offer.actions';
+import { fetchCitiesRequest, loadMedicalOffersRequest } from 'src/app/redux/actions/medical-offer.actions';
 import { AppState } from 'src/app/redux/index.reducers';
 import { selectIsFetchingCities, selectLocations } from 'src/app/redux/selectors/medical-offer.selectors';
 
@@ -45,11 +45,7 @@ export class HomeComponent implements OnInit {
       });
     this.store.select(selectIsFetchingCities)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(fetchingCities => {
-        console.log(fetchingCities);
-
-        this.fetchingCities = fetchingCities
-      });
+      .subscribe(fetchingCities => this.fetchingCities = fetchingCities);
   }
 
   public onCitySelect(value: LocationSearchItem) {

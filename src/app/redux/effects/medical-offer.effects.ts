@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, defaultEffectsErrorHandler, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { catchError, exhaustMap, map } from "rxjs/operators";
+import { catchError, exhaustMap, map, switchMap } from "rxjs/operators";
 import { MedicalOfferService } from "src/app/data/services/medical-facility/medical-offer.service";
 import { effectErrorHandler } from "../actions/error-action";
 import { fetchCitiesRequest, fetchCitiesSuccess, loadMedicalOffersRequest, loadMedicalOffersSuccess, MedicalOfferActionTypes } from "../actions/medical-offer.actions";
@@ -18,7 +18,7 @@ export class MedicalOfferEffects {
 
     public readonly fetchCities$ = createEffect(() => this.actions$.pipe(
         ofType(fetchCitiesRequest),
-        exhaustMap(() => this.medicalOfferService.getMedicalFacilitiesCities()),
+        switchMap(() => this.medicalOfferService.getMedicalFacilitiesCities()),
         map(locations => fetchCitiesSuccess({ locations: locations })),
         catchError((err, caught) => {
             const errorAction = effectErrorHandler('fetchCities', err);
@@ -30,7 +30,11 @@ export class MedicalOfferEffects {
 
     public readonly loadOffersForAddress$ = createEffect(() => this.actions$.pipe(
         ofType(loadMedicalOffersRequest),
-        exhaustMap((action) => this.medicalOfferService.getMedicalOffers(action.city, action.address)),
+        switchMap((action) => {
+            console.log(action);
+            
+            return this.medicalOfferService.getMedicalOffers(action.city, action.address)
+        }),
         map(offerItems => loadMedicalOffersSuccess({ medicalOfferItems: offerItems })),
         catchError((err, caught) => {
             const errorAction = effectErrorHandler('fetchCities', err);

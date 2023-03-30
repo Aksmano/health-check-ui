@@ -4,14 +4,19 @@
             <h3>Left Sidebar</h3>
         </p-sidebar>
         <p-button (click)="sidebar = true" class="navbar-hamburger" icon="pi pi-bars"></p-button> -->
-        <img (click)="navigationService.toMainPage()" class="navbar-logo" src="../../../assets/health-check.png" alt="health-check-icon" />
+        <img (click)="navigationService.toMainPage()" class="navbar-logo" src="../../../assets/health-check.png"
+            alt="health-check-icon" />
         <div (click)="navigationService.toMainPage()" class="navbar-title">Health Check</div>
         <div (click)="navigationService.toPatientsPortal()" class="navbar-button">Patient</div>
         <div (click)="navigationService.toDoctorsPortal()" class="navbar-button">Doctor</div>
         <div (click)="navigationService.toContact()" class="navbar-button">Contact</div>
         <div class="navbar-button">About</div>
         <div class="flex-grow-1"></div>
-        <p-menu #menu [model]="avatarMenuItems" [popup]="true"></p-menu>
-        <p-avatar class="navbar-avatar" (click)="menu.toggle($event)" icon="pi pi-user"></p-avatar>
+        <div class="navbar-avatar">
+            <div class="mr-2">{{avatarName}}</div> 
+            <p-avatar class="navbar-avatar" (click)="menu.toggle($event)" icon="pi pi-user"></p-avatar>
+        </div>
     </div>
 </div>
+
+<p-menu #menu [model]="avatarMenuItems" [popup]="true"></p-menu>
