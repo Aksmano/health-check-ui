@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { KeycloakService } from 'keycloak-angular';
 import { MenuItem } from 'primeng/api/menuitem';
+import { Subject, takeUntil } from 'rxjs';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { loadUserProfileInfoRequest } from 'src/app/redux/actions/user-info.actions';
+import { AppState } from 'src/app/redux/index.reducers';
+import { selectUserProfile } from 'src/app/redux/selectors/user-info.selector';
 
 @Component({
   selector: 'app-header',
@@ -11,21 +16,33 @@ import { NavigationService } from 'src/app/core/services/navigation/navigation.s
 export class HeaderComponent implements OnInit {
   public sidebar = false;
   public avatarMenuItems: MenuItem[] = [];
-  public avatarName: string = '';
+  public avatarName: string = 'Sign in';
+
+  private readonly ngUnsubscribe = new Subject();
 
   constructor(
     public readonly navigationService: NavigationService,
+    private readonly store: Store<AppState>,
     private readonly keycloak: KeycloakService
   ) { }
 
   public ngOnInit() {
     this.initAvatarMenuItems();
+
+    this.store.dispatch(loadUserProfileInfoRequest());
+
+    this.store.select(selectUserProfile)
+      .pipe(takeUntil(this.ngUnsubscribe))
+      .subscribe(userProfile =>
+        this.avatarName = !!userProfile?.username
+          ? `Welcome, ${userProfile?.username}`
+          : 'Sign in'
+      );
   }
 
   private async initAvatarMenuItems() {
     const loggedIn = await this.keycloak.isLoggedIn();
     if (loggedIn) {
-      this.avatarName = 'Sign out';
       this.avatarMenuItems = [
         {
           label: 'Sign out',
@@ -36,7 +53,6 @@ export class HeaderComponent implements OnInit {
         }
       ]
     } else {
-      this.avatarName = 'Sign in';
       this.avatarMenuItems = [
         {
           label: 'Sign in',

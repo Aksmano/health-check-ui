@@ -3,6 +3,8 @@ import { Store } from '@ngrx/store';
 import { PrimeNGConfig } from 'primeng/api';
 import { fetchCitiesRequest } from './redux/actions/medical-offer.actions';
 import { AppState } from './redux/index.reducers';
+import { loadUserProfileInfoRequest } from './redux/actions/user-info.actions';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-root',
@@ -19,5 +21,6 @@ export class AppComponent {
     this.primengConfig.ripple = true;
 
     this.store.dispatch(fetchCitiesRequest());
+    // this.store.dispatch(loadUserProfileInfoRequest());
   }
 }

@@ -37,7 +37,7 @@ export class MedicalOfferEffects {
         }),
         map(offerItems => loadMedicalOffersSuccess({ medicalOfferItems: offerItems })),
         catchError((err, caught) => {
-            const errorAction = effectErrorHandler('fetchCities', err);
+            const errorAction = effectErrorHandler('loadOffers', err);
             this.store.dispatch(errorAction);
 
             return caught;
