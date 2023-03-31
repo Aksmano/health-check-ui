@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
 import { MedicalOfferItem } from 'src/app/data/model/entities/MedicalOffer';
 
 @Component({
@@ -7,5 +8,13 @@ import { MedicalOfferItem } from 'src/app/data/model/entities/MedicalOffer';
   styleUrls: ['./product-item.component.scss']
 })
 export class ProductItemComponent {
-  @Input() offerItem: MedicalOfferItem = {} as MedicalOfferItem;
+  @Input() offer: MedicalOfferItem = {} as MedicalOfferItem;
+
+  constructor(
+    private readonly navigationService: NavigationService
+  ) { }
+
+  public redirectToOfferPage() {
+    this.navigationService.toPatientsPortal(['catalog', `${this.offer.id}`])
+  }
 }

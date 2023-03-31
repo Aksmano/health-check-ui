@@ -137,5 +137,214 @@ export const medicalOfferItems: MedicalOfferItem[] = [
     category: MedicalOfferItemCategoryType.Test,
     price: 300
   },
-  
+  {
+    name: 'Wizyta u lekarza rodzinengo',
+    id: '1',
+    code: 'WULR',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 100
+  },
+  {
+    name: 'Badanie krwi',
+    id: '2',
+    code: 'BK',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 50
+  },
+  {
+    name: 'Wizyta u specjalisty',
+    id: '3',
+    code: 'WUS',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 150
+  },
+  {
+    name: 'Badanie moczu',
+    id: '4',
+    code: 'BM',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 30
+  },
+  {
+    name: 'Wizyta u dentysty',
+    id: '5',
+    code: 'WUD',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 200
+  },
+  {
+    name: 'Badanie USG jamy brzusznej',
+    id: '6',
+    code: 'BUSGJB',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 80
+  },
+  {
+    name: 'Badanie EKG serca',
+    id: '7',
+    code: 'BEKGSC',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 70
+  },
+  {
+    name: 'Badanie RTG płuc',
+    id: '8',
+    code: 'BRTGP',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 60
+  },
+  {
+    name: 'Wizyta u okulisty',
+    id: '9',
+    code: 'WUO',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 250
+  },
+  {
+    name: 'Badanie USG tarczycy',
+    id: '10',
+    code: 'BUSGT',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 120
+  },
+  {
+    name: 'Wizyta u ginekologa',
+    id: '11',
+    code: 'WUG',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 300
+  },
+  {
+    name: 'Badanie USG piersi',
+    id: '12',
+    code: 'BUSGP',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 150
+  },
+  {
+    name: 'Wizyta u psychiatry',
+    id: '13',
+    code: 'WUP',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 350
+  },
+  {
+    name: "Badanie EEG mózgu",
+    id: "14",
+    code: "BEEGM",
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 200
+  },
+  {
+    name: "Wizyta u dermatologa",
+    id: "15",
+    code: "WUDM",
+    category: MedicalOfferItemCategoryType.Test,
+    price: 300
+  },
+  {
+    name: 'Wizyta u lekarza rodzinengo',
+    id: '1',
+    code: 'WULR',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 100
+  },
+  {
+    name: 'Badanie krwi',
+    id: '2',
+    code: 'BK',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 50
+  },
+  {
+    name: 'Wizyta u specjalisty',
+    id: '3',
+    code: 'WUS',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 150
+  },
+  {
+    name: 'Badanie moczu',
+    id: '4',
+    code: 'BM',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 30
+  },
+  {
+    name: 'Wizyta u dentysty',
+    id: '5',
+    code: 'WUD',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 200
+  },
+  {
+    name: 'Badanie USG jamy brzusznej',
+    id: '6',
+    code: 'BUSGJB',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 80
+  },
+  {
+    name: 'Badanie EKG serca',
+    id: '7',
+    code: 'BEKGSC',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 70
+  },
+  {
+    name: 'Badanie RTG płuc',
+    id: '8',
+    code: 'BRTGP',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 60
+  },
+  {
+    name: 'Wizyta u okulisty',
+    id: '9',
+    code: 'WUO',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 250
+  },
+  {
+    name: 'Badanie USG tarczycy',
+    id: '10',
+    code: 'BUSGT',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 120
+  },
+  {
+    name: 'Wizyta u ginekologa',
+    id: '11',
+    code: 'WUG',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 300
+  },
+  {
+    name: 'Badanie USG piersi',
+    id: '12',
+    code: 'BUSGP',
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 150
+  },
+  {
+    name: 'Wizyta u psychiatry',
+    id: '13',
+    code: 'WUP',
+    category: MedicalOfferItemCategoryType.Test,
+    price: 350
+  },
+  {
+    name: "Badanie EEG mózgu",
+    id: "14",
+    code: "BEEGM",
+    category: MedicalOfferItemCategoryType.Appointment,
+    price: 200
+  },
+  {
+    name: "Wizyta u dermatologa",
+    id: "15",
+    code: "WUDM",
+    category: MedicalOfferItemCategoryType.Test,
+    price: 300
+  },
 ]

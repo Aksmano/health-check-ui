@@ -1,32 +1,8 @@
-<p-dataView #dv *ngIf="!loadingOffers; else loading" class="flex w-full h-full" [value]="offers" [rows]="5"
+<p-dataView #dv *ngIf="!loadingOffers; else loading" class="flex w-full h-full" [value]="offers" [rows]="10"
     [paginator]="true">
     <ng-template let-offer pTemplate="listItem">
         <div class="col-12">
-            <div class="flex flex-row xl:align-items-center p-4 gap-4">
-                <div class="flex flex-column align-items-start justify-content-between gap-3 w-4">
-                    <div class="text-2xl font-semibold">
-                        {{offer.name}}
-                    </div>
-                    <div class="flex flex-row align-items-start text-sm mb-1 w-full">
-                        <div class="w-6rem">
-                            Code: {{offer.code}}
-                        </div>
-                        <div class="w-1rem"></div>
-                        <div>
-                            Category: {{offer.category}}
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-grow-1"></div>
-                <div class="flex flex-column align-items-end gap-3">
-                    <div class="text-2xl">${{offer.price.toFixed(2)}}</div>
-                    <button pButton
-                        class="md:align-self-end border-teal-500 bg-white text-900 hover:bg-teal-500 hover:text-white">
-                        <span class="pi pi-calendar-plus mr-2"></span>
-                        <div>Check date</div>
-                    </button>
-                </div>
-            </div>
+            <app-product-item [offer]="offer"></app-product-item>
         </div>
     </ng-template>
 </p-dataView>

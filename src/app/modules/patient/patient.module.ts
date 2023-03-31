@@ -12,12 +12,14 @@ import { CatalogComponent } from './pages/catalog/catalog.component';
 import { DataViewModule } from 'primeng/dataview';
 import { ProductItemComponent } from './pages/catalog/product-item/product-item.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { OfferPageComponent } from './pages/offer-page/offer-page.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     CatalogComponent,
-    ProductItemComponent
+    ProductItemComponent,
+    OfferPageComponent
   ],
   imports: [
     CommonModule,
