@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
   }
 
   public searchForAvailableAppointments() {
-    this.navigationService.toPatientsPortal([`catalog`], {
+    this.navigationService.toPatientsPortal([`doctors`], {
       queryParams: {
         city: this.selectedCity.name,
         address: this.selectedAddress.name

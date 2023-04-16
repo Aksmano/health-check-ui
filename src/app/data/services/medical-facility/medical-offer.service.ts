@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { mockResponse } from 'src/app/utils';
+import { Nullable, mockResponse } from 'src/app/utils';
 import { LocationSearchItem } from '../../model/entities/AutoComplete';
 import { cities, medicalOfferItems } from './mock-data';
 

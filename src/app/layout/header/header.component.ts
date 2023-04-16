@@ -4,9 +4,9 @@ import { KeycloakService } from 'keycloak-angular';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Subject, takeUntil } from 'rxjs';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
-import { loadUserProfileInfoRequest } from 'src/app/redux/actions/user-info.actions';
+import { loadKeycloakProfileInfoRequest } from 'src/app/redux/actions/user-info.actions';
 import { AppState } from 'src/app/redux/index.reducers';
-import { selectUserProfile } from 'src/app/redux/selectors/user-info.selector';
+import { selectKeycloakProfile } from 'src/app/redux/selectors/user-info.selector';
 
 @Component({
   selector: 'app-header',
@@ -29,9 +29,9 @@ export class HeaderComponent implements OnInit {
   public ngOnInit() {
     this.initAvatarMenuItems();
 
-    this.store.dispatch(loadUserProfileInfoRequest());
+    this.store.dispatch(loadKeycloakProfileInfoRequest());
 
-    this.store.select(selectUserProfile)
+    this.store.select(selectKeycloakProfile)
       .pipe(takeUntil(this.ngUnsubscribe))
       .subscribe(userProfile =>
         this.avatarName = !!userProfile?.username

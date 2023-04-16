@@ -23,6 +23,7 @@ body {
 }
 
 .p-card {
+    @include styleclass('transition-colors transition-duration-100 text-teal-900 hover:text-teal-600');
     min-height: 22.5rem;
 }
 

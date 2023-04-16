@@ -1,5 +1,5 @@
 @import 'primeflex/primeflex.scss';
 
 .home {
-    @include styleclass('flex flex-row flex-wrap gap-5 w-full justify-content-center align-items-center m-auto')
+    @include styleclass('flex flex-column flex-wrap gap-5 w-full justify-content-center align-items-center m-auto')
 }

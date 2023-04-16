@@ -1,8 +1,10 @@
 <div class="home">
-    <p-card header="Find a medical facility" [style]="{ width: '22.5rem', height: '600px' }">
-        <ng-template pTemplate="header">
-            <img *ngIf="!fetchingCities" alt="Card" src="../assets/medical-facility.jpg" />
-        </ng-template>
+    <p-card header="Search for available date of the visit..."
+        [style]="{ width: '58rem', backgroundImage: 'url(../assets/medical-facility.jpg)', color: 'white'}">
+        <!-- <ng-template pTemplate="header">
+            <img *ngIf="!fetchingCities" alt="Card" src="../assets/medical-facility.jpg"
+                [style]="{borderRadius: '4px'}" />
+        </ng-template> -->
         <ng-template pTemplate="content">
             <div *ngIf="!fetchingCities; else loading">
                 <span class="p-input-icon-left flex flex-column gap-2">
@@ -25,10 +27,11 @@
                 (onClick)="searchForAvailableAppointments()"></p-button>
         </ng-template>
     </p-card>
-    <p-card header="Find a doctor" [style]="{ width: '22.5rem' }">
-        <ng-template pTemplate="header">
-            <img alt="Card" src="../assets/doctors.jpg" />
-        </ng-template>
+    <p-card header="...or find a doctor by his name"
+        [style]="{ width: '58rem', backgroundImage: 'url(../assets/doctors.jpg)', color: 'white'}">
+        <!-- <ng-template pTemplate="header">
+            <img alt="Card" src="../assets/doctors.jpg" [style]="{borderRadius: '4px'}" />
+        </ng-template> -->
         <span class="p-input-icon-left flex flex-column gap-2">
             <label for="city-input-ac">Pick a city</label>
             <p-autoComplete [(ngModel)]="selectedCity" (onSelect)="onCitySelect($event)" id="city-input-ac"

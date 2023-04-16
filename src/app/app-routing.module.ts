@@ -7,7 +7,7 @@ import { HeaderComponent } from './layout/header/header.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/app',
+    redirectTo: '/app/patient',
     pathMatch: 'full'
   },
   {

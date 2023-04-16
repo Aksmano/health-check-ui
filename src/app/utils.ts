@@ -33,3 +33,15 @@ export const mockResponse = <T>(
         }, delayTimestamp)
     })
 };
+
+export const StringIsNumber = (value: any) => isNaN(Number(value)) === false;
+
+export const mapEnum = (enumArg: any) => {
+    return Object.keys(enumArg)
+        .filter(StringIsNumber)
+        .map(key => enumArg[key]);
+}
+
+export const getPathnamesList = () => window.location.pathname.split('/').slice(1);
+
+export type Nullable<T> = T | null | undefined;
