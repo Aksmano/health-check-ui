@@ -1,4 +1,4 @@
-import { TestType } from "../../entities/MedicalOffer";
+import { TestType } from "../../common/TestType";
 
 export interface MedicalTestRQ {
     departmentId: number;

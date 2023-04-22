@@ -1,5 +1,5 @@
-import { TestType } from "../../entities/MedicalOffer";
 import { TestStatus } from "../../common/TestStatus";
+import { TestType } from "../../common/TestType";
 import { TestResultRS } from "./TestResultRS";
 
 export interface MedicalTestRS {

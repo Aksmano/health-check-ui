@@ -1,12 +1,2 @@
-<p-dataView #dv *ngIf="!loadingOffers; else loading" class="flex w-full h-full" [value]="offers" [rows]="10"
-    [paginator]="true">
-    <ng-template let-offer pTemplate="listItem">
-        <div class="col-12">
-            <app-doctors-card></app-doctors-card>
-        </div>
-    </ng-template>
-</p-dataView>
-
-<ng-template #loading>
-    <app-loading-spinner title="Loading offers..."></app-loading-spinner>
-</ng-template>
+<app-data-table-view classNames="flex w-full h-full" [loadingValues]="loadingOffers" [values]="offers" [rows]="10"
+    [paginator]="true" [viewType]="viewType"></app-data-table-view>

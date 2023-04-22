@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Treatment } from '../../model/entities/Treatment';
+import { TreatmentRS } from '../../model/dto/rs/TreatmentRS';
 
 interface TreatmentRepository {
-  getTreatmentById(id: number): Observable<Treatment>;
-  getTreatmentsByDoctorId(id: number): Observable<Treatment[]>;
-  getTreatmentsByPatientId(id: number): Observable<Treatment[]>;
-  getTreatmentsByDate(id: number): Observable<Treatment[]>;
+  getTreatmentById(id: number): Observable<TreatmentRS>;
+  getTreatmentsByDoctorId(id: number): Observable<TreatmentRS[]>;
+  getTreatmentsByPatientId(id: number): Observable<TreatmentRS[]>;
+  getTreatmentsByDate(id: number): Observable<TreatmentRS[]>;
 }
 
 @Injectable({

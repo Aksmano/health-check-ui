@@ -1,3 +1,4 @@
+import { HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
 
 export const getRandomNumber = (min: number, max: number) => Math.round(min + Math.random() * (max - min));
@@ -40,6 +41,19 @@ export const mapEnum = (enumArg: any) => {
     return Object.keys(enumArg)
         .filter(StringIsNumber)
         .map(key => enumArg[key]);
+}
+
+export const objectToHttpParams = (obj: object): HttpParams => {
+    const entries = Object.entries(obj);
+    const httpParams = new HttpParams();
+
+    entries.forEach(entry => {
+        const valueType = typeof entry[0];
+        if (valueType === 'number' || valueType === 'string' || valueType === 'boolean')
+            httpParams.append(entry[0], entry[1]);
+    })
+
+    return httpParams;
 }
 
 export const getPathnamesList = () => window.location.pathname.split('/').slice(1);

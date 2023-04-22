@@ -1,5 +1,5 @@
+import { TestType } from "../common/TestType";
 import { Department } from "./Department";
-import { TestType } from "./MedicalOffer";
 import { Patient } from "./Patient";
 
 export interface Test {

@@ -9,9 +9,9 @@ export const patient: Patient = {
         houseNumber: "77c",
         postalCode: "32-020",
     },
-    firstName: "Bartłomiej",
+    firstname: "Bartłomiej",
     gender: 0,
-    lastName: "Aksman",
+    lastname: "Aksman",
     pesel: "12345678901",
     phoneNumber: "369258147"
 }

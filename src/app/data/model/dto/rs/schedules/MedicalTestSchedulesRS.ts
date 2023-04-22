@@ -1,4 +1,4 @@
-import { TestType } from "../../../entities/MedicalOffer";
+import { TestType } from "../../../common/TestType";
 import { ScheduleRS } from "./ScheduleRS";
 
 export interface MedicalTestSchedulesRS {

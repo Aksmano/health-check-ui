@@ -1,0 +1,15 @@
+<p-dataView #dtv *ngIf="!loadingValues; else loading" class="{{classNames}}" [value]="values" [rows]="getRows()"
+    [paginator]="paginator">
+    <ng-template let-valueItem pTemplate="listItem">
+        <div *ngIf="viewType == 'Doctor'" class="col-12">
+            <app-doctor-data-view></app-doctor-data-view>
+        </div>
+        <div *ngIf="viewType == 'Appointment'" class="col-12">
+            <app-appointment-data-view></app-appointment-data-view>
+        </div>
+    </ng-template>
+</p-dataView>
+
+<ng-template #loading>
+    <app-loading-spinner title="Loading {{viewType.toLowerCase()}}..."></app-loading-spinner>
+</ng-template>

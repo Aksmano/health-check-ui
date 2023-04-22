@@ -6,6 +6,7 @@ import { DoctorPageComponent } from './pages/doctor-page/doctor-page.component';
 import { AppointmentFormComponent } from './pages/appointment-form/appointment-form.component';
 import { AuthGuard } from 'src/app/core/guards/auth/auth.guard';
 import { RegisterPatientFormComponent } from './pages/register-patient-form/register-patient-form.component';
+import { PanelComponent } from './pages/panel/panel.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: '',
     component: HomeComponent
+  },
+  {
+    path: 'panel',
+    component: PanelComponent
   },
   {
     path: 'complete-user-data',

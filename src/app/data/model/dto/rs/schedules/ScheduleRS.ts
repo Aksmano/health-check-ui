@@ -1,3 +1,3 @@
-import { Schedule } from "../../../common/Schedule";
+import { Schedule } from "../../common/Schedule";
 
 export interface ScheduleRS extends Schedule { }

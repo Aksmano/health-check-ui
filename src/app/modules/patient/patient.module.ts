@@ -10,7 +10,6 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { FormsModule } from '@angular/forms';
 import { CatalogComponent } from './pages/catalog/catalog.component';
 import { DataViewModule } from 'primeng/dataview';
-import { DoctorsCardComponent } from './pages/catalog/doctors-card/doctors-card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DoctorPageComponent } from './pages/doctor-page/doctor-page.component';
 import { DividerModule } from 'primeng/divider';
@@ -21,15 +20,16 @@ import { AppointmentFormComponent } from './pages/appointment-form/appointment-f
 import { DropdownModule } from 'primeng/dropdown';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { RegisterPatientFormComponent } from './pages/register-patient-form/register-patient-form.component';
+import { PanelComponent } from './pages/panel/panel.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     CatalogComponent,
-    DoctorsCardComponent,
     DoctorPageComponent,
     AppointmentFormComponent,
-    RegisterPatientFormComponent
+    RegisterPatientFormComponent,
+    PanelComponent
   ],
   imports: [
     CommonModule,

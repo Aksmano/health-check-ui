@@ -1,6 +1,8 @@
 import { createAction, props } from "@ngrx/store";
 import { KeycloakProfile } from "keycloak-js";
-import { PatientDataDTO } from "src/app/data/model/dto/rq/PatientDataDTO";
+import { PatientDataRQ } from "src/app/data/model/dto/rq/PatientDataRQ";
+import { PatientRS } from "src/app/data/model/dto/rs/PatientRS";
+import { DoctorRS } from "src/app/data/model/dto/rs/employeeRS/DoctorRS";
 import { Doctor } from "src/app/data/model/entities/Doctor";
 import { Patient } from "src/app/data/model/entities/Patient";
 import { Nullable } from "src/app/utils";
@@ -33,7 +35,7 @@ export const loadPatientProfileInfoRequest = createAction(
 
 export const loadPatientProfileInfoSuccess = createAction(
     ActionTypes.LOAD_PATIENT_PROFILE_INFO_SUCCESS,
-    props<{ patientProfile?: Patient }>()
+    props<{ patientData?: PatientRS }>()
 );
 
 export const loadDoctorProfileInfoRequest = createAction(
@@ -42,15 +44,15 @@ export const loadDoctorProfileInfoRequest = createAction(
 
 export const loadDoctorProfileInfoSuccess = createAction(
     ActionTypes.LOAD_DOCTOR_PROFILE_INFO_SUCCESS,
-    props<{ doctorProfile?: Doctor }>()
+    props<{ doctorData?: DoctorRS }>()
 );
 
 export const postPatientProfileInfoRequest = createAction(
     ActionTypes.POST_PATIENT_PROFILE_INFO_REQUEST,
-    props<{ patientDataDto: PatientDataDTO }>()
+    props<{ patientDataDto: PatientDataRQ }>()
 )
 
 export const postPatientProfileInfoSuccess = createAction(
     ActionTypes.POST_PATIENT_PROFILE_INFO_SUCCESS,
-    props<{ patientProfile?: Patient }>()
+    props<{ patientData?: PatientRS }>()
 )

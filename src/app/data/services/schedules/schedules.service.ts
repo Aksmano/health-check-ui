@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Schedule } from '../../model/entities/Schedule';
+import { ScheduleRS } from '../../model/dto/rs/schedules/ScheduleRS';
 
 interface SchedulesRepository {
-  getSchedulesByDoctorId(id: number): Observable<Schedule[]>;
+  getSchedulesByDoctorId(id: number): Observable<ScheduleRS[]>;
 }
 
 @Injectable({

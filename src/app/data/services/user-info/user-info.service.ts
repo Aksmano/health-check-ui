@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { mockResponse } from 'src/app/utils';
-import { Patient } from '../../model/entities/Patient';
 import { Observable } from 'rxjs';
-import { PatientDataDTO } from '../../model/dto/rq/PatientDataDTO';
+import { PatientDataRQ } from '../../model/dto/rq/PatientDataRQ';
+import { PatientRS } from '../../model/dto/rs/PatientRS';
 
 @Injectable({
   providedIn: 'root'
@@ -14,13 +14,13 @@ export class UserInfoService {
     private readonly httpClient: HttpClient
   ) { }
 
-  public postPatientInfo(patientData: PatientDataDTO): Observable<Patient | null> {
+  public postPatientInfo(patientData: PatientDataRQ): Observable<PatientRS | null> {
     return mockResponse({
-      dataToReturn: patientData.patient
+      dataToReturn: null//patientData.patient
     });
   }
 
-  public getPatientInfo(keycloakId: string, mockPatient?: Patient): Observable<Patient | null> {
+  public getPatientInfo(patientUUID: string, mockPatient?: PatientRS): Observable<PatientRS | null> {
     return mockResponse({
       dataToReturn: mockPatient ?? null
     });

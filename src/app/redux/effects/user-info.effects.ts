@@ -34,7 +34,7 @@ export class UserInfoEffects {
         ofType(loadPatientProfileInfoRequest),
         withLatestFrom(this.store.select(selectKeycloakProfile)),
         switchMap(([_, profile]) => this.userInfo.getPatientInfo(profile?.id!,)),
-        map((profile) => loadPatientProfileInfoSuccess({ patientProfile: profile ?? undefined })),
+        map((profile) => loadPatientProfileInfoSuccess({ patientData: profile ?? undefined })),
         catchError((err, caught) => {
             const errorAction = effectErrorHandler('loadPatientProfileInfo', err);
             this.store.dispatch(errorAction);
@@ -47,7 +47,7 @@ export class UserInfoEffects {
         ofType(postPatientProfileInfoRequest),
         // withLatestFrom(this.store.select(selectKeycloakProfile)),
         switchMap((action) => this.userInfo.postPatientInfo(action.patientDataDto)),
-        map((profile) => postPatientProfileInfoSuccess({ patientProfile: profile ?? undefined })),
+        map((profile) => postPatientProfileInfoSuccess({ patientData: profile ?? undefined })),
         catchError((err, caught) => {
             const errorAction = effectErrorHandler('postPatientProfileInfo', err);
             this.store.dispatch(errorAction);

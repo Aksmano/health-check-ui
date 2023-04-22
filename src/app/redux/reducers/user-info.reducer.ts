@@ -40,13 +40,12 @@ export const userInfoReducer = createReducer(
             loadingUserProfile: true
         })),
     on(UserInfoActions.loadPatientProfileInfoSuccess,
-        (state, { patientProfile }) => ({
+        (state, { patientData }) => ({
             ...state,
-            patientProfile: !!patientProfile ? {
-                ...patientProfile,
-                firstName: state.keycloakProfile?.firstName!,
-                lastName: state.keycloakProfile?.lastName!
-            } : undefined,
+            patientProfile: {
+                ...state.patientProfile,
+                personalData: patientData ?? undefined
+            },
             loadingUserProfile: false
         })),
     on(UserInfoActions.loadDoctorProfileInfoRequest,
@@ -56,13 +55,12 @@ export const userInfoReducer = createReducer(
             loadingUserProfile: true
         })),
     on(UserInfoActions.loadDoctorProfileInfoSuccess,
-        (state, { doctorProfile }) => ({
+        (state, { doctorData }) => ({
             ...state,
-            doctorProfile: !!doctorProfile ? {
-                ...doctorProfile,
-                firstName: state.keycloakProfile?.firstName!,
-                lastName: state.keycloakProfile?.lastName!
-            } : undefined,
+            doctorProfile: {
+                ...state.doctorProfile,
+                personalData: doctorData ?? undefined
+            },
             loadingUserProfile: false
         })),
     on(UserInfoActions.postPatientProfileInfoRequest,
@@ -73,9 +71,12 @@ export const userInfoReducer = createReducer(
             loadingUserProfile: true
         })),
     on(UserInfoActions.postPatientProfileInfoSuccess,
-        (state, { patientProfile }) => ({
+        (state, { patientData }) => ({
             ...state,
-            patientProfile: patientProfile,
+            patientProfile: {
+                ...state.patientProfile,
+                personalData: patientData ?? undefined
+            },
             loadingUserProfile: false
         }))
 );
