@@ -5,7 +5,7 @@ import { NavigationService } from 'src/app/core/services/navigation/navigation.s
 import { Gender } from 'src/app/data/model/common/Gender';
 import { Patient } from 'src/app/data/model/entities/Patient';
 import { AppState } from 'src/app/redux/index.reducers';
-import { selectKeycloakProfile, selectPatientProfile } from 'src/app/redux/selectors/user-info.selector';
+import { selectKeycloakProfile, selectPatientProfile } from 'src/app/redux/selectors/user-info-selectors/keycloak-info.selector';
 import { getPathnamesList, mapEnum } from 'src/app/utils';
 
 @Component({

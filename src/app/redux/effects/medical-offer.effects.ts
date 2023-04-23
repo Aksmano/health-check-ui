@@ -4,7 +4,7 @@ import { Store } from "@ngrx/store";
 import { catchError, exhaustMap, map, switchMap } from "rxjs/operators";
 import { MedicalOfferService } from "src/app/data/services/medical-facility/medical-offer.service";
 import { effectErrorHandler } from "../actions/error-action";
-import { fetchCitiesRequest, fetchCitiesSuccess, loadMedicalOffersRequest, loadMedicalOffersSuccess, MedicalOfferActionTypes } from "../actions/medical-offer.actions";
+import { fetchCitiesRequest, fetchCitiesSuccess, loadMedicalOffersRequest, loadMedicalOffersSuccess, MedicalOfferActionType } from "../actions/medical-offer.actions";
 import { AppState } from "../index.reducers";
 
 @Injectable()

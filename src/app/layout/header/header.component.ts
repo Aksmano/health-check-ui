@@ -4,9 +4,9 @@ import { KeycloakService } from 'keycloak-angular';
 import { MenuItem } from 'primeng/api/menuitem';
 import { Subject, takeUntil } from 'rxjs';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
-import { loadKeycloakProfileInfoRequest } from 'src/app/redux/actions/user-info.actions';
+import { loadKeycloakInfoRequest } from 'src/app/redux/actions/user-info-actions/keylcloak-info.actions';
 import { AppState } from 'src/app/redux/index.reducers';
-import { selectKeycloakProfile } from 'src/app/redux/selectors/user-info.selector';
+import { selectKeycloakProfile } from 'src/app/redux/selectors/user-info-selectors/keycloak-info.selector';
 
 @Component({
   selector: 'app-header',
@@ -29,14 +29,18 @@ export class HeaderComponent implements OnInit {
   public ngOnInit() {
     this.initAvatarMenuItems();
 
-    this.store.dispatch(loadKeycloakProfileInfoRequest());
+    // this.store.dispatch(loadKeycloakProfileInfoRequest());
 
     this.store.select(selectKeycloakProfile)
       .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(userProfile =>
+      .subscribe(userProfile =>{
+        console.log(this.keycloak.getUserRoles());
+        
+        
         this.avatarName = !!userProfile?.username
           ? `Welcome, ${userProfile?.username}`
           : 'Sign in'
+      }
       );
   }
 

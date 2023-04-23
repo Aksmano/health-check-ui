@@ -1,5 +1,6 @@
 import { HttpParams } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { WithProcessIndicator } from "./data/model/utils/WithProcessIndicator";
 
 export const getRandomNumber = (min: number, max: number) => Math.round(min + Math.random() * (max - min));
 
@@ -57,5 +58,3 @@ export const objectToHttpParams = (obj: object): HttpParams => {
 }
 
 export const getPathnamesList = () => window.location.pathname.split('/').slice(1);
-
-export type Nullable<T> = T | null | undefined;
