@@ -1,4 +1,19 @@
+@import 'primeflex/primeflex.scss';
+@import "../../../vars.scss";
+
 :host {
     display: block;
     height: 100%;
+}
+
+.content-container {
+
+    @include styleclass('flex w-full align-items-stretch justify-content-center mt-auto bg-bluegray-50');
+    min-height: 100%;
+}
+
+.content {
+    @include styleclass('flex align-items-center justify-content-center py-3 bg-white shadow-2 mt-8 mx-5');
+    width: $site-width;
+    min-height: 100%;
 }

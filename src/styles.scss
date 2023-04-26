@@ -21,3 +21,16 @@ body {
 .p-menuitem-link:hover span {
     @include styleclass('text-50')
 }
+
+.p-card {
+    @include styleclass('transition-colors transition-duration-100 text-teal-900 hover:text-teal-600');
+    min-height: 22.5rem;
+}
+
+.p-card .p-card-body {
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100% - 15rem);
+    align-items: stretch;
+}

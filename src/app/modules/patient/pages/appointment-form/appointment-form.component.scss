@@ -1,0 +1,15 @@
+@import 'primeflex/primeflex.scss';
+@import '../../../../../vars.scss';
+
+:host {
+    width: calc($site-width - 10rem);
+    min-height: 100%;
+}
+
+.container {
+    padding: 2rem;
+}
+
+.form-column {
+    padding: 1rem;
+}

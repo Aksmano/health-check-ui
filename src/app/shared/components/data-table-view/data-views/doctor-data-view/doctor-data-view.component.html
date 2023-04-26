@@ -1,0 +1,48 @@
+<div class="flex flex-row xl:align-items-center p-4 gap-4">
+    <div class="flex flex-column align-items-start justify-content-between gap-3 w-full pr-3 border-right-1 border-400">
+        <div class="text-2xl font-semibold">
+            {{doctor.personalData!.firstname}} {{doctor.personalData!.lastname}}
+        </div>
+        <div class="flex flex-row align-items-start text-sm mb-1 w-full border-bottom-1 border-400">
+            <div class="w-full text-lg pb-3">
+                Specialization: {{getDoctorSpecialization()}}
+            </div>
+            <div class="w-1rem"></div>
+        </div>
+        <div class="flex flex-row align-items-start text-sm mb-1 w-full">
+            <!-- <p-rating [readonly]="true" [(ngModel)]="doctor.personalData!.rating" [cancel]="false"></p-rating> -->
+            <div class="doctor-rating">{{doctor.personalData!.rateNumber}} reviews</div>
+        </div>
+        <div class="flex flex-row align-items-start text-sm mb-1 w-full">
+            <div>
+                Address: {{getDoctorDepartmentAddress()}}
+            </div>
+            <div class="w-1rem"></div>
+        </div>
+    </div>
+    <div class="flex flex-column align-items-end gap-3 ">
+        <p-carousel [value]="doctorScheduleDays" [numVisible]="5" [numScroll]="1" [circular]="false">
+            <ng-template let-schedule pTemplate="item">
+                <div class="flex flex-column align-items-center justify-content-center">
+
+                    <div>
+                        {{schedule.day}},
+                    </div>
+                    <div class="mb-4">
+                        {{schedule.dayName}}
+                    </div>
+                    <p-scrollPanel [style]="{ height: '15rem', margin: '0'}">
+                        <div class="flex flex-column">
+                            <div *ngFor="let hour of schedule.hours" class="hour-button"
+                                (click)="redirectToAppointmentForm()">
+                                <div class="m-2">
+                                    {{hour.displayHour}}
+                                </div>
+                            </div>
+                        </div>
+                    </p-scrollPanel>
+                </div>
+            </ng-template>
+        </p-carousel>
+    </div>
+</div>

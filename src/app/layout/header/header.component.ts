@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { KeycloakService } from 'keycloak-angular';
 import { MenuItem } from 'primeng/api/menuitem';
+import { Subject, takeUntil } from 'rxjs';
+import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { loadKeycloakInfoRequest } from 'src/app/redux/actions/user-info-actions/keylcloak-info.actions';
+import { AppState } from 'src/app/redux/index.reducers';
+import { selectKeycloakProfile } from 'src/app/redux/selectors/user-info-selectors/keycloak-info.selector';
 
 @Component({
   selector: 'app-header',
@@ -10,13 +16,24 @@ import { MenuItem } from 'primeng/api/menuitem';
 export class HeaderComponent implements OnInit {
   public sidebar = false;
   public avatarMenuItems: MenuItem[] = [];
+  public avatarName: string = 'Sign in';
+
+  private readonly ngUnsubscribe = new Subject();
 
   constructor(
+    public readonly navigationService: NavigationService,
+    private readonly store: Store<AppState>,
     private readonly keycloak: KeycloakService
   ) { }
 
-  public ngOnInit() {
+  public async ngOnInit() {
     this.initAvatarMenuItems();
+
+    this.keycloak.loadUserProfile()
+      .then(profile => this.avatarName = !!profile?.firstName
+        ? `Welcome, ${profile?.firstName}`
+        : 'Sign in'
+      );
   }
 
   private async initAvatarMenuItems() {

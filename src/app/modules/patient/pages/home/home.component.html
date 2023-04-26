@@ -1,0 +1,57 @@
+<div class="home">
+    <p-card header="Search for available date of the visit..."
+        [style]="{ width: '58rem', backgroundImage: 'url(../assets/medical-facility.jpg)', color: 'white'}">
+        <!-- <ng-template pTemplate="header">
+            <img *ngIf="!fetchingCities" alt="Card" src="../assets/medical-facility.jpg"
+                [style]="{borderRadius: '4px'}" />
+        </ng-template> -->
+        <ng-template pTemplate="content">
+            <div *ngIf="!fetchingCities; else loading">
+                <span class="p-input-icon-left flex flex-column gap-2">
+                    <label for="city-input-ac">Pick a city</label>
+                    <p-autoComplete [(ngModel)]="selectedCity" (onSelect)="onCitySelect($event)" id="city-input-ac"
+                        [dropdown]="true" [suggestions]="filteredCities" (completeMethod)="filterCity($event)"
+                        field="name" [style]="{'color': 'red'}"></p-autoComplete>
+                </span>
+                <span class="p-input-icon-left flex flex-column gap-2 mt-3">
+                    <label for="city-input-ac">Pick facility address</label>
+                    <p-autoComplete [disabled]="!cityPicked" [(ngModel)]="selectedAddress" id="city-input-ac"
+                        (onSelect)="addressPicked = true" [dropdown]="true" [suggestions]="filteredAddresses"
+                        (completeMethod)="filterAddresses($event)" field="name"
+                        [style]="{'color': 'red'}"></p-autoComplete>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <p-button *ngIf="!fetchingCities" [disabled]="!addressPicked" label="Search" icon="pi pi-search"
+                (onClick)="searchForAvailableAppointments()"></p-button>
+        </ng-template>
+    </p-card>
+    <p-card header="...or find a doctor by his name"
+        [style]="{ width: '58rem', backgroundImage: 'url(../assets/doctors.jpg)', color: 'white'}">
+        <!-- <ng-template pTemplate="header">
+            <img alt="Card" src="../assets/doctors.jpg" [style]="{borderRadius: '4px'}" />
+        </ng-template> -->
+        <span class="p-input-icon-left flex flex-column gap-2">
+            <label for="city-input-ac">Pick a city</label>
+            <p-autoComplete [(ngModel)]="selectedCity" (onSelect)="onCitySelect($event)" id="city-input-ac"
+                [dropdown]="true" [suggestions]="filteredCities" (completeMethod)="filterCity($event)" field="name"
+                [style]="{'color': 'red'}"></p-autoComplete>
+        </span>
+        <span class="p-input-icon-left flex flex-column gap-2 mt-3">
+            <label for="city-input-ac">Pick a doctor</label>
+            <p-autoComplete [disabled]="!cityPicked" [(ngModel)]="selectedAddress" id="city-input-ac"
+                (onSelect)="addressPicked = true" [dropdown]="true" [suggestions]="filteredAddresses"
+                (completeMethod)="filterAddresses($event)" field="name" [style]="{'color': 'red'}"></p-autoComplete>
+        </span>
+        <div class="flex-grow-1"></div>
+        <ng-template pTemplate="footer">
+            <p-button [disabled]="!addressPicked" label="Search" icon="pi pi-search"
+                (onClick)="searchForAvailableAppointments()"></p-button>
+        </ng-template>
+    </p-card>
+</div>
+
+<ng-template #loading>
+    <app-loading-spinner></app-loading-spinner>
+</ng-template>
