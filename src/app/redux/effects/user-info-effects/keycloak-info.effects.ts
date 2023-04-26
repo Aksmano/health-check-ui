@@ -44,11 +44,7 @@ export class UserInfoEffects {
     ));
 
     private resolveUserType(userRoles: string[], uuid: string, setUser: boolean = false) {
-        if (userRoles.includes(UserType.Patient)) {
-            setUser && this.store.dispatch(setUserType({ userType: UserType.Patient }));
-            // this.store.dispatch(loadPatientInfoRequest({ uuid }));
-            return UserType.Patient;
-        } else if (userRoles.includes(UserType.Doctor)) {
+        if (userRoles.includes(UserType.Doctor)) {
             setUser && this.store.dispatch(setUserType({ userType: UserType.Doctor }));
             this.store.dispatch(loadDoctorInfoRequest({ uuid }));
             return UserType.Doctor;
@@ -64,35 +60,13 @@ export class UserInfoEffects {
             setUser && this.store.dispatch(setUserType({ userType: UserType.Superadmin }));
             // this.store.dispatch(loadSuperadminInfoRequest({ uuid }));
             return UserType.Superadmin;
+        } else if (userRoles.includes(UserType.Patient)) {
+            setUser && this.store.dispatch(setUserType({ userType: UserType.Patient }));
+            // this.store.dispatch(loadPatientInfoRequest({ uuid }));
+            return UserType.Patient;
         } else {
             setUser && this.store.dispatch(setUserType({ userType: UserType.Guest }));
             return UserType.Patient;
         }
     }
-
-    // loadPatientProfileInfo$ = createEffect(() => this.actions$.pipe(
-    //     ofType(loadPatientProfileInfoRequest),
-    //     withLatestFrom(this.store.select(selectKeycloakProfile)),
-    //     switchMap(([_, profile]) => this.userInfo.getPatientInfo(profile?.id!,)),
-    //     map((profile) => loadPatientProfileInfoSuccess({ patientData: profile ?? undefined })),
-    //     catchError((err, caught) => {
-    //         const errorAction = effectErrorHandler('loadPatientProfileInfo', err);
-    //         this.store.dispatch(errorAction);
-
-    //         return caught;
-    //     })
-    // ))
-
-    // postPatientProfileInfo$ = createEffect(() => this.actions$.pipe(
-    //     ofType(postPatientProfileInfoRequest),
-    //     // withLatestFrom(this.store.select(selectKeycloakProfile)),
-    //     switchMap((action) => this.userInfo.postPatientInfo(action.patientDataDto)),
-    //     map((profile) => postPatientProfileInfoSuccess({ patientData: profile ?? undefined })),
-    //     catchError((err, caught) => {
-    //         const errorAction = effectErrorHandler('postPatientProfileInfo', err);
-    //         this.store.dispatch(errorAction);
-
-    //         return caught;
-    //     })
-    // ));
 }

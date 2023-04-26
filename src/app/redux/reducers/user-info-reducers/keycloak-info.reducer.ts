@@ -25,14 +25,14 @@ const initialState: KeycloakInfoState = {
 
 export const userInfoReducer = createReducer(
     initialState,
-    on(KeycloakInfoActions.loadKeycloakInfoRequest,
-        () => ({
-            keycloakInfo: newWPI({
-                profile: undefined,
-                roles: undefined,
-                userType: UserType.Guest
-            }, true)
-        })),
+    // on(KeycloakInfoActions.loadKeycloakInfoRequest,
+    //     () => ({
+    //         keycloakInfo: newWPI({
+    //             profile: undefined,
+    //             roles: undefined,
+    //             userType: UserType.Guest
+    //         }, true)
+    //     })),
     on(KeycloakInfoActions.loadKeycloakInfoSuccess,
         state => ({
             ...state,

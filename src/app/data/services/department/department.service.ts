@@ -7,6 +7,13 @@ import { DepartmentRS } from '../../model/dto/rs/DepartmentRS';
 import { DepartmentRQ } from '../../model/dto/rq/DepartmentRQ';
 import { DepartmentService } from './DepartmentService';
 
+// interface SearchTableDataCriteria {
+//   city: string,
+//   streetAddress: {
+//     streetName
+//   }
+// }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,5 +43,9 @@ export class DepartmentServiceImpl implements DepartmentService {
   deleteDepartmentById(id: number): Observable<DepartmentRS> {
     return this.httpClient.delete<DepartmentRS>(`${this.baseUrl}/${id}`);
   }
+
+  // getSearchedDoctorsTableData(city: string, {}): Observable < any > {
+  //     return this.httpClient.delete<DepartmentRS>(`${this.baseUrl}/${id}`);
+  //   }
 
 }

@@ -7,9 +7,9 @@ import { Gender } from 'src/app/data/model/common/Gender';
 import { AddressRS } from 'src/app/data/model/dto/rs/AddressRS';
 import { PatientRS } from 'src/app/data/model/dto/rs/PatientRS';
 import { Patient } from 'src/app/data/model/entities/Patient';
-import { postPatientProfileInfoRequest } from 'src/app/redux/actions/user-info-actions/keylcloak-info.actions';
+// import { postPatientProfileInfoRequest } from 'src/app/redux/actions/user-info-actions/keylcloak-info.actions';
 import { AppState } from 'src/app/redux/index.reducers';
-import { selectIsLoadingKeycloakProfile, selectIsLoadingUserProfile, selectKeycloakProfile, selectPatientProfile } from 'src/app/redux/selectors/user-info-selectors/keycloak-info.selector';
+// import { selectIsLoadingKeycloakProfile, selectIsLoadingUserProfile, selectKeycloakProfile, selectPatientProfile } from 'src/app/redux/selectors/user-info-selectors/keycloak-info.selector';
 import { mapEnum } from 'src/app/utils';
 
 @Component({

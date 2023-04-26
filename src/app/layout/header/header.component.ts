@@ -26,21 +26,13 @@ export class HeaderComponent implements OnInit {
     private readonly keycloak: KeycloakService
   ) { }
 
-  public ngOnInit() {
+  public async ngOnInit() {
     this.initAvatarMenuItems();
 
-    // this.store.dispatch(loadKeycloakProfileInfoRequest());
-
-    this.store.select(selectKeycloakProfile)
-      .pipe(takeUntil(this.ngUnsubscribe))
-      .subscribe(userProfile =>{
-        console.log(this.keycloak.getUserRoles());
-        
-        
-        this.avatarName = !!userProfile?.username
-          ? `Welcome, ${userProfile?.username}`
-          : 'Sign in'
-      }
+    this.keycloak.loadUserProfile()
+      .then(profile => this.avatarName = !!profile?.firstName
+        ? `Welcome, ${profile?.firstName}`
+        : 'Sign in'
       );
   }
 
