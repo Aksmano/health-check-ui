@@ -1,5 +1,6 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -37,18 +38,29 @@ export class NavigationService {
   }
 
   public toMainPage() {
-    this.router.navigate(['/app'])
+    this.router.navigate(['/app']);
+  }
+
+  public toSuperadminPanel() {
+    window.open(`${window.location.origin}/app/admin/superpanel`, '_blank');
+  }
+
+  public navigateInSuperadminPanel(path: string[] = [], params: Params) {
+
+    this.router.navigate(['app', 'admin', 'superpanel', ...path], {
+      relativeTo: this.route, queryParams: params
+    });
   }
 
   public toPatientsPortal(path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/patient', ...path], { ...extras, relativeTo: this.route })
+    this.router.navigate(['/app/patient', ...path], { ...extras, relativeTo: this.route });
   }
 
   public toDoctorsPortal(path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/doctor', ...path], { ...extras })
+    this.router.navigate(['/app/doctor', ...path], { ...extras });
   }
 
   public toContact() {
-    this.router.navigate(['/app/contact'])
+    this.router.navigate(['/app/contact']);
   }
 }

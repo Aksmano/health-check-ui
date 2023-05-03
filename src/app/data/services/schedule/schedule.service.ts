@@ -14,7 +14,7 @@ import { SchedulesAppointmentsCriteriaQP } from '../../model/dto/qp/schedule/Sch
   providedIn: 'root'
 })
 export class ScheduleServiceImpl implements ScheduleService {
-  public readonly baseUrl = '/api/schedules';
+  public readonly baseUrl = '/api/domain-service/schedules';
 
   constructor(
     private readonly httpClient: HttpClient

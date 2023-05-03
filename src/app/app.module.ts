@@ -17,6 +17,8 @@ import { reducers, metaReducers } from './redux/index.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { effects } from './redux/index.effects';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AdminPanelLayoutComponent } from './layout/admin-panel-layout/admin-panel-layout.component';
+import { SharedModule } from './shared/shared.module';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -41,6 +43,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     FooterComponent,
     HeaderComponent,
     ContentLayoutComponent,
+    AdminPanelLayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
     SidebarModule,
     ButtonModule,
     MenuModule,
+    SharedModule,
     StoreModule.forRoot(reducers, {
       metaReducers
     }),

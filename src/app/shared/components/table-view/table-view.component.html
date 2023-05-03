@@ -1,0 +1,9 @@
+<app-doctor-view *ngIf="viewType == 'Doctor' && !loadingValues" class="w-full" [values]="values"
+    [classNames]="classNames" [rows]="getRows()" [paginator]="paginator"></app-doctor-view>
+<app-patient-view *ngIf="viewType == 'Patient' && !loadingValues"></app-patient-view>
+<app-receptionist-view *ngIf="viewType == 'Receptionist' && !loadingValues" class="w-full" [values]="values"
+    [classNames]="classNames" [rows]="getRows()" [paginator]="paginator"></app-receptionist-view>
+<app-department-view *ngIf="viewType == 'Department' && !loadingValues" class="w-full" [values]="values"
+    [classNames]="classNames" [rows]="getRows()" [paginator]="paginator"></app-department-view>
+
+<app-loading-spinner *ngIf="loadingValues" class="my-5" title="Loading {{viewType.toLowerCase()}}s..."></app-loading-spinner>

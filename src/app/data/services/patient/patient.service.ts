@@ -10,7 +10,7 @@ import { PatientDataRQ } from '../../model/dto/rq/PatientDataRQ';
   providedIn: 'root'
 })
 export class PatientService {
-  public readonly baseUrl = '/api/patients';
+  public readonly baseUrl = '/api/domain-service/patients';
 
   constructor(
     private readonly httpClient: HttpClient

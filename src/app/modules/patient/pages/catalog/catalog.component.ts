@@ -6,7 +6,7 @@ import { MedicalOfferItem } from 'src/app/data/model/entities/MedicalOffer';
 import { loadMedicalOffersRequest } from 'src/app/redux/actions/medical-offer.actions';
 import { AppState } from 'src/app/redux/index.reducers';
 import { selectAreOffersLoading, selectOffers } from 'src/app/redux/selectors/medical-offer.selectors';
-import { ViewType } from 'src/app/shared/components/data-table-view/data-table-view.component';
+import { DataTableViewType } from 'src/app/shared/components/data-table-view/data-table-view.component';
 
 @Component({
   selector: 'app-catalog',
@@ -17,7 +17,7 @@ export class CatalogComponent implements OnInit {
   public offers: MedicalOfferItem[] = [];
   public loadingOffers = false;
 
-  public readonly viewType = ViewType.Doctor;
+  public readonly viewType = DataTableViewType.Doctor;
 
   private params: ParamMap = {} as ParamMap;
   private readonly ngUnsubscribe = new Subject();

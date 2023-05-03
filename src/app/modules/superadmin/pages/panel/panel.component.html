@@ -1,0 +1,15 @@
+<div class="flex w-full h-max-full flex-column">
+    <div class="flex pt-4 mx-5 my-0" *ngIf="currentBrowseType === 'users'">
+        <div class="flex w-14rem p-0 mr-2 h-3rem border-round-3xl bg-bluegray-100 inside-shadow">
+            <div (click)="navigate(viewType.Doctor)"
+                class="flex border-round-3xl w-6rem m-1 p-2 {{getCurrentButtonStyle(viewType.Doctor)}} text-center align-items-center justify-content-center cursor-pointer">
+                Doctor</div>
+            <div (click)="navigate(viewType.Receptionist)"
+                class="flex border-round-3xl w-8rem m-1 p-2 {{getCurrentButtonStyle(viewType.Receptionist)}}  text-center align-items-center justify-content-center cursor-pointer">
+                Receptionist</div>
+        </div>
+    </div>
+    <app-table-view class="flex h-max-full mx-5 mt-5 z-5 bg-white shadow-3 border-round-md panel-height"
+        [loadingValues]="loadingTableItems" [values]="tableItems" [rows]="30" [paginator]="true"
+        classNames="flex panel-height" [viewType]="currentViewType"></app-table-view>
+</div>

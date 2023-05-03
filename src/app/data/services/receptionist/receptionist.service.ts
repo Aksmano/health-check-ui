@@ -9,7 +9,7 @@ import { ReceptionistRQ } from '../../model/dto/rq/employeeRQ/ReceptionistRQ';
 })
 export class ReceptionistService {
 
-  public readonly baseUrl = '/api/receptionists';
+  public readonly baseUrl = '/api/domain-service/receptionists';
 
   constructor(
     private readonly httpClient: HttpClient
@@ -19,7 +19,7 @@ export class ReceptionistService {
     return this.httpClient.get<ReceptionistRS>(`${this.baseUrl}/${uuid}`);
   }
 
-  public getReceptionists(uuid: string): Observable<ReceptionistRS[]> {
+  public getReceptionists(): Observable<ReceptionistRS[]> {
     return this.httpClient.get<ReceptionistRS[]>(this.baseUrl);
   }
 

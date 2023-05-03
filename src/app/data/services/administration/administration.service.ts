@@ -9,7 +9,7 @@ import { AdministrationService } from './AdministrationService';
   providedIn: 'root'
 })
 export class AdministrationServiceImpl implements AdministrationService {
-  public readonly baseUrl = '/api/administrators'
+  public readonly baseUrl = '/api/domain-service/administrators'
 
   constructor(
     private readonly httpClient: HttpClient

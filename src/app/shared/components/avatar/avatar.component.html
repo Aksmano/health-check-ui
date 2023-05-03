@@ -1,0 +1,4 @@
+<div class="mr-2">{{avatarName}}</div>
+<p-avatar class="navbar-avatar" (click)="menu.toggle($event)" icon="pi pi-user"></p-avatar>
+
+<p-menu class="z-5" #menu [model]="avatarMenuItems" [popup]="true"></p-menu>

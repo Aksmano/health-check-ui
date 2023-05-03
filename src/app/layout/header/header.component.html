@@ -12,11 +12,6 @@
         <div (click)="navigationService.toContact()" class="navbar-button">Contact</div>
         <div class="navbar-button">About</div>
         <div class="flex-grow-1"></div>
-        <div class="navbar-avatar">
-            <div class="mr-2">{{avatarName}}</div> 
-            <p-avatar class="navbar-avatar" (click)="menu.toggle($event)" icon="pi pi-user"></p-avatar>
-        </div>
+        <app-avatar class="navbar-avatar z-5"></app-avatar>
     </div>
 </div>
-
-<p-menu #menu [model]="avatarMenuItems" [popup]="true"></p-menu>

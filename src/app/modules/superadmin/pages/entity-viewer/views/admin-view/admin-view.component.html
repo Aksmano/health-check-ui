@@ -1,0 +1,87 @@
+<h2 class="ml-2">
+    Administrator view
+</h2>
+<div class="container card flex flex-row z-1" *ngIf="!operationOngoing; else loading">
+    <div *ngIf="viewMode === 'modify'; then modify; else create"></div>
+</div>
+
+<ng-template #loading>
+    <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
+</ng-template>
+
+<ng-template #create>
+    <div class="card w-4 px-2">
+        <div class="field flex flex-column">
+            <label for="firstname">Username</label>
+            <input pInputText [(ngModel)]="valueRQ.username" id="admin-rq-username" type="text" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="firstname">Firstname</label>
+            <input pInputText [(ngModel)]="valueRQ.firstName" id="admin-rq-firstname" type="text" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="lastname">Lastname</label>
+            <input pInputText [(ngModel)]="valueRQ.lastName" id="admin-rq-lastname" type="text" />
+        </div>
+    </div>
+    <div class="card w-4 px-2">
+        <div class="field flex flex-column">
+            <label for="street">E-mail</label>
+            <input pInputText [(ngModel)]="valueRQ.email" id="admin-rq-email" type="email" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="phoneNumber">Department ID</label>
+            <input pInputText [(ngModel)]="valueRQ.departmentId" id="admin-rq-dept-id" type="number" />
+        </div>
+    </div>
+    <div class="card w-4 px-2">
+        <div class="field flex flex-column">
+            <label for="houseNumber">Password</label>
+            <input pInputText [(ngModel)]="valueRQ.password" id="admin-rq-password" type="password" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="apartmentNumber">Confirm password</label>
+            <input pInputText [(ngModel)]="valueRQ.passwordConfirmation" id="admin-rq-conf-password" type="password" />
+        </div>
+        <div class="flex mt-6">
+            <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
+                Delete</p-button>
+            <div class="flex-grow-1"></div>
+            <p-button *ngIf="viewMode == 'modify'" (click)="updateEntity()" type="button">Modify</p-button>
+            <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
+                styleClass="p-button-success">Create</p-button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modify>
+    <div class="card w-6 px-2">
+        <div class="field flex flex-column">
+            <label for="firstname">Firstname</label>
+            <input pInputText [(ngModel)]="valueRS.firstname" id="admin-rs-firstname" type="text" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="lastname">Lastname</label>
+            <input pInputText [(ngModel)]="valueRS.lastname" id="admin-rs-lastname" type="text" />
+        </div>
+
+    </div>
+    <div class="card w-6 px-2">
+        <div class="field flex flex-column">
+            <label for="firstname">Administrator UUID</label>
+            <input [disabled]="true" pInputText [(ngModel)]="valueRS.administratorUUID" id="admin-rs-id" type="text" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="phoneNumber">Department ID</label>
+            <input pInputText [(ngModel)]="valueRS.departmentId" id="admin-rs-dept-id" type="text" />
+        </div>
+        <div class="flex mt-5">
+            <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
+                Delete</p-button>
+            <div class="flex-grow-1"></div>
+            <p-button *ngIf="viewMode == 'modify'" (click)="updateEntity()" type="button">Modify</p-button>
+            <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
+                styleClass="p-button-success">Create</p-button>
+        </div>
+    </div>
+</ng-template>

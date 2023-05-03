@@ -6,19 +6,13 @@ import { Observable } from 'rxjs';
 import { DepartmentRS } from '../../model/dto/rs/DepartmentRS';
 import { DepartmentRQ } from '../../model/dto/rq/DepartmentRQ';
 import { DepartmentService } from './DepartmentService';
-
-// interface SearchTableDataCriteria {
-//   city: string,
-//   streetAddress: {
-//     streetName
-//   }
-// }
+import { AddressRQ } from '../../model/dto/rq/AddressRQ';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartmentServiceImpl implements DepartmentService {
-  public readonly baseUrl = '/api/departments'
+  public readonly baseUrl = '/api/domain-service/departments'
 
   constructor(
     private readonly httpClient: HttpClient
@@ -37,15 +31,13 @@ export class DepartmentServiceImpl implements DepartmentService {
   }
 
   createDepartment(departmentData: DepartmentRQ): Observable<DepartmentRS> {
-    return this.httpClient.post<DepartmentRS>(this.baseUrl, { 'departmentRQ': departmentData });
+    return this.httpClient.post<DepartmentRS>(this.baseUrl, { 'departmentRQ': {
+      'name': departmentData.name,
+      'addressRQ': departmentData.address as AddressRQ
+    } });
   }
 
   deleteDepartmentById(id: number): Observable<DepartmentRS> {
     return this.httpClient.delete<DepartmentRS>(`${this.baseUrl}/${id}`);
   }
-
-  // getSearchedDoctorsTableData(city: string, {}): Observable < any > {
-  //     return this.httpClient.delete<DepartmentRS>(`${this.baseUrl}/${id}`);
-  //   }
-
 }
