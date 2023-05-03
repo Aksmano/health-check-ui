@@ -25,17 +25,17 @@
             <th>
                 <div class="flex align-items-center">
                     Department ID
-                    <p-columnFilter type="text" field="deptId" display="menu"></p-columnFilter>
+                    <p-columnFilter type="text" field="departmentId" display="menu"></p-columnFilter>
                 </div>
             </th>
         </tr>
     </ng-template>
     <ng-template class="w-full" pTemplate="body" let-value>
         <tr>
-            <td>{{value.doctorUUID}}</td>
+            <td>{{value.receptionistUUID}}</td>
             <td>{{value.firstname}}</td>
             <td>{{value.lastname}}</td>
-            <td>{{value.deptId}}</td>
+            <td>{{value.departmentId}}</td>
         </tr>
     </ng-template>
 </p-table>

@@ -17,10 +17,6 @@ const routes: Routes = [
     path: 'entity-view',
     component: EntityViewerComponent
   },
-  // {
-  //   path: '**',
-  //   redirectTo: 'superpanel/browse?type=users&user-type=Doctor'
-  // }
 ];
 
 @NgModule({
