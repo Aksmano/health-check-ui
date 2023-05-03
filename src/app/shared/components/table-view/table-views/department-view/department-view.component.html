@@ -1,0 +1,61 @@
+<p-table [loading]="loadingValues" columnResizeMode="expand" [value]="values" [rows]="rows" [paginator]="paginator"
+    [scrollable]="true" scrollHeight="calc(100vh - 20rem)" styleClass="p-datatable-striped"
+    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50, rows]" [tableStyle]="{'min-width': '100%'}"
+    [resizableColumns]="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>
+                <div class="flex align-items-center">
+                    Department ID
+                    <p-columnFilter type="text" field="id" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="flex align-items-center">
+                    Name
+                    <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="flex align-items-center">
+                    Country
+                    <p-columnFilter type="text" field="address.country" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="flex align-items-center">
+                    City
+                    <p-columnFilter type="text" field="address.city" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="flex align-items-center">
+                    Address
+                    <p-columnFilter type="text" field="address" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="flex align-items-center">
+                    Postal code
+                    <p-columnFilter type="text" field="address.postalCode" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template class="w-full" pTemplate="body" let-value>
+        <tr>
+            <td>{{value.id}}</td>
+            <td>{{value.name}}</td>
+            <td>{{value.address.country}}</td>
+            <td>{{value.address.city}}</td>
+            <td>{{getUserFriendlyAddress(value)}}</td>
+            <td>{{value.address.postalCode}}</td>
+            <td class="p-2">
+                <p-button (onClick)="modifyDept(value)" pTooltip="Delete doctor" tooltipPosition="left"  icon="pi pi-file-edit" styleClass="p-button-rounded p-button-text"></p-button>
+                <p-button (onClick)="goToAdmin(value)" pTooltip="Go to department admin" tooltipPosition="left"  icon="pi pi-user" styleClass="p-button-rounded p-button-secondary p-button-text"></p-button>
+                <p-button pTooltip="Modify doctor" tooltipPosition="left"  icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+            </td>
+        </tr>
+    </ng-template>

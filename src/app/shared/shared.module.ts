@@ -9,13 +9,32 @@ import { DoctorDataViewComponent } from './components/data-table-view/data-views
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CarouselModule } from 'primeng/carousel';
 import { RatingModule } from 'primeng/rating';
+import { AvatarComponent } from './components/avatar/avatar.component';
+import { MenuModule } from 'primeng/menu';
+import { AvatarModule } from 'primeng/avatar';
+import { TableViewComponent } from './components/table-view/table-view.component';
+import { TableModule } from 'primeng/table';
+import { PatientViewComponent } from './components/table-view/table-views/patient-view/patient-view.component';
+import { DoctorViewComponent } from './components/table-view/table-views/doctor-view/doctor-view.component';
+import { ReceptionistViewComponent } from './components/table-view/table-views/receptionist-view/receptionist-view.component';
+import { DepartmentViewComponent } from './components/table-view/table-views/department-view/department-view.component';
+import { ButtonModule } from 'primeng/button';
+import { TooltipModule } from 'primeng/tooltip';
+import { AdminViewComponent } from './components/table-view/table-views/admin-view/admin-view.component';
 
 @NgModule({
   declarations: [
     LoadingSpinnerComponent,
     DataTableViewComponent,
     AppointmentDataViewComponent,
-    DoctorDataViewComponent
+    DoctorDataViewComponent,
+    AvatarComponent,
+    TableViewComponent,
+    PatientViewComponent,
+    DoctorViewComponent,
+    ReceptionistViewComponent,
+    DepartmentViewComponent,
+    AdminViewComponent
   ],
   imports: [
     CommonModule,
@@ -24,10 +43,17 @@ import { RatingModule } from 'primeng/rating';
     RatingModule,
     ScrollPanelModule,
     CarouselModule,
+    MenuModule,
+    AvatarModule,
+    TableModule,
+    ButtonModule,
+    TooltipModule
   ],
   exports: [
     LoadingSpinnerComponent,
-    DataTableViewComponent
+    DataTableViewComponent,
+    TableViewComponent,
+    AvatarComponent
   ]
 })
 export class SharedModule { }

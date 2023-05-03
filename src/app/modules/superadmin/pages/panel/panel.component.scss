@@ -1,0 +1,41 @@
+$menu-width: 14rem;
+
+:host {
+    height: 100%;
+    // width: calc(100% - 5rem);
+    display: flex;
+}
+
+.right-container-elem {
+    min-height: 100%;
+    max-height: 100%;
+    width: calc(100% - $menu-width);
+    // border: 1px solid;
+}
+
+.inside-shadow {
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.08) inset, 0px 3px 4px rgba(0, 0, 0, 0.1) inset, 0px 1px 4px -1px rgba(0, 0, 0, 0.1) inset; // copied from primeflex
+}
+
+.left-container-elem {
+    min-height: 100%;
+    max-height: 100%;
+    width: $menu-width;
+}
+
+.element {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 1rem;
+    height: 3rem;
+}
+
+.title {
+    border-top: 1px solid var(--bluegray-100);
+    // box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.08);
+}
+
+.panel-height {
+    max-height: calc(100vh - 15rem);
+}

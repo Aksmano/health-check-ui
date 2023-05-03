@@ -1,0 +1,41 @@
+<p-table [loading]="loadingValues" columnResizeMode="expand" [value]="values" [rows]="rows" [paginator]="paginator"
+    [scrollable]="true" scrollHeight="calc(100vh - 20rem)" styleClass="p-datatable-striped"
+    [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50, rows]" [tableStyle]="{'min-width': '100%'}"
+    [resizableColumns]="true">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>
+                <div class="flex align-items-center">
+                    Receptionist UUID
+                    <p-columnFilter type="text" field="doctorUUID" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="flex align-items-center">
+                    First name
+                    <p-columnFilter type="text" field="firstname" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="flex align-items-center">
+                    Last name
+                    <p-columnFilter type="text" field="lastname" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th>
+                <div class="flex align-items-center">
+                    Department ID
+                    <p-columnFilter type="text" field="departmentId" display="menu"></p-columnFilter>
+                </div>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template class="w-full" pTemplate="body" let-value>
+        <tr>
+            <td>{{value.receptionistUUID}}</td>
+            <td>{{value.firstname}}</td>
+            <td>{{value.lastname}}</td>
+            <td>{{value.departmentId}}</td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -1,0 +1,86 @@
+@import 'primeflex/primeflex.scss';
+@import "../../../vars.scss";
+
+:host {
+    display: block;
+    height: 100%;
+}
+
+.content-container {
+
+    @include styleclass('flex w-full align-items-stretch justify-content-center mt-auto bg-bluegray-50');
+    min-height: 100%;
+}
+
+.content {
+    @include styleclass('flex align-items-center justify-content-center bg-white shadow-2 mt-8');
+    width: 100%;
+    min-height: 100%;
+}
+
+.navbar {
+    @include styleclass('flex h-5rem mx-5');
+    width: 100%;
+}
+
+.navbar-hamburger {
+    @include styleclass('hidden');
+}
+
+.navbar-logo {
+    @include styleclass('flex align-self-center w-3rem h-3rem mr-2 ml-3');
+}
+
+.navbar-title {
+    @include styleclass('flex align-items-center text-center h-full text-2xl mr-5');
+}
+
+.navbar-button {
+    @include styleclass('flex align-items-center text-center h-full text-xl transition-duration-100 px-5 cursor-pointer transition-colors hover:bg-teal-500 hover:text-50');
+}
+
+.navbar-avatar {
+    @include styleclass('flex align-items-center');
+}
+
+.navbar-text {
+    height: fit-content;
+}
+
+$menu-width: 14rem;
+
+:host {
+    min-height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.right-container-elem {
+    min-height: 100%;
+    max-height: calc(100vh - 5rem);
+    width: calc(100% - $menu-width);
+    // border: 1px solid;
+}
+
+.inside-shadow {
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.08) inset, 0px 3px 4px rgba(0, 0, 0, 0.1) inset, 0px 1px 4px -1px rgba(0, 0, 0, 0.1) inset; // copied from primeflex
+}
+
+.left-container-elem {
+    min-height: 100%;
+    max-height: 100%;
+    width: $menu-width;
+}
+
+.element {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding-left: 1rem;
+    height: 3rem;
+}
+
+.title {
+    border-top: 1px solid var(--bluegray-100);
+    // box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.08);
+}

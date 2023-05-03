@@ -12,7 +12,7 @@ import { DoctorsCriteriaQP } from '../../model/dto/qp/DoctorsCriteriaQP';
   providedIn: 'root'
 })
 export class DoctorServiceImpl implements DoctorService {
-  public readonly baseUrl = '/api/doctors';
+  public readonly baseUrl = '/api/domain-service/doctors';
 
   constructor(
     private readonly httpClient: HttpClient

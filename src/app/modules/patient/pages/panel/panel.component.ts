@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewType } from 'src/app/shared/components/data-table-view/data-table-view.component';
+import { DataTableViewType } from 'src/app/shared/components/data-table-view/data-table-view.component';
 
 @Component({
   selector: 'app-panel',
@@ -8,5 +8,5 @@ import { ViewType } from 'src/app/shared/components/data-table-view/data-table-v
 })
 
 export class PanelComponent {
-  public viewType: ViewType = ViewType.Appointment;
+  public viewType: DataTableViewType = DataTableViewType.Appointment;
 }

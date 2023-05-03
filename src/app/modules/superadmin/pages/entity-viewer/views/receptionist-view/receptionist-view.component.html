@@ -1,0 +1,86 @@
+<h2 class="ml-2">
+    Receptionist view
+</h2>
+<div class="container card flex flex-row z-1" *ngIf="!operationOngoing; else loading">
+    <div *ngIf="viewMode === 'modify'; then modify; else create"></div>
+</div>
+
+<ng-template #loading>
+    <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
+</ng-template>
+
+<ng-template #create>
+    <div class="card w-4 px-2">
+        <div class="field flex flex-column">
+            <label for="firstname">Username</label>
+            <input pInputText [(ngModel)]="valueRQ.username" id="receptionist-rq-username" type="text" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="firstname">Firstname</label>
+            <input pInputText [(ngModel)]="valueRQ.firstName" id="receptionist-rq-firstname" type="text" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="lastname">Lastname</label>
+            <input pInputText [(ngModel)]="valueRQ.lastName" id="receptionist-rq-lastname" type="text" />
+        </div>        
+    </div>
+    <div class="card w-4 px-2">
+        <div class="field flex flex-column">
+            <label for="street">E-mail</label>
+            <input pInputText [(ngModel)]="valueRQ.email" id="receptionist-rq-email" type="email" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="phoneNumber">Department ID</label>
+            <input pInputText [(ngModel)]="valueRQ.departmentId" id="receptionist-rq-dept-id" type="number" />
+        </div>
+    </div>
+    <div class="card w-4 px-2">
+        <div class="field flex flex-column">
+            <label for="houseNumber">Password</label>
+            <input pInputText [(ngModel)]="valueRQ.password" id="receptionist-rq-password" type="password" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="apartmentNumber">Confirm password</label>
+            <input pInputText [(ngModel)]="valueRQ.passwordConfirmation" id="receptionist-rq-conf-password" type="password" />
+        </div>
+        <div class="flex mt-6">
+            <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
+                Delete</p-button>
+            <div class="flex-grow-1"></div>
+            <p-button *ngIf="viewMode == 'modify'" (click)="updateEntity()" type="button">Modify</p-button>
+            <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
+                styleClass="p-button-success">Create</p-button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #modify>
+    <div class="card w-6 px-2">
+        <div class="field flex flex-column">
+            <label for="firstname">Firstname</label>
+            <input pInputText [(ngModel)]="valueRS.firstname" id="receptionist-rs-firstname" type="text" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="lastname">Lastname</label>
+            <input pInputText [(ngModel)]="valueRS.lastname" id="receptionist-rs-lastname" type="text" />
+        </div>
+    </div>
+    <div class="card w-6 px-2">
+        <div class="field flex flex-column">
+            <label for="firstname">Receptionist UUID</label>
+            <input [disabled]="true" pInputText [(ngModel)]="valueRS.receptionistUUID" id="receptionist-rs-id" type="text" />
+        </div>
+        <div class="field flex flex-column">
+            <label for="phoneNumber">Department ID</label>
+            <input pInputText [(ngModel)]="valueRS.departmentId" id="receptionist-rs-dept-id" type="text" />
+        </div>
+        <div class="flex mt-6">
+            <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
+                Delete</p-button>
+            <div class="flex-grow-1"></div>
+            <p-button *ngIf="viewMode == 'modify'" (click)="updateEntity()" type="button">Modify</p-button>
+            <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
+                styleClass="p-button-success">Create</p-button>
+        </div>
+    </div>
+</ng-template>

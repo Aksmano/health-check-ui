@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-export enum ViewType {
+export enum DataTableViewType {
   Doctor = "Doctor",
   Appointment = "Appointment",
   MedTest = "MedTest",
@@ -13,7 +13,7 @@ export enum ViewType {
   styleUrls: ['./data-table-view.component.scss']
 })
 export class DataTableViewComponent {
-  @Input() public viewType: ViewType = ViewType.Doctor;
+  @Input() public viewType: DataTableViewType = DataTableViewType.Doctor;
   @Input() public values: any[] = [];
   @Input() public loadingValues: boolean = false;
   @Input() public rows: number = 0;
