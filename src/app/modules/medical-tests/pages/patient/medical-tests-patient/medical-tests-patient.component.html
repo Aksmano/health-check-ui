@@ -1,0 +1,43 @@
+<div xmlns="http://www.w3.org/1999/html">
+  <p-dropdown class="input" *ngIf="testTypes" [(ngModel)]="selectedTestType"
+              [options]="testTypes"
+              placeholder="Select a test type"
+              [editable]="true"
+              optionLabel="name"></p-dropdown>
+  <br/>
+  <p-dropdown class="input" *ngIf="countries" (onChange)="changeCounties()" [(ngModel)]="selectedCountry"
+              [options]="countries"
+              placeholder="Select a Country"
+              [editable]="true"
+              optionLabel="name"></p-dropdown>
+  <br/>
+
+  <p-dropdown class="input" [disabled]="!selectedCountry" (onChange)="changeCities()"
+              [(ngModel)]="selectedCounty"
+              [options]="counties" placeholder="Select a County"
+              [editable]="true"
+              optionLabel="name"></p-dropdown>
+  <br/>
+
+  <p-dropdown class="input" [disabled]="!selectedCounty" (onChange)="changeStreets()" [(ngModel)]="selectedCity"
+              [options]="cities" placeholder="Select a City"
+              [editable]="true"
+              optionLabel="name"></p-dropdown>
+  <br/>
+  <p-dropdown class="input" [disabled]="!selectedCity" (onChange)="changeNames()" [(ngModel)]="selectedStreet"
+              [options]="streets" placeholder="Select a Street"
+              [editable]="true"
+              optionLabel="name"></p-dropdown>
+  <br/>
+  <p-dropdown class="input" [disabled]="!selectedStreet" [(ngModel)]="selectedName"
+              [options]="names" placeholder="Select name of department"
+              [editable]="true"
+              optionLabel="name"></p-dropdown>
+  <br/>
+  <p-button [disabled]="!selectedName || !selectedTestType" label="Search for test"
+            (onClick)="searchForAvailableSchedules()"></p-button>
+</div>
+
+<ng-template *ngIf="medicalTestSchedule">
+  schedule
+</ng-template>
