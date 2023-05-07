@@ -1,136 +1,80 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MedicalTestService} from "../../../../../data/services/medical-test/medical-test.service";
+import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs";
+import {MedicalTestsService} from "../../../../../data/services/medical-test/medical-tests.service";
+import {MedicalTestRS} from "../../../../../data/model/dto/rs/MedicalTestRS";
+import {ToastService} from "../../../../../core/services/toast/toast.service";
 import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
 import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
-import {Subscription} from "rxjs";
-import {TestType} from "../../../../../data/model/common/TestType";
-import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
+import {TestStatus} from "../../../../../data/model/common/TestStatus";
 
 @Component({
-  selector: 'app-medical-tests-patient',
+  selector: 'app-medical-test-patient',
   templateUrl: './medical-tests-patient.component.html',
   styleUrls: ['./medical-tests-patient.component.scss']
 })
 export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
+  protected medicalTest: MedicalTestRS | undefined;
+  protected department: DepartmentRS | undefined;
+  testSubscription: Subscription | undefined;
+  private pathSubscription: Subscription | undefined;
 
-  protected departments: DepartmentRS[] = [];
-  protected filteredDepartments: DepartmentRS[] = [];
-  private departmentSub: Subscription | undefined;
-  protected medicalTestSchedule: String = "";
-
-  public testTypes: any[] = Object.keys(TestType)
-    .filter((item) => {
-      return isNaN(Number(item));
-    })
-    .map(item => {
-      return this.mapToDropdownItem(item);
-    });
-  public countries: any[] = [];
-  public counties: any[] = [];
-  public cities: any[] = [];
-
-  protected selectedTestType: any;
-  protected selectedCity: any;
-  protected selectedCountry: any;
-  protected selectedCounty: any;
-  protected selectedStreet: any;
-  protected selectedName: any;
-
-
-  constructor(private readonly departmentService: DepartmentServiceImpl,
-              private readonly navigationService: NavigationService) {
+  constructor(private route: ActivatedRoute,
+              private readonly medicalTestService: MedicalTestsService,
+              private readonly toastService: ToastService,
+              private readonly departmentService: DepartmentServiceImpl) {
   }
 
-  ngOnInit(): void {
-    this.departmentSub = this.departmentService.getDepartmentsByCriteria()
-      .subscribe((data) => {
-        this.departments = data;
-        this.filteredDepartments = this.departments;
-        if (this.departments) {
-          this.countries = Array.from((new Set(this.departments.map(dep => dep.address.country))).values())
-            .map(x => {
-              return this.mapToDropdownItem(x)
-            });
-        }
-      });
-
-  }
-
-  private mapToDropdownItem(item: any) {
-    return {
-      name: item,
-      code: item
-    }
-  }
-
-  changeCounties() {
-    console.log(this.selectedCountry)
-    this.selectedCounty = undefined;
-    this.selectedCity = undefined;
-    this.selectedStreet = undefined;
-    this.selectedName = undefined;
-
-    if (this.departments) {
-      this.filteredDepartments = this.departments
-        .filter(dep => {
-          return dep.address.country === this.selectedCountry.name;
-        });
-      console.log(this.filteredDepartments);
-      this.counties = Array.from((new Set(this.filteredDepartments.map(dep => dep.address.county))).values())
-        .map(x => {
-          return this.mapToDropdownItem(x)
-        });
-    }
-  }
-
-  changeCities() {
-    this.selectedCity = undefined;
-    this.selectedStreet = undefined;
-    this.selectedName = undefined;
-    if (this.departments) {
-      this.filteredDepartments = this.departments
-        .filter(dep => {
-          return (dep.address.county === this.selectedCounty.name) &&
-            (dep.address.country === this.selectedCountry.name);
-        });
-      console.log(this.filteredDepartments);
-
-      this.cities = Array.from((new Set(this.filteredDepartments.map(dep => dep.address.city))).values())
-        .map(x => {
-          return this.mapToDropdownItem(x)
-        });
-    }
-
-  }
-
-  filterByCity() {
-    this.selectedStreet = undefined;
-    this.selectedName = undefined;
-    if (this.departments) {
-      this.filteredDepartments = this.departments
-        .filter(dep => {
-          return (dep.address.city === this.selectedCity.name) &&
-            (dep.address.county === this.selectedCounty.name) &&
-            (dep.address.country === this.selectedCountry.name);
-        });
-      console.log(this.filteredDepartments);
-    }
-  }
-
-  searchForAvailableSchedules(depId: number) {
-    console.log(depId)
-    console.log(this.selectedTestType)
-    this.navigationService.toMedicalTestScheduleByDepartment([], {
-      queryParams: {
-        departmentId: depId,
-        testType: this.selectedTestType.name
-      }
+  ngOnInit() {
+    this.removeSubscriptions()
+    this.pathSubscription = this.route.params.subscribe(params => {
+      this.testSubscription = this.medicalTestService.getMedicalTestById(params['id'])
+        .subscribe(data => {
+          this.medicalTest = data;
+          console.log(this.medicalTest);
+          this.departmentService.getDepartmentById(this.medicalTest.departmentId)
+            .subscribe(data => {
+              this.department = data
+            }, error => {
+              this.toastService.showError('Error during fetching department. Try again later.')
+            })
+        }, error => {
+          this.toastService.showError('Error during fetching test. Try again later.')
+        })
     });
   }
 
   ngOnDestroy(): void {
-    if (this.departmentSub) {
-      this.departmentSub.unsubscribe();
+    this.removeSubscriptions();
+  }
+
+  private removeSubscriptions(): void {
+    if (this.testSubscription) {
+      this.testSubscription.unsubscribe();
     }
+    if (this.pathSubscription) {
+      this.pathSubscription.unsubscribe();
+    }
+  }
+
+  isNotPerformed() {
+    console.log(this.medicalTest)
+    return this.medicalTest?.testStatus == TestStatus.NOT_PERFORMED;
+  }
+
+  isWaitingForResult() {
+    return this.medicalTest?.testStatus == TestStatus.WAITING_FOR_RESULT;
+  }
+
+  isDone() {
+    return this.medicalTest?.testStatus == TestStatus.DONE;
+  }
+
+  getResult() {
+    this.medicalTestService.getMedicalTestResult(this.medicalTest?.id!)
+      .subscribe(data => {
+        const url = window.URL.createObjectURL(data);
+        window.open(url);
+      })
   }
 }

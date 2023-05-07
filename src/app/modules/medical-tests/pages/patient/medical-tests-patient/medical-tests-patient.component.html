@@ -1,54 +1,23 @@
-<div xmlns="http://www.w3.org/1999/html">
-  <p-toolbar styleClass="mb-4 gap-2">
-    <ng-template pTemplate="left">
-    </ng-template>
-    <p-dropdown class="input" *ngIf="testTypes" [(ngModel)]="selectedTestType"
-                [options]="testTypes"
-                placeholder="Select a test type"
-                [editable]="true"
-                optionLabel="name"></p-dropdown>
-    <p-dropdown class="input" *ngIf="countries" (onChange)="changeCounties()" [(ngModel)]="selectedCountry"
-                [options]="countries"
-                placeholder="Select a Country"
-                [editable]="true"
-                optionLabel="name"></p-dropdown>
-
-    <p-dropdown class="input" [disabled]="!selectedCountry" (onChange)="changeCities()"
-                [(ngModel)]="selectedCounty"
-                [options]="counties" placeholder="Select a County"
-                [editable]="true"
-                optionLabel="name"></p-dropdown>
-
-    <p-dropdown class="input" [disabled]="!selectedCounty" (onChange)="filterByCity()" [(ngModel)]="selectedCity"
-                [options]="cities" placeholder="Select a City"
-                [editable]="true"
-                optionLabel="name"></p-dropdown>
-    <ng-template pTemplate="right">
-    </ng-template>
-  </p-toolbar>
+<div *ngIf="medicalTest">
+  <span class="text-xl font-bold">Medical test confirmation</span><br/>
+  Date of selected examination: {{medicalTest.testDateTime}}<br/>
+  Type of test: {{medicalTest.type}}<br/>
+  Type of test: {{medicalTest.testStatus}}<br/>
+  Estimated test duration: 15 minutes<br/>
+  <div *ngIf="department && department.address">
+    Department: {{department.name}}<br/>
+    Address: {{department.address.street}}, {{department.address.houseNumber}}
+    , {{department.address.postalCode}} {{department.address.post}}<br/>
+  </div>
+  <div *ngIf="isNotPerformed()">
+    Your test is not performed yet.
+  </div>
+  <div *ngIf="isWaitingForResult()">
+    Your test has been performed. Results will be available soon.
+  </div>
+  <!--  <div *ngIf="isDone()">-->
+  <div>
+    Results are ready, click to download:<br/>
+    <p-button label="Submit" (onClick)="getResult()"></p-button>
+  </div>
 </div>
-<p-table [value]="filteredDepartments" [tableStyle]="{ 'min-width': '50rem' }">
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="width:25%">Country</th>
-      <th style="width:25%">County</th>
-      <th style="width:25%">City</th>
-      <th style="width:25%">Street</th>
-      <th style="width:25%">Name</th>
-      <th style="width: 5rem"></th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-department>
-    <tr>
-      <td>{{ department.address.country }}</td>
-      <td>{{ department.address.county }}</td>
-      <td>{{ department.address.city }}</td>
-      <td>{{ department.address.street }}</td>
-      <td>{{ department.name }}</td>
-      <td>
-        <p-button [disabled]="!selectedTestType" icon="pi pi-search"
-                  (onClick)="searchForAvailableSchedules(department.id)"></p-button>
-      </td>
-    </tr>
-  </ng-template>
-</p-table>
