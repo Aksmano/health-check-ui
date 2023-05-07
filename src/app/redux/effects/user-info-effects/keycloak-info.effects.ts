@@ -6,7 +6,6 @@ import { loadKeycloakInfoRequest, loadKeycloakInfoSuccess, setUserType } from ".
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, map, switchMap, tap, withLatestFrom } from "rxjs";
 import { effectErrorHandler } from "../../actions/error-action";
-import { UserInfoService } from "src/app/data/services/user-info/user-info.service";
 import { selectKeycloakProfile } from "../../selectors/user-info-selectors/keycloak-info.selector";
 import { UserType } from "src/app/data/model/common/UserType";
 import { loadDoctorInfoRequest } from "../../actions/user-info-actions/doctor-info.action";
@@ -17,7 +16,7 @@ export class UserInfoEffects {
         private readonly actions$: Actions,
         private readonly store: Store<AppState>,
         private readonly keycloakService: KeycloakService,
-        private readonly userInfo: UserInfoService
+        // private readonly userInfo: UserInfoService
     ) { }
 
     loadKeycloakProfileInfo$ = createEffect(() => this.actions$.pipe(

@@ -14,9 +14,13 @@
                     <div *ngIf="isSuperadmin()" (click)="navigateInSuperpanel(['browse'], {'type': 'department'})"
                         class="element cursor-pointer transition-colors transition-duration-100 hover:bg-teal-500 hover:text-50 z-5">
                         Browse</div>
-                    <div *ngIf="isSuperadmin()" (click)="navigateInSuperpanel(['entity-view'], {'mode': 'create','type': 'department'})"
+                    <div *ngIf="isSuperadmin()"
+                        (click)="navigateInSuperpanel(['entity-view'], {'mode': 'create','type': 'department'})"
                         class="element cursor-pointer transition-colors transition-duration-100 hover:bg-teal-500 hover:text-50 z-5">
                         Create</div>
+                    <div *ngIf="!isSuperadmin()" (click)="navigateInSuperpanel(['browse'], {'type': 'department'})"
+                        class="element cursor-pointer transition-colors transition-duration-100 hover:bg-teal-500 hover:text-50 z-5">
+                        Show details</div>
                     <div class="element title shadow-3">Users</div>
                     <div (click)="navigateInSuperpanel(['browse'], {'type': 'users', 'user-type': 'Doctor'})"
                         class="element cursor-pointer transition-colors transition-duration-100 hover:bg-teal-500 hover:text-50 z-5">

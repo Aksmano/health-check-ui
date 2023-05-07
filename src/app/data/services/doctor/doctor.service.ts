@@ -7,16 +7,24 @@ import { DoctorService } from './DoctorService';
 import { DoctorRQ } from '../../model/dto/rq/employeeRQ/DoctorRQ';
 import { RatingRS } from '../../model/dto/rs/RatingRS';
 import { DoctorsCriteriaQP } from '../../model/dto/qp/DoctorsCriteriaQP';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
+import { UserType } from '../../model/common/UserType';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DoctorServiceImpl implements DoctorService {
   public readonly baseUrl = '/api/domain-service/doctors';
+  private userProfile: KeycloakProfile = {};
 
   constructor(
-    private readonly httpClient: HttpClient
-  ) { }
+    private readonly httpClient: HttpClient,
+    private readonly keycloak: KeycloakService
+  ) {
+    this.keycloak.loadUserProfile()
+      .then(profile => this.userProfile = profile);
+  }
 
   getAllDoctors(
     doctorsCriteria: DoctorsCriteriaQP = {} as DoctorsCriteriaQP
@@ -31,7 +39,7 @@ export class DoctorServiceImpl implements DoctorService {
   }
 
   createDoctor(doctorData: DoctorRQ): Observable<DoctorRS> {
-    return this.httpClient.post<DoctorRS>(this.baseUrl, { 'doctorRQ': doctorData });
+    return this.httpClient.post<DoctorRS>(this.baseUrl, { ...doctorData });
   }
 
   deleteDoctorById(uuid: string): Observable<string> {
