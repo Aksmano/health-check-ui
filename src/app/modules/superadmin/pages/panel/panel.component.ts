@@ -93,8 +93,8 @@ export class PanelComponent implements OnInit {
         }
       })
 
-    this.deptService.getDepartmentsByCriteria()
-      .subscribe(depts => console.log(depts))
+    // this.deptService.getDepartmentsByCriteria()
+    //   .subscribe(depts => console.log(depts))
   }
 
   getCurrentButtonStyle(view: string) {
