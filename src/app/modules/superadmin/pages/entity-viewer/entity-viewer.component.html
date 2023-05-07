@@ -1,5 +1,6 @@
 <div class="flex pt-4 mx-5 my-0" *ngIf="currentType?.toLowerCase() !== 'department' && currentMode !== 'modify'">
-    <div class="flex w-20rem p-0 mr-2 h-3rem border-round-3xl bg-bluegray-100 inside-shadow">
+    <div
+        class="flex w-{{ isSuperadmin() ? '12' : '14'}}rem p-0 mr-2 h-3rem border-round-3xl bg-bluegray-100 inside-shadow">
         <!-- <div
             class="flex border-round-3xl w-4rem m-1 p-2 text-center align-items-center justify-content-center transform">
             All</div> -->
@@ -9,10 +10,10 @@
         <div (click)="navigate(viewType.Doctor)"
             class="flex border-round-3xl w-6rem m-1 p-2 {{getCurrentButtonStyle(viewType.Doctor)}} text-center align-items-center justify-content-center cursor-pointer">
             Doctor</div>
-        <div (click)="navigate(viewType.Receptionist)"
+        <div (click)="navigate(viewType.Receptionist)" *ngIf="!isSuperadmin()"
             class="flex border-round-3xl w-8rem m-1 p-2 {{getCurrentButtonStyle(viewType.Receptionist)}}  text-center align-items-center justify-content-center cursor-pointer">
             Receptionist</div>
-        <div (click)=" navigate(viewType.Admin)"
+        <div (click)=" navigate(viewType.Admin)" *ngIf="isSuperadmin()"
             class="flex border-round-3xl w-6rem m-1 p-2 {{getCurrentButtonStyle(viewType.Admin)}}  text-center align-items-center justify-content-center cursor-pointer">
             Admin</div>
     </div>

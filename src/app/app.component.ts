@@ -17,7 +17,7 @@ import { ReceptionistService } from './data/services/receptionist/receptionist.s
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public userInfo: UserInfo;
+  public userInfo?: UserInfo;
   public title: string = 'health-check-ui';
 
   constructor(
@@ -29,11 +29,11 @@ export class AppComponent {
     private readonly receptionistService: ReceptionistService,
     private readonly keycloak: KeycloakService
   ) {
-    this.userInfo = new UserInfo(doctorService, adminService, patientService, receptionistService, keycloak);
   }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+    this.userInfo = new UserInfo(this.doctorService, this.adminService, this.patientService, this.receptionistService, this.keycloak);
 
 
     // this.store.dispatch(fetchCitiesRequest());

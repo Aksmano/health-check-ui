@@ -30,6 +30,8 @@ export class AdminGuard extends KeycloakAuthGuard {
       this.navigationService.toMainPage();
     }
 
+    console.log(this.authenticated);
+    
     return this.authenticated;
   }
   

@@ -47,8 +47,12 @@ export const mapEnum = (enumArg: any) => {
 export const objectToHttpParams = (obj: object): HttpParams => {
     const entries = Object.entries(obj);
     const httpParams = new HttpParams();
+    console.log(obj);
+    
 
     entries.forEach(entry => {
+        console.log(entry);
+        
         const valueType = typeof entry[0];
         if (valueType === 'number' || valueType === 'string' || valueType === 'boolean')
             httpParams.append(entry[0], entry[1]);

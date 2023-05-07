@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { UserInfo } from 'src/app/core/user-info';
 import { UserType } from 'src/app/data/model/common/UserType';
 import { AdministrationServiceImpl } from 'src/app/data/services/administration/administration.service';
 import { DepartmentServiceImpl } from 'src/app/data/services/department/department.service';
@@ -48,21 +49,24 @@ export class PanelComponent implements OnInit {
           switch (params.get('user-type')?.toLowerCase()) {
             case 'doctor':
               this.currentViewType = TableViewType.Doctor;
-              this.doctorService.getAllDoctors()
-                .pipe(takeUntil(this.ngUnsubscribe))
-                .subscribe(doctors => {
-                  console.log(this.loadingTableItems);
+              if (UserInfo.role === UserType.Superadmin) {
+                this.doctorService.getAllDoctors()
+                  // .pipe(takeUntil(this.ngUnsubscribe))
+                  .subscribe(doctors => {
+                    console.log(doctors)
 
-                  this.tableItems = doctors;
-                  this.loadingTableItems = false;
-                })
+                    this.tableItems = doctors;
+                    this.loadingTableItems = false;
+                  })
+              } else if (UserInfo.role === UserType.Admin) {
+                this.doctorService.getAllDoctors({ departmentId: UserInfo.deptId })
+                // .pipe(takeUntil(this.ngUnsubscribe))
+                .subscribe(doctors => {
+                    this.tableItems = doctors;
+                    this.loadingTableItems = false;
+                  })
+              }
               break;
-            // case 'patient':
-            //   this.currentViewType = TableViewType.Patient;
-            //   break;
-            // case 'admin':
-            //   this.currentViewType = TableViewType.Admin;
-            //   break;
             case 'receptionist':
               this.currentViewType = TableViewType.Receptionist;
               this.receptionistService.getReceptionists()
@@ -88,7 +92,7 @@ export class PanelComponent implements OnInit {
               this.tableItems = departments;
               this.loadingTableItems = false;
               console.log(departments);
-              
+
             })
         }
       })

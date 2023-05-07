@@ -53,11 +53,11 @@
             <td>{{getUserFriendlyAddress(value)}}</td>
             <td>{{value.address.postalCode}}</td>
             <td class="p-2">
-                <p-button (onClick)="modifyEntity(value)" pTooltip="Delete doctor" tooltipPosition="left"
+                <p-button (onClick)="modifyEntity(value)" pTooltip="Modify department" tooltipPosition="left"
                     icon="pi pi-file-edit" styleClass="p-button-rounded p-button-text"></p-button>
                 <p-button (onClick)="goToAdmin(value)" pTooltip="Go to department admin" tooltipPosition="left"
                     icon="pi pi-user" styleClass="p-button-rounded p-button-secondary p-button-text"></p-button>
-                <p-button (onClick)="deleteEntity(value)" pTooltip="Modify doctor" tooltipPosition="left"
+                <p-button (onClick)="deleteEntity(value)" pTooltip="Delete department" tooltipPosition="left"
                     icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
             </td>
         </tr>

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { UserInfo } from 'src/app/core/user-info';
 import { MainEntityType } from 'src/app/data/model/common/MainEntityType';
+import { UserType } from 'src/app/data/model/common/UserType';
 import { DepartmentServiceImpl } from 'src/app/data/services/department/department.service';
 import { DoctorServiceImpl } from 'src/app/data/services/doctor/doctor.service';
 import { ReceptionistService } from 'src/app/data/services/receptionist/receptionist.service';
@@ -93,5 +95,9 @@ export class EntityViewerComponent {
     return this.currentType === view
       ? 'bg-teal-500 text-white'
       : 'text-700 transition-colors transition-duration-100 hover:bg-teal-300 hover:text-50';
+  }
+
+  isSuperadmin() {
+    return UserInfo.role === UserType.Superadmin;
   }
 }

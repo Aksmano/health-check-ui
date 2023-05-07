@@ -24,7 +24,7 @@ export class AdministrationServiceImpl implements AdministrationService {
   }
 
   createAdministrator(administratorData: AdministratorRQ): Observable<AdministratorRS> {
-    return this.httpClient.post<AdministratorRS>(this.baseUrl, { 'administratorRQ': administratorData });
+    return this.httpClient.post<AdministratorRS>(this.baseUrl, { ...administratorData });
   }
 
   deleteAdministratorByUUID(uuid: string): Observable<string> {

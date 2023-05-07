@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Params } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { UserInfo } from 'src/app/core/user-info';
 import { UserType } from 'src/app/data/model/common/UserType';
 
 @Component({
@@ -13,7 +14,6 @@ export class AdminPanelLayoutComponent {
 
   constructor(
     private readonly navigationService: NavigationService,
-    private readonly keycloak: KeycloakService
   ) { }
 
   navigateInSuperpanel(path: string[], params: Params) {
@@ -21,6 +21,6 @@ export class AdminPanelLayoutComponent {
   }
 
   isSuperadmin() {
-    return this.keycloak.isUserInRole(UserType.Superadmin);
+    return UserInfo.role === UserType.Superadmin;
   }
 }
