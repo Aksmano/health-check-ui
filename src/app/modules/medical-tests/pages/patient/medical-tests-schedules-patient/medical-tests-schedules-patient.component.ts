@@ -7,7 +7,7 @@ import {
 import {Subscription} from "rxjs";
 import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
 import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
-import {MedicalTestService} from "../../../../../data/services/medical-test/medical-test.service";
+import {MedicalTestsService} from "../../../../../data/services/medical-test/medical-tests.service";
 import {ScheduleRS} from "../../../../../data/model/dto/rs/schedules/ScheduleRS";
 import {dayNames, TestScheduleDay} from "../../../utils/models/test-schedule-day";
 import {TestDateRS} from "../../../../../data/model/dto/rs/schedules/TestDateRS";
@@ -19,10 +19,10 @@ import {MedicalTestSchedulesRS} from "../../../../../data/model/dto/rs/schedules
 
 @Component({
   selector: 'app-medical-test-schedules-patient',
-  templateUrl: './medical-test-schedules-patient.component.html',
-  styleUrls: ['./medical-test-schedules-patient.component.scss']
+  templateUrl: './medical-tests-schedules-patient.component.html',
+  styleUrls: ['./medical-tests-schedules-patient.component.scss']
 })
-export class MedicalTestSchedulesPatientComponent implements OnInit, OnDestroy {
+export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy {
   // protected medicalTestSchedules = {
   //   departmentId: 910,
   //   type: TestType.AUDIOMETRY,
@@ -90,7 +90,7 @@ export class MedicalTestSchedulesPatientComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private readonly medicalTestScheduleService: MedicalTestSchedulesService,
-              private readonly medicalTestService: MedicalTestService,
+              private readonly medicalTestService: MedicalTestsService,
               private readonly departmentService: DepartmentServiceImpl,
               private readonly keycloakService: KeycloakService,
               private readonly navigationService: NavigationService,
@@ -113,6 +113,10 @@ export class MedicalTestSchedulesPatientComponent implements OnInit, OnDestroy {
           .subscribe(data => {
             this.medicalTestSchedules = data;
             console.log(this.medicalTestSchedules);
+            for (let assignedSchedule of this.medicalTestSchedules.assignedSchedules) {
+              assignedSchedule.startDateTime = new Date(assignedSchedule.startDateTime);
+              assignedSchedule.endDateTime = new Date(assignedSchedule.endDateTime);
+            }
             this.schedulesByDay = this.getSchedulesByDay(this.medicalTestSchedules.schedules);
           })
       }
@@ -164,7 +168,6 @@ export class MedicalTestSchedulesPatientComponent implements OnInit, OnDestroy {
         break;
       }
     }
-    new Date().getHours()
     return testSchedules;
   }
 
@@ -222,23 +225,28 @@ export class MedicalTestSchedulesPatientComponent implements OnInit, OnDestroy {
 
   submitMedicalTest() {
     if (this.testType) {
-      let visitRQ = {
-        departmentId: this.department?.id,
-        patientUUID: this.keycloakService.getUsername(),
-        type: TestType[this.testType as keyof typeof TestType],
-        testDate: this.chosenDate?.startDateTime
-      } as MedicalTestRQ;
+      this.keycloakService.getKeycloakInstance()
+        .loadUserProfile()
+        .then(profile => {
+          let visitRQ = {
+            departmentId: this.department?.id,
+            patientUUID: profile.id!,
+            type: TestType[this.testType as keyof typeof TestType],
+            testDate: this.addMinutes(this.chosenDate?.startDateTime!, 2 * 60)
+          } as MedicalTestRQ;
 
-      this.resultSubscription = this.medicalTestService.createMedicalTestVisit(visitRQ)
-        .subscribe(data => {
-          this.navigationService.toMedicalTestById(data.id)
-          this.toastService.showSuccess('Visit created');
-        }, error => {
-          console.log(error)
-          this.toastService.showError('Error during creating visit. Try again later');
-        }, () => {
-          this.toastService.showInfo('Completed');
-        })
+          console.log(visitRQ)
+          this.resultSubscription = this.medicalTestService.createMedicalTestVisit(visitRQ)
+            .subscribe(data => {
+              this.toastService.showSuccess('Visit created');
+              this.navigationService.toMedicalTestById(data.id)
+            }, error => {
+              console.log(error)
+              this.toastService.showError('Error during creating visit. Try again later');
+            }, () => {
+              this.toastService.showInfo('Completed');
+            })
+        });
     }
   }
 }

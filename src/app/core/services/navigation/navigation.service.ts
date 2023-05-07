@@ -74,23 +74,23 @@ export class NavigationService {
 
   public toMedicalTestsPortal(path: string[] = [], extras?: NavigationExtras) {
     if (this.roleService.hasRoleReceptionist()) {
-      this.router.navigate(['/app/medical-tests/receptionist', ...path], {...extras, relativeTo: this.route});
+      this.router.navigate(['/app/medical-tests/receptionist/search', ...path], {...extras, relativeTo: this.route});
     } else if (this.roleService.hasRoleDoctor()) {
       this.router.navigate(['/app/medical-tests/doctor', ...path], {...extras, relativeTo: this.route});
     } else if (this.roleService.hasRolePatient()) {
-      this.router.navigate(['/app/medical-tests/patient', ...path], {...extras, relativeTo: this.route});
+      this.router.navigate(['/app/medical-tests/patient/search', ...path], {...extras, relativeTo: this.route});
     }
   }
 
   public toMedicalTestScheduleByDepartment(path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/medical-tests/medical-test-schedules', ...path], {
+    this.router.navigate(['/app/medical-tests/patient/medical-test-schedules', ...path], {
       ...extras,
       relativeTo: this.route
     });
   }
 
   public toMedicalTestById(testId: number, path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/medical-tests/by-id/' + testId, ...path], {
+    this.router.navigate(['/app/medical-tests/patient/medical-test-details/' + testId, ...path], {
       ...extras,
       relativeTo: this.route
     });
