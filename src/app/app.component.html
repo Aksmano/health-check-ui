@@ -1,1 +1,5 @@
-<router-outlet></router-outlet>
+<router-outlet *ngIf="userInfo.loaded; else loading"></router-outlet>
+
+<ng-template #loading>
+    <app-loading-spinner title="Loading medical portal..."></app-loading-spinner>
+</ng-template>
