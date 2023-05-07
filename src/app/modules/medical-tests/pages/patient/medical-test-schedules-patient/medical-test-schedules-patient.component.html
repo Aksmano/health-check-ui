@@ -1,1 +1,68 @@
-<p>medical-test-schedules-patient works!</p>
+<div>
+  <div *ngIf="department"
+       class="align-items-start justify-content-between gap-3 w-full pr-3 border-right-1 border-400">
+    <div class="flex flex-column text-2xl font-semibold">
+      {{department.name}}
+    </div>
+    <div class="flex flex-column align-items-start text-sm mb-1 w-full">
+      <div>
+        Country: {{department.address.country}}<br/>
+        Province: {{department.address.province}}<br/>
+        County: {{department.address.county}}<br/>
+        City: {{department.address.city}}<br/>
+        <i class="pi pi-map-marker"></i> {{department.address.street}}, {{department.address.houseNumber}}
+        , {{department.address.postalCode}} {{department.address.post}}
+      </div>
+    </div>
+    <div *ngIf="testType" class="flex flex-column align-items-start text-sm mb-1 w-full border-bottom-1 border-400">
+      <div class="w-full text-lg pb-3">
+        Test type: {{testType.toString()}}
+      </div>
+      <div class="w-1rem"></div>
+    </div>
+  </div>
+  <div *ngIf="schedulesByDay" class="flex align-items-end gap-3 ">
+    <p-carousel [value]="schedulesByDay" [numVisible]="5" [numScroll]="5" [circular]="false">
+      <ng-template let-scheduleByDay pTemplate="item">
+        <div class="flex flex-column align-items-center justify-content-center">
+
+          <div>
+            {{scheduleByDay.day}},
+          </div>
+          <div class="mb-4">
+            {{scheduleByDay.dayName}}
+          </div>
+          <p-scrollPanel [style]="{ height: '30rem', margin: '0'}">
+            <div class="flex flex-column">
+              <ng-container *ngFor="let schedule of scheduleByDay.schedules">
+                <div class="hour-button" *ngIf="!schedule.busy" (click)="showChosenDate(schedule)">
+                  <div class="m-2">
+                    {{schedule.startDateTime.toLocaleTimeString()}}
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </p-scrollPanel>
+        </div>
+      </ng-template>
+    </p-carousel>
+  </div>
+
+  <p-dialog header="Header" *ngIf="chosenDate && department" [(visible)]="showDateVisible" [style]="{ width: '50vw' }">
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">Medical test confirmation</span>
+    </ng-template>
+    <p>
+      Date of selected examination: {{chosenDate.startDateTime | date:'long'}}<br/>
+      Estimated test duration: 15 minutes<br/>
+      Department: {{department.name}}<br/>
+      Address: {{department.address.street}}, {{department.address.houseNumber}}
+      , {{department.address.postalCode}} {{department.address.post}}<br/>
+      Are you sure you want to confirm the date of your visit?<br/>
+    </p>
+    <ng-template pTemplate="footer">
+      <p-button label="Go back" (click)="showDateVisible = false" styleClass="p-button-danger"></p-button>
+      <p-button label="Submit" (click)="submitMedicalTest()" styleClass="p-button-success"></p-button>
+    </ng-template>
+  </p-dialog>
+</div>

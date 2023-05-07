@@ -19,6 +19,8 @@ import {effects} from './redux/index.effects';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {AdminPanelLayoutComponent} from './layout/admin-panel-layout/admin-panel-layout.component';
 import {SharedModule} from '@shared/shared.module';
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
@@ -45,29 +47,31 @@ function initializeKeycloak(keycloak: KeycloakService) {
     ContentLayoutComponent,
     AdminPanelLayoutComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    AppRoutingModule,
-    KeycloakAngularModule,
-    AvatarModule,
-    SidebarModule,
-    ButtonModule,
-    MenuModule,
-    SharedModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers
-    }),
-    EffectsModule.forRoot(effects)
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        AppRoutingModule,
+        KeycloakAngularModule,
+        AvatarModule,
+        SidebarModule,
+        ButtonModule,
+        MenuModule,
+        SharedModule,
+        StoreModule.forRoot(reducers, {
+            metaReducers
+        }),
+        EffectsModule.forRoot(effects),
+        ToastModule
+    ],
   providers: [
     {
       provide: APP_INITIALIZER,
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService]
-    }
+    },
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

@@ -22,6 +22,11 @@ const routes: Routes = [
     path: 'medical-test-schedules',
     canActivate: [AuthGuard],
     component: MedicalTestSchedulesPatientComponent,
+  },
+  {
+    path: 'by-id',
+    canActivate: [AuthGuard],
+    component: MedicalTestSchedulesPatientComponent,
   }
 ];
 

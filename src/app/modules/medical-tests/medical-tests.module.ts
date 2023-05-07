@@ -9,7 +9,11 @@ import {ButtonModule} from "primeng/button";
 import {
   MedicalTestSchedulesPatientComponent
 } from './pages/patient/medical-test-schedules-patient/medical-test-schedules-patient.component';
-
+import {TableModule} from "primeng/table";
+import {ToolbarModule} from "primeng/toolbar";
+import {CarouselModule} from "primeng/carousel";
+import {ScrollPanelModule} from "primeng/scrollpanel";
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
   declarations: [
@@ -22,7 +26,12 @@ import {
     DropdownModule,
     FormsModule,
     ReactiveFormsModule,
-    ButtonModule
+    ButtonModule,
+    TableModule,
+    ToolbarModule,
+    CarouselModule,
+    ScrollPanelModule,
+    DialogModule
   ]
 })
 export class MedicalTestsModule {

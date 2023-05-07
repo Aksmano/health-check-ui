@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MedicalTestService} from "../../../../../data/services/medical-test/medical-test.service";
 import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
 import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
@@ -11,9 +11,10 @@ import {NavigationService} from "../../../../../core/services/navigation/navigat
   templateUrl: './medical-tests-patient.component.html',
   styleUrls: ['./medical-tests-patient.component.scss']
 })
-export class MedicalTestsPatientComponent implements OnInit {
+export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
 
   protected departments: DepartmentRS[] = [];
+  protected filteredDepartments: DepartmentRS[] = [];
   private departmentSub: Subscription | undefined;
   protected medicalTestSchedule: String = "";
 
@@ -27,8 +28,6 @@ export class MedicalTestsPatientComponent implements OnInit {
   public countries: any[] = [];
   public counties: any[] = [];
   public cities: any[] = [];
-  public streets: any[] = [];
-  public names: any[] = [];
 
   protected selectedTestType: any;
   protected selectedCity: any;
@@ -39,7 +38,6 @@ export class MedicalTestsPatientComponent implements OnInit {
 
 
   constructor(private readonly departmentService: DepartmentServiceImpl,
-              private readonly medicalTestService: MedicalTestService,
               private readonly navigationService: NavigationService) {
   }
 
@@ -47,6 +45,7 @@ export class MedicalTestsPatientComponent implements OnInit {
     this.departmentSub = this.departmentService.getDepartmentsByCriteria()
       .subscribe((data) => {
         this.departments = data;
+        this.filteredDepartments = this.departments;
         if (this.departments) {
           this.countries = Array.from((new Set(this.departments.map(dep => dep.address.country))).values())
             .map(x => {
@@ -72,13 +71,12 @@ export class MedicalTestsPatientComponent implements OnInit {
     this.selectedName = undefined;
 
     if (this.departments) {
-      let counties = this.departments
+      this.filteredDepartments = this.departments
         .filter(dep => {
           return dep.address.country === this.selectedCountry.name;
-        })
-        .map(dep => dep.address.county);
-
-      this.counties = Array.from((new Set(counties)).values())
+        });
+      console.log(this.filteredDepartments);
+      this.counties = Array.from((new Set(this.filteredDepartments.map(dep => dep.address.county))).values())
         .map(x => {
           return this.mapToDropdownItem(x)
         });
@@ -90,14 +88,14 @@ export class MedicalTestsPatientComponent implements OnInit {
     this.selectedStreet = undefined;
     this.selectedName = undefined;
     if (this.departments) {
-      let cities = this.departments
+      this.filteredDepartments = this.departments
         .filter(dep => {
           return (dep.address.county === this.selectedCounty.name) &&
             (dep.address.country === this.selectedCountry.name);
-        })
-        .map(dep => dep.address.city);
+        });
+      console.log(this.filteredDepartments);
 
-      this.cities = Array.from((new Set(cities)).values())
+      this.cities = Array.from((new Set(this.filteredDepartments.map(dep => dep.address.city))).values())
         .map(x => {
           return this.mapToDropdownItem(x)
         });
@@ -105,58 +103,34 @@ export class MedicalTestsPatientComponent implements OnInit {
 
   }
 
-  changeStreets() {
+  filterByCity() {
     this.selectedStreet = undefined;
     this.selectedName = undefined;
     if (this.departments) {
-      let streets = this.departments
+      this.filteredDepartments = this.departments
         .filter(dep => {
           return (dep.address.city === this.selectedCity.name) &&
             (dep.address.county === this.selectedCounty.name) &&
             (dep.address.country === this.selectedCountry.name);
-        })
-        .map(dep => dep.address.street);
-
-      this.streets = Array.from((new Set(streets)).values())
-        .map(x => {
-          return this.mapToDropdownItem(x)
         });
+      console.log(this.filteredDepartments);
     }
   }
 
-  changeNames() {
-    this.selectedName = undefined;
-    if (this.departments) {
-      let names = this.departments
-        .filter(dep => {
-          return (dep.address.street === this.selectedStreet.name) &&
-            (dep.address.city === this.selectedCity.name) &&
-            (dep.address.county === this.selectedCounty.name) &&
-            (dep.address.country === this.selectedCountry.name);
-        })
-        .map(dep => dep.name);
-
-      this.names = Array.from((new Set(names)).values())
-        .map(x => {
-          return this.mapToDropdownItem(x)
-        });
-    }
-  }
-
-  searchForAvailableSchedules() {
-    let department = this.departments
-      .filter(dep => {
-        return (dep.name === this.selectedName.name) &&
-          (dep.address.street === this.selectedStreet.name) &&
-          (dep.address.city === this.selectedCity.name) &&
-          (dep.address.county === this.selectedCounty.name) &&
-          (dep.address.country === this.selectedCountry.name);
-      })[0];
-
-
-    this.navigationService.toMedicalTestScheduleByDepartment([], {queryParams:{
-        departmentId:department.id,
+  searchForAvailableSchedules(depId: number) {
+    console.log(depId)
+    console.log(this.selectedTestType)
+    this.navigationService.toMedicalTestScheduleByDepartment([], {
+      queryParams: {
+        departmentId: depId,
         testType: this.selectedTestType.name
-      }});
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.departmentSub) {
+      this.departmentSub.unsubscribe();
+    }
   }
 }
