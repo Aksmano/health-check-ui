@@ -7,6 +7,7 @@ import {ToastService} from "../../../../../core/services/toast/toast.service";
 import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
 import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
 import {TestStatus} from "../../../../../data/model/common/TestStatus";
+import {error} from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-medical-test-patient',
@@ -75,6 +76,17 @@ export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         const url = window.URL.createObjectURL(data);
         window.open(url);
+      }, error => {
+        this.toastService.showError('Error during fetching results.')
+      })
+  }
+
+  deleteMedicalTest() {
+    this.medicalTestService.deleteMedicalTest(this.medicalTest?.id!)
+      .subscribe(data => {
+        this.toastService.showSuccess('Deleted successfully.')
+      }, error => {
+        this.toastService.showError('Error during deleting test. Try again later.')
       })
   }
 }

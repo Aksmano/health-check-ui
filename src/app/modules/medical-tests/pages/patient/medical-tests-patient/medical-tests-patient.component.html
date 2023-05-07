@@ -11,6 +11,8 @@
   </div>
   <div *ngIf="isNotPerformed()">
     Your test is not performed yet.
+    <p-button label="Submit" (onClick)="deleteMedicalTest()"></p-button>
+
   </div>
   <div *ngIf="isWaitingForResult()">
     Your test has been performed. Results will be available soon.
@@ -18,6 +20,6 @@
   <!--  <div *ngIf="isDone()">-->
   <div>
     Results are ready, click to download:<br/>
-    <p-button label="Submit" (onClick)="getResult()"></p-button>
+    <p-button label="Download result" (onClick)="getResult()"></p-button>
   </div>
 </div>

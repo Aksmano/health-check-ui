@@ -29,4 +29,8 @@ export class MedicalTestsService {
     headers = headers.set('Accept', 'application/pdf');
     return this.httpClient.get(this.baseUrl + "/result/" + testId, {headers: headers, responseType: 'blob'});
   }
+
+  deleteMedicalTest(testId: number): Observable<any> {
+    return this.httpClient.delete(this.baseUrl + "/" + testId);
+  }
 }
