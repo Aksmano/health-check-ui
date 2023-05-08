@@ -93,7 +93,7 @@ export class AvatarComponent {
     label: 'My tests',
     icon: 'pi pi-bookmark-fill',
     command: () => {
-      this.navigationService.toMedicalTestByPatient('tests')
+      this.navigationService.toMedicalTestByPatient(this.userId!)
     }
   }
 

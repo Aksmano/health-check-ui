@@ -6,6 +6,7 @@ export interface MedicalTestRS {
   id: number;
   testStatus: TestStatus;
   departmentId: number;
+  departmentName: string;
   patientUUID: string;  // as uuid
   type: TestType;
   medicalTestResultId: number;
