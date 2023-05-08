@@ -17,12 +17,14 @@ import {DialogModule} from "primeng/dialog";
 import { MedicalTestsPatientComponent } from './pages/patient/medical-tests-patient/medical-tests-patient.component';
 import {TimelineModule} from "primeng/timeline";
 import {CardModule} from "primeng/card";
+import { MedicalTestsAllPatientComponent } from './pages/patient/medical-tests-all-patient/medical-tests-all-patient.component';
 
 @NgModule({
   declarations: [
     MedicalTestsSearchPatientComponent,
     MedicalTestsSchedulesPatientComponent,
     MedicalTestsPatientComponent,
+    MedicalTestsAllPatientComponent,
   ],
   imports: [
     CommonModule,

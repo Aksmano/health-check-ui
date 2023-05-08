@@ -96,6 +96,12 @@ export class NavigationService {
     });
   }
 
+  public toMedicalTestByPatient(patientId: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/patient/medical-test-patient/' + patientId, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
 
   public toContact() {
     this.router.navigate(['/app/contact']);

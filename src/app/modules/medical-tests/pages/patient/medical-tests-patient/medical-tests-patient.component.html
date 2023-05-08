@@ -17,8 +17,7 @@
   <div *ngIf="isWaitingForResult()">
     Your test has been performed. Results will be available soon.
   </div>
-  <!--  <div *ngIf="isDone()">-->
-  <div>
+    <div *ngIf="isDone()">
     Results are ready, click to download:<br/>
     <p-button label="Download result" (onClick)="getResult()"></p-button>
   </div>
