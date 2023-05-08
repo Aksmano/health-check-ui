@@ -33,4 +33,9 @@ export class MedicalTestsService {
   deleteMedicalTest(testId: number): Observable<any> {
     return this.httpClient.delete(this.baseUrl + "/" + testId);
   }
+
+  getAllByPatientId(patientId: string): Observable<MedicalTestRS[]> {
+    console.log(this.baseUrl + '/patient/' + patientId);
+    return this.httpClient.get<MedicalTestRS[]>(this.baseUrl + '/patient/' + patientId);
+  }
 }
