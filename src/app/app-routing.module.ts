@@ -47,6 +47,11 @@ const routes: Routes = [
         canActivate: [SuperadminGuard],
         loadChildren: () =>
           import('./modules/superadmin/superadmin.module').then(m => m.SuperadminModule)
+      },
+      {
+        path: 'appointments',
+        loadChildren: () =>
+          import('./modules/appointments/appointments.module').then(m => m.AppointmentsModule)
       }
     ]
   },
