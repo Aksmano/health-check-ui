@@ -1,0 +1,24 @@
+<div *ngIf="medicalTest">
+  <span class="text-xl font-bold">Medical test confirmation</span><br/>
+  Date of selected examination: {{medicalTest.testDateTime}}<br/>
+  Type of test: {{medicalTest.type}}<br/>
+  Type of test: {{medicalTest.testStatus}}<br/>
+  Estimated test duration: 15 minutes<br/>
+  <div *ngIf="department && department.address">
+    Department: {{department.name}}<br/>
+    Address: {{department.address.street}}, {{department.address.houseNumber}}
+    , {{department.address.postalCode}} {{department.address.post}}<br/>
+  </div>
+  <div *ngIf="isNotPerformed()">
+    Your test is not performed yet.
+    <p-button label="Submit" (onClick)="deleteMedicalTest()"></p-button>
+
+  </div>
+  <div *ngIf="isWaitingForResult()">
+    Your test has been performed. Results will be available soon.
+  </div>
+    <div *ngIf="isDone()">
+    Results are ready, click to download:<br/>
+    <p-button label="Download result" (onClick)="getResult()"></p-button>
+  </div>
+</div>
