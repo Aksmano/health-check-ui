@@ -18,6 +18,7 @@ import { MedicalTestsPatientComponent } from './pages/patient/medical-tests-pati
 import {TimelineModule} from "primeng/timeline";
 import {CardModule} from "primeng/card";
 import { MedicalTestsAllPatientComponent } from './pages/patient/medical-tests-all-patient/medical-tests-all-patient.component';
+import {TagModule} from "primeng/tag";
 
 @NgModule({
   declarations: [
@@ -26,21 +27,22 @@ import { MedicalTestsAllPatientComponent } from './pages/patient/medical-tests-a
     MedicalTestsPatientComponent,
     MedicalTestsAllPatientComponent,
   ],
-  imports: [
-    CommonModule,
-    MedicalTestsRoutingModule,
-    DropdownModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    TableModule,
-    ToolbarModule,
-    CarouselModule,
-    ScrollPanelModule,
-    DialogModule,
-    TimelineModule,
-    CardModule
-  ]
+    imports: [
+        CommonModule,
+        MedicalTestsRoutingModule,
+        DropdownModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        TableModule,
+        ToolbarModule,
+        CarouselModule,
+        ScrollPanelModule,
+        DialogModule,
+        TimelineModule,
+        CardModule,
+        TagModule
+    ]
 })
 export class MedicalTestsModule {
 }

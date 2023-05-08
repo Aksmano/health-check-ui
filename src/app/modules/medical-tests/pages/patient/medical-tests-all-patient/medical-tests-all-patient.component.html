@@ -11,8 +11,8 @@
     <ng-template pTemplate="caption">Your medical tests</ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th style="width:20%">Department</th>
-        <th style="width:30%">Test date</th>
+        <th style="width:25%">Department</th>
+        <th style="width:25%">Test date</th>
         <th style="width:20%">Status</th>
         <th style="width:20%">Type</th>
         <th style="width:10%"></th>
@@ -22,7 +22,9 @@
       <tr>
         <td>{{ test.departmentName }}</td>
         <td>{{ test.testDateTime| date:'short' }}</td>
-        <td>{{ test.testStatus }}</td>
+        <td>
+          <p-tag [value]=" getMessageByTestType(test.testStatus)" [severity]="getSeverity(test.testStatus)"></p-tag>
+        </td>
         <td>{{ test.type }}</td>
         <td>
           <p-button type="button" icon="pi pi-eye" styleClass="p-button-text" (onClick)="goToTest(test.id)"></p-button>

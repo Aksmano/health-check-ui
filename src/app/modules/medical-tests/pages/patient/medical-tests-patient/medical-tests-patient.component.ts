@@ -8,6 +8,7 @@ import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
 import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
 import {TestStatus} from "../../../../../data/model/common/TestStatus";
 import {error} from "@angular/compiler-cli/src/transformers/util";
+import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
 
 @Component({
   selector: 'app-medical-test-patient',
@@ -17,13 +18,15 @@ import {error} from "@angular/compiler-cli/src/transformers/util";
 export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
   protected medicalTest: MedicalTestRS | undefined;
   protected department: DepartmentRS | undefined;
+  protected showDateVisible: boolean = false;
   testSubscription: Subscription | undefined;
   private pathSubscription: Subscription | undefined;
 
   constructor(private route: ActivatedRoute,
               private readonly medicalTestService: MedicalTestsService,
               private readonly toastService: ToastService,
-              private readonly departmentService: DepartmentServiceImpl) {
+              private readonly departmentService: DepartmentServiceImpl,
+              private readonly navigationService: NavigationService) {
   }
 
   ngOnInit() {
@@ -85,6 +88,9 @@ export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
     this.medicalTestService.deleteMedicalTest(this.medicalTest?.id!)
       .subscribe(data => {
         this.toastService.showSuccess('Deleted successfully.')
+        setTimeout(() => {
+          this.navigationService.toMedicalTestsPortal();
+        }, 1000);
       }, error => {
         this.toastService.showError('Error during deleting test. Try again later.')
       })

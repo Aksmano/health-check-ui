@@ -5,6 +5,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Subscription} from "rxjs";
 import {ToastService} from "../../../../../core/services/toast/toast.service";
 import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
+import {TestStatus} from "../../../../../data/model/common/TestStatus";
 
 @Component({
   selector: 'app-medical-tests-all-patient',
@@ -55,5 +56,25 @@ export class MedicalTestsAllPatientComponent implements OnInit, OnDestroy {
 
   goToTest(id: number): void {
     this.navigationService.toMedicalTestById(id);
+  }
+
+  getMessageByTestType(testStatus: string): string {
+    if (testStatus == TestStatus.DONE.toString()) {
+      return 'Done';
+    }
+    if (testStatus == TestStatus.WAITING_FOR_RESULT.toString()) {
+      return 'Waiting for result';
+    }
+    return 'Not performed';
+  }
+
+  getSeverity(testStatus: string): string {
+    if (testStatus == TestStatus.DONE.toString()) {
+      return 'success';
+    }
+    if (testStatus == TestStatus.WAITING_FOR_RESULT.toString()) {
+      return 'warning';
+    }
+    return 'danger';
   }
 }

@@ -244,7 +244,6 @@ export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy 
               console.log(error)
               this.toastService.showError('Error during creating visit. Try again later');
             }, () => {
-              this.toastService.showInfo('Completed');
             })
         });
     }
