@@ -23,18 +23,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/patient/patient.module').then(m => m.PatientModule)
       },
-      // {
-      //   path: 'admin',
-      //   canActivate: [AdminGuard],
-      //   loadChildren: () =>
-      //     import('./modules/admin/admin.module').then(m => m.AdminModule)
-      // },
-      // {
-      //   path: 'superadmin',
-      //   canActivate: [SuperadminGuard],
-      //   loadChildren: () =>
-      //   import('./modules/superadmin/superadmin.module').then(m => m.SuperadminModule)
-      // },
+      {
+        path: 'appointments',
+        loadChildren: () =>
+          import('./modules/appointments/appointments.module').then(m => m.AppointmentsModule)
+      }
     ]
   },
   {
@@ -47,11 +40,6 @@ const routes: Routes = [
         canActivate: [SuperadminGuard],
         loadChildren: () =>
           import('./modules/superadmin/superadmin.module').then(m => m.SuperadminModule)
-      },
-      {
-        path: 'appointments',
-        loadChildren: () =>
-          import('./modules/appointments/appointments.module').then(m => m.AppointmentsModule)
       }
     ]
   },
