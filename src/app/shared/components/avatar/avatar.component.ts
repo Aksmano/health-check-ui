@@ -1,13 +1,13 @@
-import {Component} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {KeycloakService} from 'keycloak-angular';
-import {KeycloakProfile} from 'keycloak-js';
-import {MenuItem} from 'primeng/api';
-import {Subject} from 'rxjs';
-import {NavigationService} from 'src/app/core/services/navigation/navigation.service';
-import {UserType} from 'src/app/data/model/common/UserType';
-import {AppState} from 'src/app/redux/index.reducers';
-import {RoleService} from "@app/services/roles/role.service";
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
+import { MenuItem } from 'primeng/api';
+import { Subject } from 'rxjs';
+import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { RoleService } from 'src/app/core/services/roles/role.service';
+import { UserType } from 'src/app/data/model/common/UserType';
+import { AppState } from 'src/app/redux/index.reducers';
 
 @Component({
   selector: 'app-avatar',
@@ -45,8 +45,6 @@ export class AvatarComponent {
     const loggedIn = await this.keycloak.isLoggedIn();
     let avatarMenuItems = [];
     if (loggedIn) {
-      avatarMenuItems.push(this.logout);
-
       if (this.keycloak.isUserInRole(UserType.Admin)
         || this.keycloak.isUserInRole(UserType.Superadmin)
       ) this.avatarMenuItems.push(this.adminPanel)
@@ -54,6 +52,8 @@ export class AvatarComponent {
       if (this.roleService.hasRolePatient()) {
         avatarMenuItems.push(this.patientTests)
       }
+
+      avatarMenuItems.push(this.logout);
     } else {
       avatarMenuItems.push(this.login);
       avatarMenuItems.push(this.register);
@@ -70,7 +70,7 @@ export class AvatarComponent {
   }
   private login = {
     label: 'Sign in',
-    con: 'pi pi-sign-in',
+    icon: 'pi pi-sign-in',
     command: () => {
       this.keycloak.login()
     }

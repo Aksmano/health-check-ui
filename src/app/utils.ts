@@ -1,6 +1,8 @@
-import {HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs";
-import {WithProcessIndicator} from "./data/model/utils/WithProcessIndicator";
+import { HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { WithProcessIndicator } from "./data/model/utils/WithProcessIndicator";
+import { Department } from "./data/model/entities/Department";
+import { Address } from "./data/model/dto/common/Address";
 
 export const getRandomNumber = (min: number, max: number) => Math.round(min + Math.random() * (max - min));
 
@@ -12,7 +14,7 @@ interface MockResponse<T> {
 }
 
 export const mockResponse = <T>(
-  {dataToReturn, error, fetchTime, typeName}: MockResponse<T>
+  { dataToReturn, error, fetchTime, typeName }: MockResponse<T>
 ): Observable<T> => {
   fetchTime = fetchTime ?? [100, 300];
   const delayTimestamp = getRandomNumber(...fetchTime);
@@ -59,3 +61,16 @@ export const objectToHttpParams = (obj: object): HttpParams => {
 }
 
 export const getPathnamesList = () => window.location.pathname.split('/').slice(1);
+
+export const getFriendlyEnumName = (name: string) => {
+  return name.split('_')
+    .map((word, i) =>
+      i === 0
+        ? word[0] + word.substring(1).toLowerCase()
+        : word.toLowerCase())
+    .join(' ');
+}
+
+export const getUserFriendlyAddress = (address: Address): string => {
+  return `${address.street} ${address.houseNumber}${!!address.apartmentNumber ? '/' + address.apartmentNumber : ''}`
+}

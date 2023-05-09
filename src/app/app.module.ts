@@ -18,9 +18,9 @@ import {EffectsModule} from '@ngrx/effects';
 import {effects} from './redux/index.effects';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {AdminPanelLayoutComponent} from './layout/admin-panel-layout/admin-panel-layout.component';
-import {SharedModule} from '@shared/shared.module';
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import { SharedModule } from './shared/shared.module';
 
 function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
