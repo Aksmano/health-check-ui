@@ -11,14 +11,29 @@
   </div>
   <div *ngIf="isNotPerformed()">
     Your test is not performed yet.
-    <p-button label="Submit" (onClick)="deleteMedicalTest()"></p-button>
-
+    <p-button label="Delete" icon="pi pi-trash" styleClass="p-button-raised p-button-danger"
+              (click)="showDateVisible = true"></p-button>
   </div>
   <div *ngIf="isWaitingForResult()">
     Your test has been performed. Results will be available soon.
   </div>
-    <div *ngIf="isDone()">
+  <div *ngIf="isDone()">
     Results are ready, click to download:<br/>
     <p-button label="Download result" (onClick)="getResult()"></p-button>
   </div>
+
+
+  <p-dialog header="Header" [(visible)]="showDateVisible" [style]="{ width: '50vw' }">
+    <ng-template pTemplate="header">
+      <span class="text-xl font-bold">Delete medical test confirmation</span>
+    </ng-template>
+    <p>
+      Are you sure you want to delete this visit?<br/>
+    </p>
+    <ng-template pTemplate="footer">
+      <p-button label="Go back" (click)="showDateVisible = false" styleClass="p-button-secondary"></p-button>
+      <p-button label="Delete" icon="pi pi-trash" styleClass="p-button-raised p-button-danger"
+                (onClick)="deleteMedicalTest()"></p-button>
+    </ng-template>
+  </p-dialog>
 </div>
