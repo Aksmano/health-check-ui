@@ -25,6 +25,58 @@ import { getFriendlyEnumName, getUserFriendlyAddress } from 'src/app/utils';
   styleUrls: ['./medical-tests-schedules-patient.component.scss']
 })
 export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy {
+  // protected medicalTestSchedules = {
+  //   departmentId: 910,
+  //   type: TestType.AUDIOMETRY,
+  //   schedules: [
+  //     {
+  //       startDateTime: new Date("2023-04-28T08:00:00"),
+  //       endDateTime: new Date("2023-04-28T16:00:00")
+  //     },
+  //     {
+  //       startDateTime: new Date("2023-04-29T08:00:00"),
+  //       endDateTime: new Date("2023-04-29T16:00:00")
+  //     },
+  //     {
+  //       startDateTime: new Date("2023-04-30T08:00:00"),
+  //       endDateTime: new Date("2023-04-30T16:00:00")
+  //     },
+  //     {
+  //       startDateTime: new Date("2023-05-01T08:00:00"),
+  //       endDateTime: new Date("2023-05-01T16:00:00")
+  //     },
+  //     {
+  //       startDateTime: new Date("2023-05-02T08:00:00"),
+  //       endDateTime: new Date("2023-05-02T16:00:00")
+  //     },
+  //     {
+  //       startDateTime: new Date("2023-05-03T08:00:00"),
+  //       endDateTime: new Date("2023-05-03T16:00:00")
+  //     }, {
+  //       startDateTime: new Date("2023-05-04T08:00:00"),
+  //       endDateTime: new Date("2023-05-04T16:00:00")
+  //     }
+  //   ],
+  //   assignedSchedules: [
+  //     {
+  //       startDateTime: new Date("2023-04-28T08:00:00"),
+  //       endDateTime: new Date("2023-04-28T08:15:00")
+  //     },
+  //     {
+  //       startDateTime: new Date("2023-04-28T09:00:00"),
+  //       endDateTime: new Date("2023-04-28T09:15:00")
+  //     },
+  //     {
+  //       startDateTime: new Date("2023-04-28T15:45:00"),
+  //       endDateTime: new Date("2023-04-28T16:00:00")
+  //     },
+  //     {
+  //       startDateTime: new Date("2023-04-30T08:00:00"),
+  //       endDateTime: new Date("2023-04-30T08:15:00")
+  //     }
+  //   ]
+  // };
+  
   public allDataLoaded: boolean = false;
 
   protected medicalTestSchedules?: MedicalTestSchedulesRS;
