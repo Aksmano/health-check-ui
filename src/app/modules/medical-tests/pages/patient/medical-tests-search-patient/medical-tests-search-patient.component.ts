@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MedicalTestsService} from "../../../../../data/services/medical-test/medical-tests.service";
-import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
-import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
-import {Subscription} from "rxjs";
-import {TestType} from "../../../../../data/model/common/TestType";
-import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MedicalTestsService } from "../../../../../data/services/medical-test/medical-tests.service";
+import { DepartmentRS } from "../../../../../data/model/dto/rs/DepartmentRS";
+import { DepartmentServiceImpl } from "../../../../../data/services/department/department.service";
+import { Subscription } from "rxjs";
+import { TestType } from "../../../../../data/model/common/TestType";
+import { NavigationService } from "../../../../../core/services/navigation/navigation.service";
 
 @Component({
   selector: 'app-medical-tests-patient',
@@ -38,7 +38,7 @@ export class MedicalTestsSearchPatientComponent implements OnInit, OnDestroy {
 
 
   constructor(private readonly departmentService: DepartmentServiceImpl,
-              private readonly navigationService: NavigationService) {
+    private readonly navigationService: NavigationService) {
   }
 
   ngOnInit(): void {
@@ -53,7 +53,6 @@ export class MedicalTestsSearchPatientComponent implements OnInit, OnDestroy {
             });
         }
       });
-
   }
 
   private mapToDropdownItem(item: any) {

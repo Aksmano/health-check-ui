@@ -16,6 +16,8 @@ import {KeycloakService} from "keycloak-angular";
 import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
 import {ToastService} from "../../../../../core/services/toast/toast.service";
 import {MedicalTestSchedulesRS} from "../../../../../data/model/dto/rs/schedules/MedicalTestSchedulesRS";
+import { Address } from 'src/app/data/model/dto/common/Address';
+import { getFriendlyEnumName, getUserFriendlyAddress } from 'src/app/utils';
 
 @Component({
   selector: 'app-medical-test-schedules-patient',
@@ -23,70 +25,21 @@ import {MedicalTestSchedulesRS} from "../../../../../data/model/dto/rs/schedules
   styleUrls: ['./medical-tests-schedules-patient.component.scss']
 })
 export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy {
-  // protected medicalTestSchedules = {
-  //   departmentId: 910,
-  //   type: TestType.AUDIOMETRY,
-  //   schedules: [
-  //     {
-  //       startDateTime: new Date("2023-04-28T08:00:00"),
-  //       endDateTime: new Date("2023-04-28T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-29T08:00:00"),
-  //       endDateTime: new Date("2023-04-29T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-30T08:00:00"),
-  //       endDateTime: new Date("2023-04-30T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-05-01T08:00:00"),
-  //       endDateTime: new Date("2023-05-01T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-05-02T08:00:00"),
-  //       endDateTime: new Date("2023-05-02T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-05-03T08:00:00"),
-  //       endDateTime: new Date("2023-05-03T16:00:00")
-  //     }, {
-  //       startDateTime: new Date("2023-05-04T08:00:00"),
-  //       endDateTime: new Date("2023-05-04T16:00:00")
-  //     }
-  //   ],
-  //   assignedSchedules: [
-  //     {
-  //       startDateTime: new Date("2023-04-28T08:00:00"),
-  //       endDateTime: new Date("2023-04-28T08:15:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-28T09:00:00"),
-  //       endDateTime: new Date("2023-04-28T09:15:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-28T15:45:00"),
-  //       endDateTime: new Date("2023-04-28T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-30T08:00:00"),
-  //       endDateTime: new Date("2023-04-30T08:15:00")
-  //     }
-  //   ]
-  // };
+  public allDataLoaded: boolean = false;
 
-  protected medicalTestSchedules: MedicalTestSchedulesRS | undefined;
-  protected department: DepartmentRS | undefined;
-  protected testType: String | undefined;
+  protected medicalTestSchedules?: MedicalTestSchedulesRS;
+  protected department?: DepartmentRS;
+  protected testType?: string;
 
-  protected chosenDate: TestDateRS | undefined;
+  protected chosenDate?: TestDateRS;
   protected showDateVisible: boolean = false;
-  protected schedulesByDay: TestScheduleDay[] | undefined;
-  private schedulesSubscription: Subscription | undefined;
-  private departmentSubscription: Subscription | undefined;
-  private pathSubscription: Subscription | undefined;
-  private resultSubscription: Subscription | undefined;
-
+  protected schedulesByDay?: TestScheduleDay[];
+  private schedulesSubscription?: Subscription;
+  private departmentSubscription?: Subscription;
+  private pathSubscription?: Subscription;
+  private resultSubscription?: Subscription;
+  private readonly endDateDaysNumber = 30;
+  private readonly oneDayInMilliseconds = 1000 * 60 * 60 * 24;
 
   constructor(private route: ActivatedRoute,
               private readonly medicalTestScheduleService: MedicalTestSchedulesService,
@@ -108,7 +61,9 @@ export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy 
 
         this.schedulesSubscription = this.medicalTestScheduleService.getTestTestSchedules({
           departmentId: parseInt(params['departmentId']),
-          testType: params['testType']
+          testType: params['testType'],
+          startDateTime: this.getCurrentLocalDateTime(),
+          endDateTime: this.getLocalDateTimeFromNow(this.endDateDaysNumber),
         })
           .subscribe(data => {
             this.medicalTestSchedules = data;
@@ -118,9 +73,26 @@ export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy 
               assignedSchedule.endDateTime = new Date(assignedSchedule.endDateTime);
             }
             this.schedulesByDay = this.getSchedulesByDay(this.medicalTestSchedules.schedules);
+            this.allDataLoaded = true;
           })
       }
     );
+  }
+
+  public getFriendlyAddress(address: Address) {
+    return `${getUserFriendlyAddress(address)}, ${address.city}`;
+  }
+
+  public getTestTypeName() {
+    const typeName = this.testType ?? "";
+    return getFriendlyEnumName(typeName);
+  }
+
+  public linkToGoogleMaps(address: Address) {
+    const baseUrl = "https://www.google.com/maps/search/";  //wybickiego+14+krakow
+    const linkEnd = getUserFriendlyAddress(address).replace('/', '+').replace(' ', '+') + '+' + address.city;
+
+    return new URL(baseUrl + linkEnd);
   }
 
   private getSchedulesByDay(schedules: ScheduleRS[]): TestScheduleDay[] {
@@ -153,7 +125,7 @@ export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy 
         testScheduleDays.push(entry);
       }
     }
-    console.log(testScheduleDays)
+    console.log(testScheduleDays, schedulesByDay)
     return testScheduleDays;
   }
 
@@ -173,6 +145,14 @@ export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy 
 
   private addMinutes(date: Date, minutes: number): Date {
     return new Date(date.getTime() + minutes * 60000);
+  }
+
+  private getCurrentLocalDateTime() {
+    return (new Date()).toISOString().substring(0,19);
+  }
+
+  private getLocalDateTimeFromNow(days: number) {
+    return new Date((new Date()).getTime() + this.oneDayInMilliseconds * days).toISOString().substring(0,19)
   }
 
   ngOnDestroy(): void {

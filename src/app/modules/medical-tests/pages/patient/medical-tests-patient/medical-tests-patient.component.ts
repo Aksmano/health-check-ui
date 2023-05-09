@@ -1,13 +1,13 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
-import {MedicalTestsService} from "../../../../../data/services/medical-test/medical-tests.service";
-import {MedicalTestRS} from "../../../../../data/model/dto/rs/MedicalTestRS";
-import {ToastService} from "../../../../../core/services/toast/toast.service";
-import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
-import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
-import {TestStatus} from "../../../../../data/model/common/TestStatus";
-import {error} from "@angular/compiler-cli/src/transformers/util";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
+import { MedicalTestsService } from "../../../../../data/services/medical-test/medical-tests.service";
+import { MedicalTestRS } from "../../../../../data/model/dto/rs/MedicalTestRS";
+import { ToastService } from "../../../../../core/services/toast/toast.service";
+import { DepartmentRS } from "../../../../../data/model/dto/rs/DepartmentRS";
+import { DepartmentServiceImpl } from "../../../../../data/services/department/department.service";
+import { TestStatus } from "../../../../../data/model/common/TestStatus";
+import { error } from "@angular/compiler-cli/src/transformers/util";
 
 @Component({
   selector: 'app-medical-test-patient',
@@ -21,26 +21,32 @@ export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
   private pathSubscription: Subscription | undefined;
 
   constructor(private route: ActivatedRoute,
-              private readonly medicalTestService: MedicalTestsService,
-              private readonly toastService: ToastService,
-              private readonly departmentService: DepartmentServiceImpl) {
+    private readonly medicalTestService: MedicalTestsService,
+    private readonly toastService: ToastService,
+    private readonly departmentService: DepartmentServiceImpl) {
   }
 
   ngOnInit() {
     this.removeSubscriptions()
     this.pathSubscription = this.route.params.subscribe(params => {
       this.testSubscription = this.medicalTestService.getMedicalTestById(params['id'])
-        .subscribe(data => {
-          this.medicalTest = data;
-          console.log(this.medicalTest);
-          this.departmentService.getDepartmentById(this.medicalTest.departmentId)
-            .subscribe(data => {
-              this.department = data
-            }, error => {
-              this.toastService.showError('Error during fetching department. Try again later.')
-            })
-        }, error => {
-          this.toastService.showError('Error during fetching test. Try again later.')
+        .subscribe({
+          next: data => {
+            this.medicalTest = data;
+            console.log(this.medicalTest);
+            this.departmentService.getDepartmentById(this.medicalTest.departmentId)
+              .subscribe({
+                next: data => {
+                  this.department = data
+                },
+                error: err => {
+                  this.toastService.showError('Error during fetching department. Try again later.')
+                }
+              })
+          },
+          error: err => {
+            this.toastService.showError('Error during fetching test. Try again later.')
+          }
         })
     });
   }

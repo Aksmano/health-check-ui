@@ -18,6 +18,7 @@ import { MedicalTestsPatientComponent } from './pages/patient/medical-tests-pati
 import {TimelineModule} from "primeng/timeline";
 import {CardModule} from "primeng/card";
 import { MedicalTestsAllPatientComponent } from './pages/patient/medical-tests-all-patient/medical-tests-all-patient.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MedicalTestsAllPatientComponent } from './pages/patient/medical-tests-a
     ScrollPanelModule,
     DialogModule,
     TimelineModule,
-    CardModule
+    CardModule,
+    SharedModule
   ]
 })
 export class MedicalTestsModule {

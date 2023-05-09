@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router} from '@angular/router';
-import {RoleService} from "@app/services/roles/role.service";
-import {TestType} from "@data/model/common/TestType";
+import { RoleService } from '../roles/role.service';
 
 @Injectable({
   providedIn: 'root'
