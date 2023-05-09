@@ -1,13 +1,16 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
-import {MedicalTestsService} from "../../../../../data/services/medical-test/medical-tests.service";
-import {MedicalTestRS} from "../../../../../data/model/dto/rs/MedicalTestRS";
-import {ToastService} from "../../../../../core/services/toast/toast.service";
-import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
-import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
-import {TestStatus} from "../../../../../data/model/common/TestStatus";
-import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
+import { MedicalTestsService } from "../../../../../data/services/medical-test/medical-tests.service";
+import { MedicalTestRS } from "../../../../../data/model/dto/rs/MedicalTestRS";
+import { ToastService } from "../../../../../core/services/toast/toast.service";
+import { DepartmentRS } from "../../../../../data/model/dto/rs/DepartmentRS";
+import { DepartmentServiceImpl } from "../../../../../data/services/department/department.service";
+import { TestStatus } from "../../../../../data/model/common/TestStatus";
+import { NavigationService } from "../../../../../core/services/navigation/navigation.service";
+import { TestType } from 'src/app/data/model/common/TestType';
+import { Address } from 'src/app/data/model/dto/common/Address';
+import { getFriendlyEnumName, getUserFriendlyAddress } from 'src/app/utils';
 
 @Component({
   selector: 'app-medical-test-patient',
@@ -15,17 +18,28 @@ import {NavigationService} from "../../../../../core/services/navigation/navigat
   styleUrls: ['./medical-tests-patient.component.scss']
 })
 export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
-  protected medicalTest: MedicalTestRS | undefined;
+  protected medicalTest: MedicalTestRS | undefined
   protected department: DepartmentRS | undefined;
+  // protected medicalTest: MedicalTestRS | undefined = {
+  //   departmentId: 910,
+  //   departmentName: "Oddzial na wybickiego",
+  //   id: 150,
+  //   medicalTestResultId: 214,
+  //   patientUUID: "787b112f-0689-48fb-af11-7ca5674f363e",
+  //   testDateTime: new Date("2023-05-11T08:30:00"),
+  //   testStatus: TestStatus.NOT_PERFORMED,
+  //   type: TestType.AUDIOMETRY
+  // };
+  // protected department: DepartmentRS | undefined = { "id": 910, "name": "Oddzial na wybickiego", "address": { "country": "PL", "city": "Krakow", "street": "Wybickiego", "houseNumber": "56", "apartmentNumber": "106", "postalCode": "12-123", "post": "Krakow Lobzow", "county": "krakowski", "province": "Malopolskie" } };
   protected showDateVisible: boolean = false;
   testSubscription: Subscription | undefined;
   private pathSubscription: Subscription | undefined;
 
   constructor(private route: ActivatedRoute,
-              private readonly medicalTestService: MedicalTestsService,
-              private readonly toastService: ToastService,
-              private readonly departmentService: DepartmentServiceImpl,
-              private readonly navigationService: NavigationService) {
+    private readonly medicalTestService: MedicalTestsService,
+    private readonly toastService: ToastService,
+    private readonly departmentService: DepartmentServiceImpl,
+    private readonly navigationService: NavigationService) {
   }
 
   ngOnInit() {
@@ -55,6 +69,37 @@ export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.removeSubscriptions();
+  }
+
+
+  public getFriendlyAddress(address: Address) {
+    return `${getUserFriendlyAddress(address)}, ${address.city}`;
+  }
+
+  public getEnumValueName(constEnumValue: string) {
+    return getFriendlyEnumName(constEnumValue);
+  }
+
+  public linkToGoogleMaps(address: Address) {
+    const baseUrl = "https://www.google.com/maps/search/";  //wybickiego+14+krakow
+    const linkEnd = getUserFriendlyAddress(address).replace('/', '+').replace(' ', '+') + '+' + address.city;
+
+    return new URL(baseUrl + linkEnd);
+  }
+
+  public friendlyDateTime(date: Date) {
+    return `${date.toLocaleDateString()}, ${date.toLocaleTimeString()}`;
+  }
+
+  public tabColor(testStatus: TestStatus) {
+    switch (testStatus) {
+      case TestStatus.DONE:
+        return "success";
+      case TestStatus.NOT_PERFORMED:
+        return "info";
+      case TestStatus.WAITING_FOR_RESULT:
+        return "warning";
+    }
   }
 
   private removeSubscriptions(): void {

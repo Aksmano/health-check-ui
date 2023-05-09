@@ -18,7 +18,7 @@
       <div class="w-1rem"></div>
     </div>
   </div>
-  <div *ngIf="schedulesByDay" class="flex align-items-center justify-content-center flex-grow-1 gap-3 ">
+  <div *ngIf="schedulesByDay" class="flex align-items-center justify-content-center flex-grow-1 gap-3 text-900">
     <p-carousel *ngIf="schedulesByDay.length > 0; else noDataInfo" [value]="schedulesByDay" [numVisible]="5" [numScroll]="5" [circular]="false" class="flex-grow-1">
       <ng-template let-scheduleByDay pTemplate="item">
         <div class="flex flex-column align-items-center justify-content-center">
@@ -49,14 +49,14 @@
     <ng-template pTemplate="header">
       <span class="text-xl font-bold">Medical test confirmation</span>
     </ng-template>
-    <ng-template class="text-color" [style]="{marginBottom: '0'}" pTemplate="content" class="mb-0">
-      <div class="flex flex-column mb-0 text-color">
-        <div class="text-color">Date of selected examination: <b class="mb-2">{{chosenDate.startDateTime |
+    <ng-template class="text-900" [style]="{marginBottom: '0'}" pTemplate="content" class="mb-0">
+      <div class="flex flex-column mb-0 text-900">
+        <div class="text-900">Date of selected examination: <b class="mb-2">{{chosenDate.startDateTime |
             date:'long'}}</b></div>
-        <div class="text-color">Estimated test duration: <b class="mb-2">15 minutes</b></div>
-        <div class="text-color">Department: <b class="mb-2">{{department.name}}</b></div>
-        <div class="mb-5 text-color">Address: <b>{{getFriendlyAddress(department.address)}}</b></div>
-        <div class="font-bold text-color">Are you sure you want to confirm the date of your visit?</div><br />
+        <div class="text-900">Estimated test duration: <b class="mb-2">15 minutes</b></div>
+        <div class="text-900">Department: <b class="mb-2">{{department.name}}</b></div>
+        <div class="mb-5 text-900">Address: <b>{{getFriendlyAddress(department.address)}}</b></div>
+        <div class="font-bold text-900">Are you sure you want to confirm the date of your visit?</div><br />
       </div>
     </ng-template>
     <ng-template pTemplate="footer" class="mt-0">
