@@ -1,16 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { Subscription } from "rxjs";
-import { MedicalTestsService } from "../../../../../data/services/medical-test/medical-tests.service";
-import { MedicalTestRS } from "../../../../../data/model/dto/rs/MedicalTestRS";
-import { ToastService } from "../../../../../core/services/toast/toast.service";
-import { DepartmentRS } from "../../../../../data/model/dto/rs/DepartmentRS";
-import { DepartmentServiceImpl } from "../../../../../data/services/department/department.service";
-import { TestStatus } from "../../../../../data/model/common/TestStatus";
-import { NavigationService } from "../../../../../core/services/navigation/navigation.service";
-import { TestType } from 'src/app/data/model/common/TestType';
-import { Address } from 'src/app/data/model/dto/common/Address';
-import { getFriendlyEnumName, getUserFriendlyAddress } from 'src/app/utils';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute} from "@angular/router";
+import {Subscription} from "rxjs";
+import {MedicalTestsService} from "../../../../../data/services/medical-test/medical-tests.service";
+import {MedicalTestRS} from "../../../../../data/model/dto/rs/MedicalTestRS";
+import {ToastService} from "../../../../../core/services/toast/toast.service";
+import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
+import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
+import {TestStatus} from "../../../../../data/model/common/TestStatus";
+import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
+import {TestType} from 'src/app/data/model/common/TestType';
+import {Address} from 'src/app/data/model/dto/common/Address';
+import {getFriendlyEnumName, getUserFriendlyAddress} from 'src/app/utils';
 
 @Component({
   selector: 'app-medical-test-patient',
@@ -36,10 +36,10 @@ export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
   private pathSubscription: Subscription | undefined;
 
   constructor(private route: ActivatedRoute,
-    private readonly medicalTestService: MedicalTestsService,
-    private readonly toastService: ToastService,
-    private readonly departmentService: DepartmentServiceImpl,
-    private readonly navigationService: NavigationService) {
+              private readonly medicalTestService: MedicalTestsService,
+              private readonly toastService: ToastService,
+              private readonly departmentService: DepartmentServiceImpl,
+              private readonly navigationService: NavigationService) {
   }
 
   ngOnInit() {
@@ -49,6 +49,7 @@ export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
         .subscribe({
           next: data => {
             this.medicalTest = data;
+            this.medicalTest.testDateTime = new Date(this.medicalTest.testDateTime);
             console.log(this.medicalTest);
             this.departmentService.getDepartmentById(this.medicalTest.departmentId)
               .subscribe({

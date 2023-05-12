@@ -2,12 +2,10 @@ import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {KeycloakService} from 'keycloak-angular';
 import {MenuItem} from 'primeng/api/menuitem';
-import {Subject, takeUntil} from 'rxjs';
+import {Subject} from 'rxjs';
 import {NavigationService} from 'src/app/core/services/navigation/navigation.service';
-import { RoleService } from 'src/app/core/services/roles/role.service';
-import {loadKeycloakInfoRequest} from 'src/app/redux/actions/user-info-actions/keylcloak-info.actions';
+import {RoleService} from 'src/app/core/services/roles/role.service';
 import {AppState} from 'src/app/redux/index.reducers';
-import {selectKeycloakProfile} from 'src/app/redux/selectors/user-info-selectors/keycloak-info.selector';
 
 @Component({
   selector: 'app-header',

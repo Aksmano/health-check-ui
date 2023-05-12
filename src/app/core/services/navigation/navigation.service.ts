@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router} from '@angular/router';
-import { RoleService } from '../roles/role.service';
+import {RoleService} from '../roles/role.service';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +73,10 @@ export class NavigationService {
 
   public toMedicalTestsPortal(path: string[] = [], extras?: NavigationExtras) {
     if (this.roleService.hasRoleReceptionist()) {
-      this.router.navigate(['/app/medical-tests/receptionist/search', ...path], {...extras, relativeTo: this.route});
+      this.router.navigate(['/app/medical-tests/receptionist/medical-test-picker', ...path], {
+        ...extras,
+        relativeTo: this.route
+      });
     } else if (this.roleService.hasRoleDoctor()) {
       this.router.navigate(['/app/medical-tests/doctor', ...path], {...extras, relativeTo: this.route});
     } else if (this.roleService.hasRolePatient()) {
@@ -104,5 +107,33 @@ export class NavigationService {
 
   public toContact() {
     this.router.navigate(['/app/contact']);
+  }
+
+  public toCreateMedicalTestCreateVisit(departmentId: number, type: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['receptionist/medical-test-create-visit/' + departmentId + '/' + type, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toMedicalTestInsertSchedules(departmentId: number, type: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['receptionist/medical-test-insert-schedules/' + departmentId + '/' + type, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toMedicalTestDetailsReceptionist(id: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['receptionist/medical-test-details/' + id, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toMedicalTestVisitsByDepartment(departmentId: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['receptionist/medical-test-visits/' + departmentId, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
   }
 }
