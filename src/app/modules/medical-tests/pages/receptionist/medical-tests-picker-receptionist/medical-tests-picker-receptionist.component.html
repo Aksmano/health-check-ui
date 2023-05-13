@@ -1,5 +1,6 @@
 <div>
-  Department info...
+  <p-button label="Show all visits"
+            (onClick)="navigationService.toMedicalTestVisitsByDepartment(departmentId)"></p-button>
 </div>
 <p-table
   [value]="types"
