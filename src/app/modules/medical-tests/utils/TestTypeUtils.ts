@@ -1,4 +1,5 @@
 import {TestType} from "../../../data/model/common/TestType";
+import {getFriendlyEnumName} from "../../../utils";
 
 export function getTypesAsStringArray() {
 
@@ -9,7 +10,7 @@ export function getTypesAsStringArray() {
 }
 
 export function getTypesAsDropdownItem(): any {
-  Object.keys(TestType)
+  return Object.keys(TestType)
     .filter((item) => {
       return isNaN(Number(item));
     })
@@ -23,4 +24,8 @@ function mapToDropdownItem(item: any) {
     name: item,
     code: item
   }
+}
+
+export function getEnumValueName(constEnumValue: string) {
+  return getFriendlyEnumName(constEnumValue);
 }

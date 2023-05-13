@@ -41,6 +41,7 @@ import {
 } from './pages/receptionist/medical-tests-picker-receptionist/medical-tests-picker-receptionist.component';
 import {CalendarModule} from "primeng/calendar";
 import {PaginatorModule} from "primeng/paginator";
+import {FileUploadModule} from "primeng/fileupload";
 
 @NgModule({
   declarations: [
@@ -54,25 +55,26 @@ import {PaginatorModule} from "primeng/paginator";
     MedicalTestsReceptionistComponent,
     MedicalTestsPickerReceptionistComponent,
   ],
-  imports: [
-    CommonModule,
-    MedicalTestsRoutingModule,
-    DropdownModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    TableModule,
-    ToolbarModule,
-    CarouselModule,
-    ScrollPanelModule,
-    DialogModule,
-    TimelineModule,
-    CardModule,
-    TagModule,
-    SharedModule,
-    CalendarModule,
-    PaginatorModule
-  ]
+    imports: [
+        CommonModule,
+        MedicalTestsRoutingModule,
+        DropdownModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        TableModule,
+        ToolbarModule,
+        CarouselModule,
+        ScrollPanelModule,
+        DialogModule,
+        TimelineModule,
+        CardModule,
+        TagModule,
+        SharedModule,
+        CalendarModule,
+        PaginatorModule,
+        FileUploadModule
+    ]
 })
 export class MedicalTestsModule {
 }

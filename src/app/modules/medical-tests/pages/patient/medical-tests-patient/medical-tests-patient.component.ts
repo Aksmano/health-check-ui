@@ -20,17 +20,6 @@ import {getFriendlyEnumName, getUserFriendlyAddress} from 'src/app/utils';
 export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
   protected medicalTest: MedicalTestRS | undefined
   protected department: DepartmentRS | undefined;
-  // protected medicalTest: MedicalTestRS | undefined = {
-  //   departmentId: 910,
-  //   departmentName: "Oddzial na wybickiego",
-  //   id: 150,
-  //   medicalTestResultId: 214,
-  //   patientUUID: "787b112f-0689-48fb-af11-7ca5674f363e",
-  //   testDateTime: new Date("2023-05-11T08:30:00"),
-  //   testStatus: TestStatus.NOT_PERFORMED,
-  //   type: TestType.AUDIOMETRY
-  // };
-  // protected department: DepartmentRS | undefined = { "id": 910, "name": "Oddzial na wybickiego", "address": { "country": "PL", "city": "Krakow", "street": "Wybickiego", "houseNumber": "56", "apartmentNumber": "106", "postalCode": "12-123", "post": "Krakow Lobzow", "county": "krakowski", "province": "Malopolskie" } };
   protected showDateVisible: boolean = false;
   testSubscription: Subscription | undefined;
   private pathSubscription: Subscription | undefined;

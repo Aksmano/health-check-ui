@@ -9,8 +9,12 @@
       <div class="flex align-items-center justify-content-between">
         Test type: {{type}}
         <div>
-          <p-button style="padding: 0.3rem" icon="pi pi-chevron-left" (onClick)="changeDate(false)"></p-button>
-          <p-button style="padding: 0.3rem" icon="pi pi-chevron-right" (onClick)="changeDate(true)"></p-button>
+          <p-button style="padding: 0.3rem" icon="pi pi-chevron-left"
+                    styleClass="p-button-raised p-button-text p-button-secondary"
+                    (onClick)="changeDate(false)"></p-button>
+          <p-button style="padding: 0.3rem" icon="pi pi-chevron-right"
+                    styleClass="p-button-raised p-button-text p-button-secondary"
+                    (onClick)="changeDate(true)"></p-button>
         </div>
       </div>
     </ng-template>
