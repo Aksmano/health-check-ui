@@ -1,4 +1,5 @@
 export const ONE_DAY_IN_MILISECONDS = 1000 * 60 * 60 * 24;
+export const ONE_WEEK_IN_MILLISECONDS = ONE_DAY_IN_MILISECONDS * 7;
 
 export function getAllDatesByWorkingHoursInDay(date: Date) {
   let dates = []
