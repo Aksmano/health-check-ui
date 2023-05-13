@@ -1,7 +1,8 @@
 export const ONE_DAY_IN_MILISECONDS = 1000 * 60 * 60 * 24;
-export function getAllDatesByHoursInDay(date: Date) {
+
+export function getAllDatesByWorkingHoursInDay(date: Date) {
   let dates = []
-  for (let i = 0; i < 24; i++) {
+  for (let i = 8; i < 22; i++) {
     let current = new Date(date.getFullYear(), date.getMonth(), date.getDate(), i)
     dates.push(current)
   }
@@ -9,15 +10,23 @@ export function getAllDatesByHoursInDay(date: Date) {
 }
 
 export function getTheLastDayOfWeek(currentDate: Date) {
-  let curr = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-  let ret = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6)).toISOString().substring(0, 19);
-  return ret;
+  return getStartOfNextWeek(currentDate).toISOString().substring(0, 19);
 }
 
 export function getFirstDayOfWeek(currentDate: Date) {
-  let curr = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
-  let ret = new Date(curr.setDate(curr.getDate() - curr.getDay())).toISOString().substring(0, 19);
-  return ret;
+  return getStartOfWeek(currentDate).toISOString().substring(0, 19);
+}
+
+export function getStartOfWeek(date: Date): Date {
+  const startOfWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay() + 1, 0, 0, 0);
+  return startOfWeek;
+}
+
+export function getStartOfNextWeek(date: Date): Date {
+  const startOfWeek = getStartOfWeek(date);
+  const startOfNextWeek = new Date(startOfWeek.getTime());
+  startOfNextWeek.setDate(startOfNextWeek.getDate() + 7);
+  return startOfNextWeek;
 }
 
 export function getAllDaysInWeekByDate(currDate: Date) {

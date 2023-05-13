@@ -7,7 +7,7 @@ import {
 import {ActivatedRoute} from "@angular/router";
 import {MedicalTestScheduleCriteriaQP} from "../../../qp/medical-test-schedule-criteria-qp";
 import {
-  getAllDatesByHoursInDay,
+  getAllDatesByWorkingHoursInDay,
   getAllDaysInWeekByDate,
   getFirstDayOfWeek,
   getTheLastDayOfWeek
@@ -64,12 +64,12 @@ export class MedicalTestsInsertSchedulesReceptionistComponent implements OnInit,
             assignedSchedule.startDateTime = new Date(assignedSchedule.startDateTime);
             assignedSchedule.endDateTime = new Date(assignedSchedule.endDateTime);
           }
-          this.hours = getAllDatesByHoursInDay(this.currentDate!);
+          this.hours = getAllDatesByWorkingHoursInDay(this.currentDate!);
           this.days = getAllDaysInWeekByDate(this.currentDate!);
         }, error => {
           this.toastService.showError('Error during fetching schedules. Try again later.')
           this.assignedSchedules = [];
-          this.hours = getAllDatesByHoursInDay(this.currentDate!);
+          this.hours = getAllDatesByWorkingHoursInDay(this.currentDate!);
           this.days = getAllDaysInWeekByDate(this.currentDate!);
         });
       });
@@ -119,10 +119,10 @@ export class MedicalTestsInsertSchedulesReceptionistComponent implements OnInit,
 
   addSchedule() {
     let endDate = new Date(this.chosenDate!);
-    endDate.setTime(endDate.getTime() + (this.chosenHours * 60 * 60 * 1000));
+    endDate.setTime(endDate.getTime() + (this.chosenHours * 60 * 60 * 1000) + 2 * 60 * 60 * 1000);
     endDate = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate(), endDate.getHours());
     let startDate = new Date(this.chosenDate!.getFullYear(), this.chosenDate!.getMonth(),
-      this.chosenDate!.getDate(), this.chosenDate!.getHours());
+      this.chosenDate!.getDate(), this.chosenDate!.getHours() + 2);
     let rq = {
       departmentId: this.departmentId!,
       testType: TestType[this.type as keyof typeof TestType],
@@ -135,6 +135,8 @@ export class MedicalTestsInsertSchedulesReceptionistComponent implements OnInit,
     } as MedicalTestScheduleRQ;
     this.medicalTestScheduleService.addMedicalTestSchedule(rq).subscribe(data => {
       this.toastService.showSuccess('Schedules inserted successfully');
+      this.showDateVisible = false;
+      this.currentDate$.next(this.currentDate!)
     }, error => {
       this.toastService.showError('Error occurred during inserting schedules. Try again later.')
     })
