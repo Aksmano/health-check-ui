@@ -39,6 +39,8 @@ import {
 import {
   MedicalTestsPickerReceptionistComponent
 } from './pages/receptionist/medical-tests-picker-receptionist/medical-tests-picker-receptionist.component';
+import {CalendarModule} from "primeng/calendar";
+import {PaginatorModule} from "primeng/paginator";
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import {
     TimelineModule,
     CardModule,
     TagModule,
-    SharedModule
+    SharedModule,
+    CalendarModule,
+    PaginatorModule
   ]
 })
 export class MedicalTestsModule {

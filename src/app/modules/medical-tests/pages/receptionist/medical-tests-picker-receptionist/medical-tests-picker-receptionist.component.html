@@ -2,7 +2,6 @@
   Department info...
 </div>
 <p-table
-  #dt2
   [value]="types"
   dataKey="id"
   [rows]="10"
@@ -10,7 +9,7 @@
   [rowsPerPageOptions]="[10, 25, 50]"
   [paginator]="true"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [globalFilterFields]="['name', 'country.name', 'representative.name', 'status']"
+  [globalFilterFields]="['name']"
   [tableStyle]="{ 'min-width': '100%' }"
 >
   <ng-template pTemplate="header">
@@ -31,12 +30,12 @@
         {{ type.value }}
       </td>
       <td>
-        <p-button icon="pi pi-plus" label="Add schedules"
-                  (onClick)="navigationService.toCreateMedicalTestCreateVisit(departmentId, type.value)"></p-button>
+        <p-button icon="pi pi-calendar-plus" label="Add schedules"
+                  (onClick)="navigationService.toMedicalTestInsertSchedules(departmentId, type.value)"></p-button>
       </td>
       <td>
-        <p-button icon="pi pi-search" label="Create visit"
-                  (onClick)="navigationService.toMedicalTestInsertSchedules(departmentId, type.value)"></p-button>
+        <p-button icon="pi pi-plus" label="Create visit"
+                  (onClick)="navigationService.toCreateMedicalTestCreateVisit(departmentId, type.value)"></p-button>
       </td>
     </tr>
   </ng-template>

@@ -46,9 +46,7 @@ export class HeaderComponent implements OnInit {
       avatarMenuItems.push(this.login);
       avatarMenuItems.push(this.register);
     }
-    console.log('before role')
     if (this.roleService.hasRolePatient()) {
-      console.log('role')
       avatarMenuItems.push(this.patientTests)
     }
 

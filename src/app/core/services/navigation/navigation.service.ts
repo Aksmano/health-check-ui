@@ -110,28 +110,28 @@ export class NavigationService {
   }
 
   public toCreateMedicalTestCreateVisit(departmentId: number, type: string, path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['receptionist/medical-test-create-visit/' + departmentId + '/' + type, ...path], {
+    this.router.navigate(['/app/medical-tests/receptionist/medical-test-create-visit/' + departmentId + '/' + type, ...path], {
       ...extras,
       relativeTo: this.route
     });
   }
 
   public toMedicalTestInsertSchedules(departmentId: number, type: string, path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['receptionist/medical-test-insert-schedules/' + departmentId + '/' + type, ...path], {
+    this.router.navigate(['/app/medical-tests/receptionist/medical-test-insert-schedules/' + departmentId + '/' + type, ...path], {
       ...extras,
       relativeTo: this.route
     });
   }
 
   public toMedicalTestDetailsReceptionist(id: number, path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['receptionist/medical-test-details/' + id, ...path], {
+    this.router.navigate(['/app/medical-tests/medical-test-details/' + id, ...path], {
       ...extras,
       relativeTo: this.route
     });
   }
 
   public toMedicalTestVisitsByDepartment(departmentId: number, path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['receptionist/medical-test-visits/' + departmentId, ...path], {
+    this.router.navigate(['/app/medical-tests/medical-test-visits/' + departmentId, ...path], {
       ...extras,
       relativeTo: this.route
     });
