@@ -29,9 +29,6 @@
   <div class="flex align-items-center justify-content-center flex-grow-1 gap-3 text-900">
     <p-carousel [value]="schedulesByDay" [numVisible]="7"
                 [numScroll]="7" [circular]="false" class="flex-grow-1">
-      <ng-template pTemplate="previousicon">
-        <div (click)="elo()">dadadad</div>
-      </ng-template>
       <ng-template let-scheduleByDay pTemplate="item">
         <div class="flex flex-column align-items-center justify-content-center">
           <div>

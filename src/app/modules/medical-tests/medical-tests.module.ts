@@ -42,6 +42,8 @@ import {
 import {CalendarModule} from "primeng/calendar";
 import {PaginatorModule} from "primeng/paginator";
 import {FileUploadModule} from "primeng/fileupload";
+import {PatientsTableComponent} from './components/patients-table/patients-table.component';
+import {RippleModule} from "primeng/ripple";
 
 @NgModule({
   declarations: [
@@ -54,27 +56,29 @@ import {FileUploadModule} from "primeng/fileupload";
     MedicalTestsVisitsReceptionistComponent,
     MedicalTestsReceptionistComponent,
     MedicalTestsPickerReceptionistComponent,
+    PatientsTableComponent,
   ],
-    imports: [
-        CommonModule,
-        MedicalTestsRoutingModule,
-        DropdownModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ButtonModule,
-        TableModule,
-        ToolbarModule,
-        CarouselModule,
-        ScrollPanelModule,
-        DialogModule,
-        TimelineModule,
-        CardModule,
-        TagModule,
-        SharedModule,
-        CalendarModule,
-        PaginatorModule,
-        FileUploadModule
-    ]
+  imports: [
+    CommonModule,
+    MedicalTestsRoutingModule,
+    DropdownModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    TableModule,
+    ToolbarModule,
+    CarouselModule,
+    ScrollPanelModule,
+    DialogModule,
+    TimelineModule,
+    CardModule,
+    TagModule,
+    SharedModule,
+    CalendarModule,
+    PaginatorModule,
+    FileUploadModule,
+    RippleModule
+  ]
 })
 export class MedicalTestsModule {
 }
