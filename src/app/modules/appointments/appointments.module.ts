@@ -9,18 +9,20 @@ import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { DataViewModule } from 'primeng/dataview';
-import { SharedModule } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { RatingModule } from 'primeng/rating';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { CarouselModule } from 'primeng/carousel';
 import { DropdownModule } from 'primeng/dropdown';
 import { KeyFilterModule } from 'primeng/keyfilter';
+import { SharedModule } from "../../shared/shared.module";
+import { SearchTableComponent } from './pages/search-table/search-table.component';
 
 
 @NgModule({
   declarations: [
-    SearchComponent
+    SearchComponent,
+    SearchTableComponent
   ],
   imports: [
     CommonModule,
@@ -31,13 +33,13 @@ import { KeyFilterModule } from 'primeng/keyfilter';
     InputTextModule,
     AutoCompleteModule,
     DataViewModule,
-    SharedModule,
     DividerModule,
     RatingModule,
     ScrollPanelModule,
     CarouselModule,
     DropdownModule,
-    KeyFilterModule
+    KeyFilterModule,
+    SharedModule
   ]
 })
 export class AppointmentsModule { }

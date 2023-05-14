@@ -8,7 +8,8 @@ export enum TableViewType {
   Patient = 'Patient',
   Receptionist = 'Receptionist',
   Admin = 'Admin',
-  Department = 'Department'
+  Department = 'Department',
+  DoctorAppointment = 'Doctor Appointment'
 }
 
 @Component({

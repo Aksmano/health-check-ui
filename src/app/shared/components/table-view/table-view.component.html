@@ -5,5 +5,8 @@
     [classNames]="classNames" [rows]="getRows()" [paginator]="paginator"></app-receptionist-view>
 <app-department-view *ngIf="viewType == 'Department' && !loadingValues" class="w-full" [values]="values"
     [classNames]="classNames" [rows]="getRows()" [paginator]="paginator"></app-department-view>
+<app-doctor-appointment-view *ngIf="viewType == 'Doctor Appointment' && !loadingValues" class="w-full" [values]="values"
+    [classNames]="classNames" [rows]="getRows()" [paginator]="paginator"></app-doctor-appointment-view>
 
-<app-loading-spinner *ngIf="loadingValues" class="my-5" title="Loading {{viewType.toLowerCase()}}s..."></app-loading-spinner>
+<app-loading-spinner *ngIf="loadingValues" class="my-5"
+    title="Loading {{viewType.toLowerCase()}}s..."></app-loading-spinner>

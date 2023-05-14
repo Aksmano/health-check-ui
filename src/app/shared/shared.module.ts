@@ -21,6 +21,7 @@ import { DepartmentViewComponent } from './components/table-view/table-views/dep
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { AdminViewComponent } from './components/table-view/table-views/admin-view/admin-view.component';
+import { DoctorAppointmentViewComponent } from './components/table-view/table-views/doctor-appointment-view/doctor-appointment-view.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { AdminViewComponent } from './components/table-view/table-views/admin-vi
     DoctorViewComponent,
     ReceptionistViewComponent,
     DepartmentViewComponent,
-    AdminViewComponent
+    AdminViewComponent,
+    DoctorAppointmentViewComponent
   ],
   imports: [
     CommonModule,

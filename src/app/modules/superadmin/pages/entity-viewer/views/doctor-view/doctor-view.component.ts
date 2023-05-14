@@ -70,7 +70,7 @@ export class DoctorViewComponent extends EntityView {
   }
 
   setSpecialization(spec: any) {
-    this.valueRQ.specialization = parseInt(spec.value.code);
+    this.valueRQ.specialization = spec.value.code;
     console.log(this.valueRQ.specialization);
   }
 

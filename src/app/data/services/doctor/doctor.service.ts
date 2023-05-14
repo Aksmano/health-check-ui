@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { mockResponse, objectToHttpParams } from 'src/app/utils';
@@ -21,9 +21,33 @@ export class DoctorServiceImpl implements DoctorService {
   getAllDoctors(
     doctorsCriteria: DoctorsCriteriaQP = {} as DoctorsCriteriaQP
   ): Observable<DoctorRS[]> {
-    const doctorsParams = objectToHttpParams(doctorsCriteria);
+    const httpParams: { [key: string]: string | number } = {}
 
-    return this.httpClient.get<DoctorRS[]>(this.baseUrl, { params: doctorsParams });
+      console.log(!!doctorsCriteria.specialization);
+
+    if (!!doctorsCriteria.specialization) {
+      console.log(doctorsCriteria.specialization);
+
+      httpParams['specialization'] =  doctorsCriteria.specialization
+    }
+
+    if (!!doctorsCriteria.departmentId) {
+      console.log(doctorsCriteria.departmentId);
+      httpParams['departmentId'] = doctorsCriteria.departmentId
+    }
+
+    if (!!doctorsCriteria.firstName) {
+      httpParams['firstName'] = doctorsCriteria.firstName
+    }
+
+    if (!!doctorsCriteria.lastName) {
+      httpParams['lastName'] = doctorsCriteria.lastName
+    }
+
+    console.log(doctorsCriteria);
+
+
+    return this.httpClient.get<DoctorRS[]>(this.baseUrl, { params: httpParams });
   }
 
   getDoctorById(uuid: string): Observable<DoctorRS> {

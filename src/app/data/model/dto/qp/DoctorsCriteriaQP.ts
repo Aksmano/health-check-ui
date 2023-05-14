@@ -1,6 +1,6 @@
 export interface DoctorsCriteriaQP {
-    specialization: number;
-    departmentId: number;
-    firstName: string;
-    lastName: string;
+    specialization?: string;
+    departmentId?: number;
+    firstName?: string;
+    lastName?: string;
 }
