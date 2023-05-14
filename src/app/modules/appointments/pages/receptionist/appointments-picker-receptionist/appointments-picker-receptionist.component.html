@@ -1,0 +1,43 @@
+<p-table [value]="specializations" dataKey="id" [rows]="10" [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]"
+    [paginator]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['name']" [tableStyle]="{ 'min-width': '100%' }">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>
+                <div class="flex align-items-center">
+                    Specialization
+                    <p-columnFilter type="text" field="name" display="menu"></p-columnFilter>
+                </div>
+            </th>
+            <th></th>
+            <th>
+                <div>
+                    <p-button label="Show all visits"
+                        (onClick)="navigationService.toAppointmentsByDept(departmentId)"></p-button>
+                </div>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-type>
+        <tr>
+            <td>
+                {{ getTestTypeName(type.value) }}
+            </td>
+            <td>
+                <p-button icon="pi pi-calendar-plus" label="Add schedules"
+                    styleClass="p-button-raised p-button-text p-button-secondary"
+                    (onClick)="navigationService.toMedicalTestInsertSchedules(departmentId, type.value)"></p-button>
+            </td>
+            <td>
+                <p-button icon="pi pi-plus" label="Create visit"
+                    styleClass="p-button-raised p-button-text p-button-secondary"
+                    (onClick)="navigationService.toCreateMedicalTestCreateVisit(departmentId, type.value)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="5">No customers found.</td>
+        </tr>
+    </ng-template>
+</p-table>

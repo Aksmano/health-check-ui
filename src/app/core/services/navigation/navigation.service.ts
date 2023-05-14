@@ -50,12 +50,16 @@ export class NavigationService {
 
   public toAppointments(path: string[] = [], params?: Params) {
     let userType: string = '';
-    
+
     if (this.roleService.hasRolePatient()) userType = 'patient'
     if (this.roleService.hasRoleReceptionist()) userType = 'receptionist'
     if (this.roleService.hasRoleDoctor()) userType = 'doctor'
 
     this.router.navigate(['app', 'appointments', userType, ...path], { queryParams: params });
+  }
+
+  public toAppointmentsByDept(id: number) {
+    this.router.navigate(['app', 'appointments', 'receptionist', ''])
   }
 
   public toAppointmentById(id: number) {

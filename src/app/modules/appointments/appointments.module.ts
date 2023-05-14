@@ -23,6 +23,7 @@ import { AppointmentViewComponent } from './pages/patient/appointment-view/appoi
 import { PatientAllAppointmentsComponent } from './pages/patient/patient-all-appointments/patient-all-appointments.component';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { AppointmentsPickerReceptionistComponent } from './pages/receptionist/appointments-picker-receptionist/appointments-picker-receptionist.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { TagModule } from 'primeng/tag';
     SearchTableComponent,
     DoctorsScheduleDetailsComponent,
     AppointmentViewComponent,
-    PatientAllAppointmentsComponent
+    PatientAllAppointmentsComponent,
+    AppointmentsPickerReceptionistComponent
   ],
   imports: [
     CommonModule,
