@@ -1,6 +1,6 @@
-import { HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router} from '@angular/router';
+import { RoleService } from '../roles/role.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,8 @@ export class NavigationService {
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly roleService: RoleService
   ) {
     this.prevUrl = '';
     this.currUrl = this.router.url;
@@ -27,14 +28,24 @@ export class NavigationService {
       })
   }
 
-  public set previousUrl(prevUrl: string) { this.prevUrl = prevUrl }
-  public get previousUrl() { return this.prevUrl; }
+  public set previousUrl(prevUrl: string) {
+    this.prevUrl = prevUrl
+  }
 
-  public set currentUrl(currUrl: string) { this.currUrl = currUrl }
-  public get currentUrl() { return this.currUrl; }
+  public get previousUrl() {
+    return this.prevUrl;
+  }
+
+  public set currentUrl(currUrl: string) {
+    this.currUrl = currUrl
+  }
+
+  public get currentUrl() {
+    return this.currUrl;
+  }
 
   public toLocation(path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate([...path], { ...extras, relativeTo: this.route })
+    this.router.navigate([...path], {...extras, relativeTo: this.route})
   }
 
   public toMainPage() {
@@ -53,11 +64,42 @@ export class NavigationService {
   }
 
   public toPatientsPortal(path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/patient', ...path], { ...extras, relativeTo: this.route });
+    this.router.navigate(['/app/patient', ...path], {...extras, relativeTo: this.route});
   }
 
   public toDoctorsPortal(path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/doctor', ...path], { ...extras });
+    this.router.navigate(['/app/doctor', ...path], {...extras});
+  }
+
+  public toMedicalTestsPortal(path: string[] = [], extras?: NavigationExtras) {
+    if (this.roleService.hasRoleReceptionist()) {
+      this.router.navigate(['/app/medical-tests/receptionist/search', ...path], {...extras, relativeTo: this.route});
+    } else if (this.roleService.hasRoleDoctor()) {
+      this.router.navigate(['/app/medical-tests/doctor', ...path], {...extras, relativeTo: this.route});
+    } else if (this.roleService.hasRolePatient()) {
+      this.router.navigate(['/app/medical-tests/patient/search', ...path], {...extras, relativeTo: this.route});
+    }
+  }
+
+  public toMedicalTestScheduleByDepartment(path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/patient/medical-test-schedules', ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toMedicalTestById(testId: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/patient/medical-test-details/' + testId, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toMedicalTestByPatient(patientId: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/patient/medical-test-patient/' + patientId, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
   }
 
   public toContact() {
