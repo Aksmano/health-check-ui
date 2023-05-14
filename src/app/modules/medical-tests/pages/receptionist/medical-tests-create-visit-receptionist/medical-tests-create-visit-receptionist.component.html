@@ -61,7 +61,10 @@
     </ng-template>
     <ng-template class="text-900" pTemplate="content" class="mb-0">
       <div class="flex flex-column mb-0 text-900">
-        Choose patient for test...
+        <ng-template [ngIf]="!patientUUID">
+          <app-patients-table [patientUUID]="patientUUID" (patientUUIDOut)="patientUUID=$event">
+          </app-patients-table>
+        </ng-template>
       </div>
     </ng-template>
     <ng-template pTemplate="footer" class="mt-0">

@@ -46,6 +46,7 @@ export class MedicalTestsCreateVisitReceptionistComponent {
   private resultSubscription?: Subscription;
   protected currentDate: Date | undefined;
   protected currentDate$ = new BehaviorSubject(new Date());
+  protected patientUUID: string | undefined;
 
   constructor(private route: ActivatedRoute,
               private readonly medicalTestScheduleService: MedicalTestSchedulesService,
