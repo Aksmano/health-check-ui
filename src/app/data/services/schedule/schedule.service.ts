@@ -7,7 +7,7 @@ import { ScheduleRQ } from '../../model/dto/rq/ScheduleRQ';
 import { ScheduleRS } from '../../model/dto/rs/schedules/ScheduleRS';
 import { SchedulesAppointmentsRS } from '../../model/dto/rs/schedules/SchedulesAppointmentsRS';
 import { HttpClient } from '@angular/common/http';
-import { objectToHttpParams } from 'src/app/utils';
+import { objectToHttpParams, toJavaLocalDateTime } from 'src/app/utils';
 import { SchedulesAppointmentsCriteriaQP } from '../../model/dto/qp/schedule/SchedulesAppointmentsCriteriaQP';
 
 @Injectable({
@@ -24,21 +24,36 @@ export class ScheduleServiceImpl implements ScheduleService {
     uuid: string,
     scheduleCriteria: ScheduleCriteriaQP = {} as ScheduleCriteriaQP
   ): Observable<ScheduleRS[]> {
-    const schedulesParams = objectToHttpParams(scheduleCriteria);
+    const params: { [key: string]: string } = {}
+    
+    if (!!scheduleCriteria.startDateTime)
+      params['startDateTime'] = scheduleCriteria.startDateTime;
+    if (!!scheduleCriteria.endDateTime)
+      params['endDateTime'] = scheduleCriteria.endDateTime;
 
-    return this.httpClient.get<ScheduleRS[]>(`${this.baseUrl}/${uuid}`, { params: schedulesParams });
+    return this.httpClient.get<ScheduleRS[]>(`${this.baseUrl}/${uuid}`, { params: params });
   }
 
   getSchedulesWithAppointments(
     uuid: string,
     scheduleCriteria: SchedulesAppointmentsCriteriaQP = {} as SchedulesAppointmentsCriteriaQP
   ): Observable<SchedulesAppointmentsRS> {
-    const schedulesParams = objectToHttpParams(scheduleCriteria);
+    const params: { [key: string]: string } = {}
 
-    return this.httpClient.get<SchedulesAppointmentsRS>(`${this.baseUrl}/with-appointments/${uuid}`, { params: schedulesParams });
+    if (!!scheduleCriteria.startDateTime)
+      params['startDateTime'] = scheduleCriteria.startDateTime;
+    if (!!scheduleCriteria.endDateTime)
+      params['endDateTime'] = scheduleCriteria.endDateTime;
+
+    return this.httpClient.get<SchedulesAppointmentsRS>(`${this.baseUrl}/with-appointments/${uuid}`, { params: params });
   }
 
   addSchedules(schedules: ScheduleRQ[]): Observable<ScheduleRS[]> {
-    return this.httpClient.post<ScheduleRS[]>(this.baseUrl, { schedules });
+    return this.httpClient.post<ScheduleRS[]>(this.baseUrl, { ...schedules });
+  }
+
+  addSchedulesByDoctorId(id: string, schedules: ScheduleRQ[]): Observable<ScheduleRS[]> {
+    console.log(schedules)
+    return this.httpClient.post<ScheduleRS[]>(`${this.baseUrl}/doctor/${id}`, schedules);
   }
 }

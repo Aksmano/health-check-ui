@@ -6,6 +6,7 @@ import { DoctorsScheduleDetailsComponent } from './pages/patient/doctors-schedul
 import { PatientAllAppointmentsComponent } from './pages/patient/patient-all-appointments/patient-all-appointments.component';
 import { AppointmentViewComponent } from './pages/patient/appointment-view/appointment-view.component';
 import { AppointmentsPickerReceptionistComponent } from './pages/receptionist/appointments-picker-receptionist/appointments-picker-receptionist.component';
+import { AddAppointmentSchedulesComponent } from './pages/receptionist/add-appointment-schedules/add-appointment-schedules.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
   {
     path: 'receptionist/appointment-picker',
     component: AppointmentsPickerReceptionistComponent
+  },
+  {
+    path: 'receptionist/add-schedules/:id/:spec',
+    component: AddAppointmentSchedulesComponent
   }
 ];
 

@@ -69,7 +69,7 @@ export class NavigationService {
   }
 
   public toAppointmentInsertSchedules(departmentId: number, spec: string, path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/appointments/receptionist/appointment-insert-schedules/' + departmentId + '/' + spec, ...path], {
+    this.router.navigate(['/app/appointments/receptionist/add-schedules/' + departmentId + '/' + spec, ...path], {
       ...extras,
       relativeTo: this.route
     });

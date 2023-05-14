@@ -24,6 +24,9 @@ import { PatientAllAppointmentsComponent } from './pages/patient/patient-all-app
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { AppointmentsPickerReceptionistComponent } from './pages/receptionist/appointments-picker-receptionist/appointments-picker-receptionist.component';
+import { AddAppointmentSchedulesComponent } from './pages/receptionist/add-appointment-schedules/add-appointment-schedules.component';
+import { CalendarModule } from 'primeng/calendar';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 
 @NgModule({
@@ -33,7 +36,8 @@ import { AppointmentsPickerReceptionistComponent } from './pages/receptionist/ap
     DoctorsScheduleDetailsComponent,
     AppointmentViewComponent,
     PatientAllAppointmentsComponent,
-    AppointmentsPickerReceptionistComponent
+    AppointmentsPickerReceptionistComponent,
+    AddAppointmentSchedulesComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +57,9 @@ import { AppointmentsPickerReceptionistComponent } from './pages/receptionist/ap
     SharedModule,
     DialogModule,
     TableModule,
-    TagModule
+    TagModule,
+    CalendarModule,
+    InputNumberModule
   ]
 })
 export class AppointmentsModule { }
