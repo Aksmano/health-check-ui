@@ -16,8 +16,9 @@ import {KeycloakService} from "keycloak-angular";
 import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
 import {ToastService} from "../../../../../core/services/toast/toast.service";
 import {MedicalTestSchedulesRS} from "../../../../../data/model/dto/rs/schedules/MedicalTestSchedulesRS";
-import { Address } from 'src/app/data/model/dto/common/Address';
-import { getFriendlyEnumName, getUserFriendlyAddress } from 'src/app/utils';
+import {Address} from 'src/app/data/model/dto/common/Address';
+import {getFriendlyEnumName, getUserFriendlyAddress} from 'src/app/utils';
+import {ONE_DAY_IN_MILISECONDS} from "../../../utils/TimeUtils";
 
 @Component({
   selector: 'app-medical-test-schedules-patient',
@@ -25,58 +26,6 @@ import { getFriendlyEnumName, getUserFriendlyAddress } from 'src/app/utils';
   styleUrls: ['./medical-tests-schedules-patient.component.scss']
 })
 export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy {
-  // protected medicalTestSchedules = {
-  //   departmentId: 910,
-  //   type: TestType.AUDIOMETRY,
-  //   schedules: [
-  //     {
-  //       startDateTime: new Date("2023-04-28T08:00:00"),
-  //       endDateTime: new Date("2023-04-28T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-29T08:00:00"),
-  //       endDateTime: new Date("2023-04-29T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-30T08:00:00"),
-  //       endDateTime: new Date("2023-04-30T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-05-01T08:00:00"),
-  //       endDateTime: new Date("2023-05-01T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-05-02T08:00:00"),
-  //       endDateTime: new Date("2023-05-02T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-05-03T08:00:00"),
-  //       endDateTime: new Date("2023-05-03T16:00:00")
-  //     }, {
-  //       startDateTime: new Date("2023-05-04T08:00:00"),
-  //       endDateTime: new Date("2023-05-04T16:00:00")
-  //     }
-  //   ],
-  //   assignedSchedules: [
-  //     {
-  //       startDateTime: new Date("2023-04-28T08:00:00"),
-  //       endDateTime: new Date("2023-04-28T08:15:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-28T09:00:00"),
-  //       endDateTime: new Date("2023-04-28T09:15:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-28T15:45:00"),
-  //       endDateTime: new Date("2023-04-28T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-30T08:00:00"),
-  //       endDateTime: new Date("2023-04-30T08:15:00")
-  //     }
-  //   ]
-  // };
-  
   public allDataLoaded: boolean = false;
 
   protected medicalTestSchedules?: MedicalTestSchedulesRS;
@@ -91,7 +40,6 @@ export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy 
   private pathSubscription?: Subscription;
   private resultSubscription?: Subscription;
   private readonly endDateDaysNumber = 30;
-  private readonly oneDayInMilliseconds = 1000 * 60 * 60 * 24;
 
   constructor(private route: ActivatedRoute,
               private readonly medicalTestScheduleService: MedicalTestSchedulesService,
@@ -111,7 +59,7 @@ export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy 
           })
         this.testType = params['testType'];
 
-        this.schedulesSubscription = this.medicalTestScheduleService.getTestTestSchedules({
+        this.schedulesSubscription = this.medicalTestScheduleService.getMedicalTestSchedules({
           departmentId: parseInt(params['departmentId']),
           testType: params['testType'],
           startDateTime: this.getCurrentLocalDateTime(),
@@ -200,11 +148,11 @@ export class MedicalTestsSchedulesPatientComponent implements OnInit, OnDestroy 
   }
 
   private getCurrentLocalDateTime() {
-    return (new Date()).toISOString().substring(0,19);
+    return (new Date()).toISOString().substring(0, 19);
   }
 
   private getLocalDateTimeFromNow(days: number) {
-    return new Date((new Date()).getTime() + this.oneDayInMilliseconds * days).toISOString().substring(0,19)
+    return new Date((new Date()).getTime() + ONE_DAY_IN_MILISECONDS * days).toISOString().substring(0, 19)
   }
 
   ngOnDestroy(): void {

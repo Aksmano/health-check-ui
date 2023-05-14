@@ -123,4 +123,32 @@ export class NavigationService {
   public toContact() {
     this.router.navigate(['/app/contact']);
   }
+
+  public toCreateMedicalTestCreateVisit(departmentId: number, type: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/receptionist/medical-test-create-visit/' + departmentId + '/' + type, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toMedicalTestInsertSchedules(departmentId: number, type: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/receptionist/medical-test-insert-schedules/' + departmentId + '/' + type, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toMedicalTestDetailsReceptionist(id: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/receptionist/medical-test-details/' + id, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toMedicalTestVisitsByDepartment(departmentId: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/receptionist/medical-test-visits/' + departmentId, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
 }

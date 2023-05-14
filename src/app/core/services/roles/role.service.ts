@@ -11,7 +11,6 @@ export class RoleService {
 
   public hasRolePatient(): boolean {
     let userRoles = new Set(this.keycloakService.getUserRoles());
-    console.log(userRoles)
     return userRoles.has('ROLE_PATIENT')
       && !userRoles.has('ROLE_RECEPTIONIST')
       && !userRoles.has('ROLE_DOCTOR')

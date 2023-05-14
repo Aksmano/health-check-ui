@@ -117,8 +117,6 @@ export class MedicalTestsSearchPatientComponent implements OnInit, OnDestroy {
   }
 
   searchForAvailableSchedules(depId: number) {
-    console.log(depId)
-    console.log(this.selectedTestType)
     this.navigationService.toMedicalTestScheduleByDepartment([], {
       queryParams: {
         departmentId: depId,

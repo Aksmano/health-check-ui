@@ -1,23 +1,22 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
-import {MedicalTestsService} from "../../../../../data/services/medical-test/medical-tests.service";
 import {MedicalTestRS} from "../../../../../data/model/dto/rs/MedicalTestRS";
-import {ToastService} from "../../../../../core/services/toast/toast.service";
 import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
+import {Subscription} from "rxjs";
+import {ActivatedRoute} from "@angular/router";
+import {MedicalTestsService} from "../../../../../data/services/medical-test/medical-tests.service";
+import {ToastService} from "../../../../../core/services/toast/toast.service";
 import {DepartmentServiceImpl} from "../../../../../data/services/department/department.service";
-import {TestStatus} from "../../../../../data/model/common/TestStatus";
 import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
-import {TestType} from 'src/app/data/model/common/TestType';
-import {Address} from 'src/app/data/model/dto/common/Address';
-import {getFriendlyEnumName, getUserFriendlyAddress} from 'src/app/utils';
+import {Address} from "../../../../../data/model/dto/common/Address";
+import {getFriendlyEnumName, getUserFriendlyAddress} from "../../../../../utils";
+import {TestStatus} from "../../../../../data/model/common/TestStatus";
 
 @Component({
-  selector: 'app-medical-test-patient',
-  templateUrl: './medical-tests-patient.component.html',
-  styleUrls: ['./medical-tests-patient.component.scss']
+  selector: 'app-medical-test-receptionist',
+  templateUrl: './medical-tests-receptionist.component.html',
+  styleUrls: ['./medical-tests-receptionist.component.scss']
 })
-export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
+export class MedicalTestsReceptionistComponent implements OnInit, OnDestroy {
   protected medicalTest: MedicalTestRS | undefined
   protected department: DepartmentRS | undefined;
   protected showDateVisible: boolean = false;
@@ -39,7 +38,6 @@ export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
           next: data => {
             this.medicalTest = data;
             this.medicalTest.testDateTime = new Date(this.medicalTest.testDateTime);
-            console.log(this.medicalTest);
             this.departmentService.getDepartmentById(this.medicalTest.departmentId)
               .subscribe({
                 next: data => {
@@ -102,7 +100,6 @@ export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
   }
 
   isNotPerformed() {
-    console.log(this.medicalTest)
     return this.medicalTest?.testStatus == TestStatus.NOT_PERFORMED;
   }
 
@@ -133,6 +130,25 @@ export class MedicalTestsPatientComponent implements OnInit, OnDestroy {
         }, 1000);
       }, error => {
         this.toastService.showError('Error during deleting test. Try again later.')
+      })
+  }
+
+  uploadedFiles: any[] = [];
+
+  uploadResult(event: any) {
+    for (let file of event.files) {
+      this.uploadedFiles.push(file);
+    }
+  }
+
+  onFileUploadClicked(event: { files: Blob[] }) {
+    console.log(event.files[0]);
+    this.medicalTestService.addResult(this.medicalTest?.id!, event.files[0])
+      .subscribe(data => {
+        this.toastService.showSuccess('File uploaded successfully.')
+        window.location.reload();
+      }, error => {
+        this.toastService.showError('Error during uploading file.')
       })
   }
 }

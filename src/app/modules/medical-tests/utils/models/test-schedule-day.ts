@@ -8,6 +8,11 @@ export interface TestScheduleDay {
   assignedSchedules: {}
 }
 
+export interface TestScheduleDayRec {
+  day: Date;
+  schedules: TestDateRS[];
+}
+
 export const dayNames = [
   'Sunday',
   'Monday',

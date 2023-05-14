@@ -1,6 +1,7 @@
 import {TestStatus} from "../../common/TestStatus";
 import {TestType} from "../../common/TestType";
 import {TestResultRS} from "./TestResultRS";
+import {PatientRS} from "@data/model/dto/rs/PatientRS";
 
 export interface MedicalTestRS {
   id: number;
@@ -11,4 +12,5 @@ export interface MedicalTestRS {
   type: TestType;
   medicalTestResultId: number;
   testDateTime: Date;
+  patient: PatientRS;
 }
