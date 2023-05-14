@@ -58,6 +58,44 @@ export class NavigationService {
     this.router.navigate(['app', 'appointments', userType, ...path], { queryParams: params });
   }
 
+  public toAppointmentsFromHeader(path: string[] = [], params?: Params) {
+    let userType: string[] = [];
+
+    if (this.roleService.hasRolePatient()) userType = ['patient']
+    if (this.roleService.hasRoleReceptionist()) userType = ['receptionist', 'appointment-picker']
+    if (this.roleService.hasRoleDoctor()) userType = ['doctor']
+
+    this.router.navigate(['app', 'appointments', ...userType, ...path], { queryParams: params });
+  }
+
+  public toAppointmentInsertSchedules(departmentId: number, spec: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/receptionist/appointment-insert-schedules/' + departmentId + '/' + spec, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toAppointmentDetailsReceptionist(id: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/receptionist/appointment-details/' + id, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toAppointmentVisitsByDepartment(departmentId: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/receptionist/appointment-visits/' + departmentId, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toCreateAppointment(departmentId: number, spec: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/receptionist/create-appointment/' + departmentId + '/' + spec, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
   public toAppointmentsByDept(id: number) {
     this.router.navigate(['app', 'appointments', 'receptionist', ''])
   }

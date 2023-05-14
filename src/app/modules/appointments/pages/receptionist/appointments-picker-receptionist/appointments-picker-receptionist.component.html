@@ -18,20 +18,20 @@
             </th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-type>
+    <ng-template pTemplate="body" let-spec>
         <tr>
             <td>
-                {{ getTestTypeName(type.value) }}
+                {{ spec.name }}
             </td>
             <td>
                 <p-button icon="pi pi-calendar-plus" label="Add schedules"
                     styleClass="p-button-raised p-button-text p-button-secondary"
-                    (onClick)="navigationService.toMedicalTestInsertSchedules(departmentId, type.value)"></p-button>
+                    (onClick)="navigationService.toAppointmentInsertSchedules(departmentId, spec.code)"></p-button>
             </td>
             <td>
                 <p-button icon="pi pi-plus" label="Create visit"
                     styleClass="p-button-raised p-button-text p-button-secondary"
-                    (onClick)="navigationService.toCreateMedicalTestCreateVisit(departmentId, type.value)"></p-button>
+                    (onClick)="navigationService.toCreateAppointment(departmentId, spec.code)"></p-button>
             </td>
         </tr>
     </ng-template>

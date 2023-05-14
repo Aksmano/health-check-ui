@@ -5,6 +5,7 @@ import { SearchTableComponent } from './pages/patient/search-table/search-table.
 import { DoctorsScheduleDetailsComponent } from './pages/patient/doctors-schedule-details/doctors-schedule-details.component';
 import { PatientAllAppointmentsComponent } from './pages/patient/patient-all-appointments/patient-all-appointments.component';
 import { AppointmentViewComponent } from './pages/patient/appointment-view/appointment-view.component';
+import { AppointmentsPickerReceptionistComponent } from './pages/receptionist/appointments-picker-receptionist/appointments-picker-receptionist.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'patient/appointment-details/:id',
     component: AppointmentViewComponent
+  },
+  {
+    path: 'receptionist/appointment-picker',
+    component: AppointmentsPickerReceptionistComponent
   }
 ];
 
