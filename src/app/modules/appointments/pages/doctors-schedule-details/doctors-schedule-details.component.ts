@@ -25,59 +25,59 @@ import { DoctorServiceImpl } from 'src/app/data/services/doctor/doctor.service';
   styleUrls: ['./doctors-schedule-details.component.scss']
 })
 export class DoctorsScheduleDetailsComponent {
-  // protected appointmentSchedules: SchedulesAppointmentsRS = {
-  //   schedules: [
-  //     {
-  //       startDateTime: new Date("2023-04-28T08:00:00"),
-  //       endDateTime: new Date("2023-04-28T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-29T08:00:00"),
-  //       endDateTime: new Date("2023-04-29T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-30T08:00:00"),
-  //       endDateTime: new Date("2023-04-30T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-05-01T08:00:00"),
-  //       endDateTime: new Date("2023-05-01T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-05-02T08:00:00"),
-  //       endDateTime: new Date("2023-05-02T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-05-03T08:00:00"),
-  //       endDateTime: new Date("2023-05-03T16:00:00")
-  //     }, {
-  //       startDateTime: new Date("2023-05-04T08:00:00"),
-  //       endDateTime: new Date("2023-05-04T16:00:00")
-  //     }
-  //   ],
-  //   appointments: [
-  //     {
-  //       startDateTime: new Date("2023-04-28T08:00:00"),
-  //       endDateTime: new Date("2023-04-28T08:15:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-28T09:00:00"),
-  //       endDateTime: new Date("2023-04-28T09:15:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-28T15:45:00"),
-  //       endDateTime: new Date("2023-04-28T16:00:00")
-  //     },
-  //     {
-  //       startDateTime: new Date("2023-04-30T08:00:00"),
-  //       endDateTime: new Date("2023-04-30T08:15:00")
-  //     }
-  //   ]
-  // };
+  protected appointmentSchedules: SchedulesAppointmentsRS = {
+    schedules: [
+      {
+        startDateTime: new Date("2023-04-28T08:00:00"),
+        endDateTime: new Date("2023-04-28T16:00:00")
+      },
+      {
+        startDateTime: new Date("2023-04-29T08:00:00"),
+        endDateTime: new Date("2023-04-29T16:00:00")
+      },
+      {
+        startDateTime: new Date("2023-04-30T08:00:00"),
+        endDateTime: new Date("2023-04-30T16:00:00")
+      },
+      {
+        startDateTime: new Date("2023-05-01T08:00:00"),
+        endDateTime: new Date("2023-05-01T16:00:00")
+      },
+      {
+        startDateTime: new Date("2023-05-02T08:00:00"),
+        endDateTime: new Date("2023-05-02T16:00:00")
+      },
+      {
+        startDateTime: new Date("2023-05-03T08:00:00"),
+        endDateTime: new Date("2023-05-03T16:00:00")
+      }, {
+        startDateTime: new Date("2023-05-04T08:00:00"),
+        endDateTime: new Date("2023-05-04T16:00:00")
+      }
+    ],
+    appointments: [
+      {
+        startDateTime: new Date("2023-04-28T08:00:00"),
+        endDateTime: new Date("2023-04-28T08:15:00")
+      },
+      {
+        startDateTime: new Date("2023-04-28T09:00:00"),
+        endDateTime: new Date("2023-04-28T09:15:00")
+      },
+      {
+        startDateTime: new Date("2023-04-28T15:45:00"),
+        endDateTime: new Date("2023-04-28T16:00:00")
+      },
+      {
+        startDateTime: new Date("2023-04-30T08:00:00"),
+        endDateTime: new Date("2023-04-30T08:15:00")
+      }
+    ]
+  };
 
   public allDataLoaded: boolean = false;
 
-  protected appointmentSchedules?: SchedulesAppointmentsRS;
+  // protected appointmentSchedules?: SchedulesAppointmentsRS;
   protected department?: DepartmentRS;
   protected doctor?: DoctorRS;
 
@@ -121,7 +121,7 @@ export class DoctorsScheduleDetailsComponent {
               endDateTime: this.getLocalDateTimeFromNow(this.endDateDaysNumber),
             })
               .subscribe(data => {
-                this.appointmentSchedules = data;
+                // this.appointmentSchedules = data;
                 console.log(this.appointmentSchedules);
                 for (let assignedSchedule of this.appointmentSchedules.appointments) {
                   assignedSchedule.startDateTime = new Date(assignedSchedule.startDateTime);
@@ -262,7 +262,7 @@ export class DoctorsScheduleDetailsComponent {
     }
   }
 
-  submitMedicalTest() {
+  submitAppointment() {
     if (!!this.doctor && !!UserInfo.profile) {
       this.keycloakService.getKeycloakInstance()
         .loadUserProfile()
@@ -271,10 +271,6 @@ export class DoctorsScheduleDetailsComponent {
             doctorUUID: this.doctor?.doctorUUID,
             patientUUID: UserInfo.profile?.id,
             appointmentDateTime: this.addMinutes(this.chosenDate?.startDateTime!, 2 * 60)
-            // departmentId: this.department?.id,
-            // patientUUID: profile.id!,
-            // type: TestType[this.testType as keyof typeof TestType],
-            // testDate: this.addMinutes(this.chosenDate?.startDateTime!, 2 * 60)
           } as AppointmentRQ;
 
           console.log(visitRQ)
