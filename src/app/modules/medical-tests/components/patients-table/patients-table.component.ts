@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import * as constants from "constants";
 import {ToastService} from "../../../../core/services/toast/toast.service";
 import {PatientService} from "../../../../data/services/patient/patient.service";
 import {BehaviorSubject, Subscription} from "rxjs";
 import {PatientRS} from "../../../../data/model/dto/rs/PatientRS";
+import {Patient} from "../../../../data/model/entities/Patient";
 
 @Component({
   selector: 'app-patients-table',
@@ -12,8 +12,8 @@ import {PatientRS} from "../../../../data/model/dto/rs/PatientRS";
 })
 export class PatientsTableComponent implements OnInit, OnDestroy {
 
-  @Input() patientUUID: string | undefined;
-  @Output() patientUUIDOut = new EventEmitter<string>();
+  @Input() patient: PatientRS | undefined;
+  @Output() patientOut = new EventEmitter<PatientRS>();
   protected currentPage$ = new BehaviorSubject(0);
   private patientsSubscription: Subscription | undefined;
   protected patients: PatientRS[] | undefined;
@@ -40,6 +40,6 @@ export class PatientsTableComponent implements OnInit, OnDestroy {
   }
 
   choosePatient() {
-    this.patientUUIDOut.next!(this.selectedPatient!.patientUUID);
+    this.patientOut.next!(this.selectedPatient!);
   }
 }

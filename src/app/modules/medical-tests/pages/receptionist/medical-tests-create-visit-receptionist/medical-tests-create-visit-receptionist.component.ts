@@ -24,6 +24,7 @@ import {
 } from "../../../utils/TimeUtils";
 import {TestType} from "../../../../../data/model/common/TestType";
 import {MedicalTestRQ} from "../../../../../data/model/dto/rq/MedicalTestRQ";
+import {PatientRS} from "../../../../../data/model/dto/rs/PatientRS";
 
 @Component({
   selector: 'app-medical-test-create-visit-receptionist',
@@ -46,7 +47,7 @@ export class MedicalTestsCreateVisitReceptionistComponent {
   private resultSubscription?: Subscription;
   protected currentDate: Date | undefined;
   protected currentDate$ = new BehaviorSubject(new Date());
-  protected patientUUID: string | undefined;
+  protected patient: PatientRS | undefined;
 
   constructor(private route: ActivatedRoute,
               private readonly medicalTestScheduleService: MedicalTestSchedulesService,
@@ -254,5 +255,31 @@ export class MedicalTestsCreateVisitReceptionistComponent {
 
   decrementCurrentDate() {
     this.currentDate$.next(new Date(this.currentDate!.getTime() - ONE_WEEK_IN_MILLISECONDS));
+  }
+
+  getFriendlyEnumName(testType: string) {
+    return getFriendlyEnumName(testType);
+  }
+
+  createVisit() {
+    if (this.testType) {
+      let visitRQ = {
+        departmentId: this.department?.id,
+        patientUUID: this.patient!.patientUUID!,
+        type: TestType[this.testType as keyof typeof TestType],
+        testDate: this.addMinutes(this.chosenDate?.startDateTime!, 2 * 60)
+      } as MedicalTestRQ;
+
+      console.log(visitRQ)
+      this.resultSubscription = this.medicalTestService.createMedicalTestVisit(visitRQ)
+        .subscribe(data => {
+          this.toastService.showSuccess('Visit created');
+          this.navigationService.toMedicalTestById(data.id)
+        }, error => {
+          console.log(error)
+          this.toastService.showError('Error during creating visit. Try again later');
+        }, () => {
+        })
+    }
   }
 }

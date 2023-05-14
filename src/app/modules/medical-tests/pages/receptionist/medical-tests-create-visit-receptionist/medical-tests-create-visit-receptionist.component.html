@@ -61,15 +61,24 @@
     </ng-template>
     <ng-template class="text-900" pTemplate="content" class="mb-0">
       <div class="flex flex-column mb-0 text-900">
-        <ng-template [ngIf]="!patientUUID">
-          <app-patients-table [patientUUID]="patientUUID" (patientUUIDOut)="patientUUID=$event">
+        <ng-template [ngIf]="!patient">
+          <app-patients-table [patient]="patient" (patientOut)="patient=$event">
           </app-patients-table>
+        </ng-template>
+        <ng-template [ngIf]="patient">
+          Are you sure that you want to create visit for user {{patient.firstName}} {{patient.lastName}} for
+          test {{getFriendlyEnumName(testType!)}} on {{chosenDate.startDateTime | date:'short'}} <br/>
         </ng-template>
       </div>
     </ng-template>
-    <ng-template pTemplate="footer" class="mt-0">
-      <p-button label="Go back" (click)="showDateVisible = false" styleClass="p-button-danger"></p-button>
-      <p-button label="Submit" (click)="submitMedicalTest()" styleClass="p-button-success"></p-button>
+    <ng-template pTemplate="footer">
+      <div *ngIf="patient">
+        <p-button label="Go back" (click)="showDateVisible = false; patient = undefined"
+                  styleClass="p-button-secondary"></p-button>
+        <p-button label="Create" icon="pi pi-plus" styleClass="p-button-raised p-button-success"
+        (onClick)="createVisit()"
+        ></p-button>
+      </div>
     </ng-template>
   </p-dialog>
 </div>

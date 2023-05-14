@@ -31,6 +31,6 @@ export class PatientService {
 
   //TODO add query params
   getPatients(page: number, firstName?: string, lastName?: string, phoneNumber?: string): Observable<PatientRS[]> {
-    return this.httpClient.get<PatientRS[]>(`${this.baseUrl}`);
+    return this.httpClient.get<PatientRS[]>(`${this.baseUrl}/all`);
   }
 }
