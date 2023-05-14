@@ -1,11 +1,11 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MedicalTestRS} from "../../../../../data/model/dto/rs/MedicalTestRS";
-import {MedicalTestsService} from "../../../../../data/services/medical-test/medical-tests.service";
-import {ActivatedRoute} from "@angular/router";
-import {Subscription} from "rxjs";
-import {ToastService} from "../../../../../core/services/toast/toast.service";
-import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
-import {TestStatus} from "../../../../../data/model/common/TestStatus";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MedicalTestRS } from "../../../../../data/model/dto/rs/MedicalTestRS";
+import { MedicalTestsService } from "../../../../../data/services/medical-test/medical-tests.service";
+import { ActivatedRoute } from "@angular/router";
+import { Subscription } from "rxjs";
+import { ToastService } from "../../../../../core/services/toast/toast.service";
+import { NavigationService } from "../../../../../core/services/navigation/navigation.service";
+import { TestStatus } from "../../../../../data/model/common/TestStatus";
 
 @Component({
   selector: 'app-medical-tests-all-patient',
@@ -20,9 +20,9 @@ export class MedicalTestsAllPatientComponent implements OnInit, OnDestroy {
   private testsSubscription: Subscription | undefined;
 
   constructor(protected medicalTestsService: MedicalTestsService,
-              private readonly route: ActivatedRoute,
-              private readonly toastService: ToastService,
-              private readonly navigationService: NavigationService) {
+    private readonly route: ActivatedRoute,
+    private readonly toastService: ToastService,
+    private readonly navigationService: NavigationService) {
   }
 
   ngOnInit(): void {

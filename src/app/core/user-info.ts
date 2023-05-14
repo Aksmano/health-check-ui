@@ -6,12 +6,14 @@ import { PatientService } from "../data/services/patient/patient.service";
 import { ReceptionistService } from "../data/services/receptionist/receptionist.service";
 import { KeycloakProfile } from "keycloak-js";
 import { DepartmentRS } from "../data/model/dto/rs/DepartmentRS";
+import { PatientRS } from "../data/model/dto/rs/PatientRS";
 
 export class UserInfo {
 
     public static role: UserType = UserType.Guest;
     public static profile?: KeycloakProfile;
     public static deptId?: number;
+    public static patientData?: PatientRS;
 
     public loaded: boolean = false;
 
@@ -57,6 +59,10 @@ export class UserInfo {
                     if (userType === UserType.Receptionist) {
                         this.receptionistService.getReceptionistByUUID(UserInfo.profile.id!)
                             .subscribe(res => UserInfo.deptId = res.departmentId)
+                    }
+                    if (userType === UserType.Patient) {
+                        this.patientService.getPatientData()
+                            .subscribe(res => UserInfo.patientData = res)
                     }
                 }
             });

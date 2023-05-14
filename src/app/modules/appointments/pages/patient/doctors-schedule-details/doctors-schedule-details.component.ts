@@ -7,7 +7,7 @@ import { getFriendlyEnumName, getUserFriendlyAddress } from 'src/app/utils';
 import { SchedulesAppointmentsRS } from 'src/app/data/model/dto/rs/schedules/SchedulesAppointmentsRS';
 import { DepartmentRS } from 'src/app/data/model/dto/rs/DepartmentRS';
 import { AppointmentDateRS } from 'src/app/data/model/dto/rs/schedules/AppointmentDateRS';
-import { AppointmentScheduleDay, dayNames } from '../../models/appointment-schedule-day';
+import { AppointmentScheduleDay, dayNames } from '../../../models/appointment-schedule-day';
 import { ScheduleServiceImpl } from 'src/app/data/services/schedule/schedule.service';
 import { AppointmentService } from 'src/app/data/services/appointment/appointment.service';
 import { DepartmentServiceImpl } from 'src/app/data/services/department/department.service';

@@ -16,6 +16,10 @@ export class PatientService {
     private readonly httpClient: HttpClient
   ) { }
 
+  getPatientData(): Observable<PatientRS> {
+    return this.httpClient.get<PatientRS>(this.baseUrl);
+  }
+
   getPatientByUUID(uuid: string): Observable<PatientRS> {
     return this.httpClient.get<PatientRS>(`${this.baseUrl}/${uuid}`);
   }

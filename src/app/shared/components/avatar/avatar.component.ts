@@ -51,6 +51,8 @@ export class AvatarComponent {
 
       if (this.roleService.hasRolePatient()) {
         avatarMenuItems.push(this.patientTests)
+        avatarMenuItems.push(this.patientAppointments);
+
       }
 
       avatarMenuItems.push(this.logout);
@@ -97,5 +99,11 @@ export class AvatarComponent {
     }
   }
 
-
+  private patientAppointments = {
+    label: 'My appointments',
+    icon: 'pi pi-calendar',
+    command: () => {
+      this.navigationService.toAppointments(['schedules'])
+    }
+  }
 }

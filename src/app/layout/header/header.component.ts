@@ -64,6 +64,7 @@ export class HeaderComponent implements OnInit {
       this.keycloak.logout()
     },
   }
+
   private login = {
     label: 'Sign in',
     con: 'pi pi-sign-in',
@@ -71,6 +72,7 @@ export class HeaderComponent implements OnInit {
       this.keycloak.login()
     }
   }
+
   private register = {
     label: 'Sign up',
     icon: 'pi pi-user-plus',
