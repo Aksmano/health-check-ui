@@ -26,6 +26,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/medical-tests/medical-tests.module').then(m => m.MedicalTestsModule)
       },
+      {
+        path: 'update-user-data',
+        loadChildren: () =>
+          import('./modules/register-user-data/register-user-data.module').then(m => m.RegisterUserDataModule)
+      },
       // {
       //   path: 'admin',
       //   canActivate: [AdminGuard],

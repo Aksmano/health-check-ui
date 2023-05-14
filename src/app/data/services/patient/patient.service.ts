@@ -21,7 +21,7 @@ export class PatientService {
   }
 
   updatePatientData(patientData: PatientDataRQ): Observable<PatientRS> {
-    return this.httpClient.post<PatientRS>(this.baseUrl, { patientData });
+    return this.httpClient.put<PatientRS>(this.baseUrl, { ...patientData });
   }
 
   hasPatientDataUpdated(uuid: string): Observable<boolean> {
