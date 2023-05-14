@@ -52,6 +52,10 @@ export class NavigationService {
     this.router.navigate(['app', 'appointments', ...path], { queryParams: params });
   }
 
+  public toAppointmentById(id: number) {
+    this.router.navigate(['app', 'appointments', id.toString()]);
+  }
+
   public toMainPage() {
     this.router.navigate(['/app']);
   }

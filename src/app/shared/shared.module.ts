@@ -22,6 +22,7 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { AdminViewComponent } from './components/table-view/table-views/admin-view/admin-view.component';
 import { DoctorAppointmentViewComponent } from './components/table-view/table-views/doctor-appointment-view/doctor-appointment-view.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { DoctorAppointmentViewComponent } from './components/table-view/table-vi
     AvatarModule,
     TableModule,
     ButtonModule,
-    TooltipModule
+    TooltipModule,
+    FormsModule
   ],
   exports: [
     LoadingSpinnerComponent,

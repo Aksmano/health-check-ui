@@ -17,12 +17,15 @@ import { DropdownModule } from 'primeng/dropdown';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { SharedModule } from "../../shared/shared.module";
 import { SearchTableComponent } from './pages/search-table/search-table.component';
+import { DoctorsScheduleDetailsComponent } from './pages/doctors-schedule-details/doctors-schedule-details.component';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
   declarations: [
     SearchComponent,
-    SearchTableComponent
+    SearchTableComponent,
+    DoctorsScheduleDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +42,8 @@ import { SearchTableComponent } from './pages/search-table/search-table.componen
     CarouselModule,
     DropdownModule,
     KeyFilterModule,
-    SharedModule
+    SharedModule,
+    DialogModule
   ]
 })
 export class AppointmentsModule { }
