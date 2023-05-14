@@ -29,7 +29,7 @@
   <ng-template pTemplate="body" let-type>
     <tr>
       <td>
-        {{ type.value }}
+        {{ getTestTypeName(type.value) }}
       </td>
       <td>
         <p-button icon="pi pi-calendar-plus" label="Add schedules"

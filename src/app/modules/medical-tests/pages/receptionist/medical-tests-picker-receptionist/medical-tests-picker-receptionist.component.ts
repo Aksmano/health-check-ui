@@ -5,6 +5,7 @@ import {DepartmentRS} from "../../../../../data/model/dto/rs/DepartmentRS";
 import {ToastService} from "../../../../../core/services/toast/toast.service";
 import {TestType} from "../../../../../data/model/common/TestType";
 import {NavigationService} from "../../../../../core/services/navigation/navigation.service";
+import {getFriendlyEnumName} from "../../../../../utils";
 
 @Component({
   selector: 'app-medical-tests-picker-receptionist',
@@ -38,4 +39,7 @@ export class MedicalTestsPickerReceptionistComponent implements OnInit, OnDestro
   ngOnDestroy(): void {
   }
 
+  getTestTypeName(value: string) {
+    return getFriendlyEnumName(value);
+  }
 }

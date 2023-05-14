@@ -75,7 +75,6 @@ export class MedicalTestsCreateVisitReceptionistComponent {
             .subscribe(data => {
               this.handleData(data);
               this.schedulesByDay = this.getSchedulesByDay(this.medicalTestSchedules!.schedules, this.medicalTestSchedules!.assignedSchedules);
-              this.allDataLoaded = true;
             })
         });
       }
