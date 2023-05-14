@@ -1,14 +1,7 @@
-<p-table
-  [value]="types"
-  dataKey="id"
-  [rows]="10"
-  [showCurrentPageReport]="true"
-  [rowsPerPageOptions]="[10, 25, 50]"
-  [paginator]="true"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [globalFilterFields]="['name']"
-  [tableStyle]="{ 'min-width': '100%' }"
->
+<p-table *ngIf="!!departmentId; else loading" [value]="types" dataKey="id" [rows]="10" [showCurrentPageReport]="true"
+  [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [globalFilterFields]="['name']"
+  [tableStyle]="{ 'min-width': '100%' }">
   <ng-template pTemplate="header">
     <tr>
       <th>
@@ -21,7 +14,7 @@
       <th>
         <div>
           <p-button label="Show all visits"
-                    (onClick)="navigationService.toMedicalTestVisitsByDepartment(departmentId)"></p-button>
+            (onClick)="navigationService.toMedicalTestVisitsByDepartment(departmentId)"></p-button>
         </div>
       </th>
     </tr>
@@ -33,12 +26,12 @@
       </td>
       <td>
         <p-button icon="pi pi-calendar-plus" label="Add schedules"
-                  styleClass="p-button-raised p-button-text p-button-secondary"
-                  (onClick)="navigationService.toMedicalTestInsertSchedules(departmentId, type.value)"></p-button>
+          styleClass="p-button-raised p-button-text p-button-secondary"
+          (onClick)="navigationService.toMedicalTestInsertSchedules(departmentId, type.value)"></p-button>
       </td>
       <td>
         <p-button icon="pi pi-plus" label="Create visit" styleClass="p-button-raised p-button-text p-button-secondary"
-                  (onClick)="navigationService.toCreateMedicalTestCreateVisit(departmentId, type.value)"></p-button>
+          (onClick)="navigationService.toCreateMedicalTestCreateVisit(departmentId, type.value)"></p-button>
       </td>
     </tr>
   </ng-template>
@@ -48,3 +41,7 @@
     </tr>
   </ng-template>
 </p-table>
+
+<ng-template #loading>
+  <app-loading-spinner title="Loading data..."></app-loading-spinner>
+</ng-template>
