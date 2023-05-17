@@ -1,40 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
-import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
-import { ToastService } from 'src/app/core/services/toast/toast.service';
-import { Specialization } from 'src/app/data/model/common/Specialization';
-import { Address } from 'src/app/data/model/dto/common/Address';
-import { AppointmentStatus } from 'src/app/data/model/dto/common/AppointmentStatus';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DepartmentRS } from "../../../../../data/model/dto/rs/DepartmentRS";
+import { Subject, Subscription, takeUntil } from "rxjs";
+import { ActivatedRoute } from "@angular/router";
+import { ToastService } from "../../../../../core/services/toast/toast.service";
+import { DepartmentServiceImpl } from "../../../../../data/services/department/department.service";
+import { NavigationService } from "../../../../../core/services/navigation/navigation.service";
+import { Address } from "../../../../../data/model/dto/common/Address";
+import { getFriendlyEnumName, getUserFriendlyAddress } from "../../../../../utils";
+import { AppointmentService } from 'src/app/data/services/appointment/appointment.service';
 import { AppointmentRS } from 'src/app/data/model/dto/rs/AppointmentRS';
-import { DepartmentRS } from 'src/app/data/model/dto/rs/DepartmentRS';
+import { AppointmentStatus } from 'src/app/data/model/dto/common/AppointmentStatus';
+import { DoctorRS } from 'src/app/data/model/dto/rs/employeeRS/DoctorRS';
+import { DoctorServiceImpl } from 'src/app/data/services/doctor/doctor.service';
 import { PatientRS } from 'src/app/data/model/dto/rs/PatientRS';
 import { TreatmentRS } from 'src/app/data/model/dto/rs/TreatmentRS';
-import { DoctorRS } from 'src/app/data/model/dto/rs/employeeRS/DoctorRS';
-import { AppointmentService } from 'src/app/data/services/appointment/appointment.service';
-import { DepartmentServiceImpl } from 'src/app/data/services/department/department.service';
-import { DoctorServiceImpl } from 'src/app/data/services/doctor/doctor.service';
-import { getFriendlyEnumName, getUserFriendlyAddress } from 'src/app/utils';
+import { Specialization } from 'src/app/data/model/common/Specialization';
 
 @Component({
-  selector: 'app-appointment-view',
-  templateUrl: './appointment-view.component.html',
-  styleUrls: ['./appointment-view.component.scss']
+  selector: 'app-receptionist-appointment-view',
+  templateUrl: './receptionist-appointment-view.component.html',
+  styleUrls: ['./receptionist-appointment-view.component.scss']
 })
-export class AppointmentViewComponent implements OnInit {
-  // public appointment?: AppointmentRS;
-  // protected department?: DepartmentRS;
-  public appointment?: AppointmentRS = {
-    appointmentDate: new Date("2023-04-30T08:00:00"),
-    doctorRS: { "doctorUUID": "bb1862ea-bb52-4ede-847c-320a36c97130", "firstname": "Adam", "lastname": "Adminowski", "specialization": Specialization.ANESTHESIA, "departmentId": 497, "rate": 0, "rateNumber": 0 },
-    patientRS: {} as PatientRS,
-    comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula vel lectus non lacinia. Duis vehicula posuere accumsan. Sed posuere vestibulum dolor gravida fringilla. Etiam commodo eget est bibendum consequat. Pellentesque luctus, massa in pellentesque lacinia, ex magna sodales nibh, ac vestibulum lacus odio eu sem. Mauris pulvinar accumsan urna eu congue. Quisque feugiat erat eu mi convallis aliquet. Integer sit amet placerat sapien.',
-    departmentId: 1257,
-    id: 1243,
-    status: AppointmentStatus.SCHEDULED,
-    treatmentRS: {} as TreatmentRS
-  };
-  protected department?: DepartmentRS = { "id": 1257, "name": "Testing department", "address": { "country": "PL", "city": "Krakow", "street": "Elegancka", "houseNumber": "17", "apartmentNumber": "10", "postalCode": "12-123", "post": "krakow somewhere", "county": "krakowski", "province": "Malopolska" } };
+export class ReceptionistAppointmentViewComponent {
+  public appointment?: AppointmentRS;
+  protected department?: DepartmentRS;
+  // public appointment?: AppointmentRS = {
+  //   appointmentDate: new Date("2023-04-30T08:00:00"),
+  //   doctorRS: { "doctorUUID": "bb1862ea-bb52-4ede-847c-320a36c97130", "firstname": "Adam", "lastname": "Adminowski", "specialization": Specialization.ANESTHESIA, "departmentId": 497, "rate": 0, "rateNumber": 0 },
+  //   patientRS: {} as PatientRS,
+  //   comments: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vehicula vel lectus non lacinia. Duis vehicula posuere accumsan. Sed posuere vestibulum dolor gravida fringilla. Etiam commodo eget est bibendum consequat. Pellentesque luctus, massa in pellentesque lacinia, ex magna sodales nibh, ac vestibulum lacus odio eu sem. Mauris pulvinar accumsan urna eu congue. Quisque feugiat erat eu mi convallis aliquet. Integer sit amet placerat sapien.',
+  //   departmentId: 1257,
+  //   id: 1243,
+  //   status: AppointmentStatus.SCHEDULED,
+  //   treatmentRS: {} as TreatmentRS
+  // };
+  // protected department?: DepartmentRS = { "id": 1257, "name": "Testing department", "address": { "country": "PL", "city": "Krakow", "street": "Elegancka", "houseNumber": "17", "apartmentNumber": "10", "postalCode": "12-123", "post": "krakow somewhere", "county": "krakowski", "province": "Malopolska" } };
   protected showDateVisible: boolean = false;
 
   private readonly ngUnsubscribe = new Subject();
@@ -55,6 +55,8 @@ export class AppointmentViewComponent implements OnInit {
         .subscribe({
           next: appointment => {
             this.appointment = appointment;
+            this.appointment.appointmentDate = new Date(appointment.appointmentDate)
+            
             this.departmentService.getDepartmentById(this.appointment.departmentId)
               .pipe(takeUntil(this.ngUnsubscribe))
               .subscribe({
@@ -75,6 +77,10 @@ export class AppointmentViewComponent implements OnInit {
 
   public getDoctorName(doctor: DoctorRS) {
     return `${doctor.firstname} ${doctor.lastname}`
+  }
+
+  public getPatientName(patient: PatientRS) {
+    return `${patient.firstName} ${patient.lastName}`
   }
 
   public getFriendlyAddress(address: Address) {

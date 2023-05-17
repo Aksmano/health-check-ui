@@ -9,6 +9,7 @@ import { AppointmentsPickerReceptionistComponent } from './pages/receptionist/ap
 import { AddAppointmentSchedulesComponent } from './pages/receptionist/add-appointment-schedules/add-appointment-schedules.component';
 import { AppointmentCreateVisitComponent } from './pages/receptionist/appointment-create-visit/appointment-create-visit.component';
 import { ScheduledAppointmentsTableComponent } from './pages/receptionist/scheduled-appointments-table/scheduled-appointments-table.component';
+import { ReceptionistAppointmentViewComponent } from './pages/receptionist/receptionist-appointment-view/receptionist-appointment-view.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
   {
     path: 'receptionist/appointment-visits/:id',
     component: ScheduledAppointmentsTableComponent,
+  },
+  {
+    path: 'receptionist/appointment-view/:id',
+    component: ReceptionistAppointmentViewComponent,
   },
 ];
 

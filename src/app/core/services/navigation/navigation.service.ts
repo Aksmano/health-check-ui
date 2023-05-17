@@ -76,7 +76,7 @@ export class NavigationService {
   }
 
   public toAppointmentDetailsReceptionist(id: number, path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/appointments/receptionist/appointment-details/' + id, ...path], {
+    this.router.navigate(['/app/appointments/receptionist/appointment-view/' + id, ...path], {
       ...extras,
       relativeTo: this.route
     });

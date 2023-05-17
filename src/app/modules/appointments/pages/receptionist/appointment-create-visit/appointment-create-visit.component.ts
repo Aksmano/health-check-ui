@@ -334,7 +334,7 @@ export class AppointmentCreateVisitComponent {
         .subscribe({
           next: data => {
             this.toastService.showSuccess('Visit created');
-            this.navigationService.toMedicalTestById(data.id)
+            this.navigationService.toAppointmentDetailsReceptionist(data.id)
           },
           error: error => {
             console.log(error)
