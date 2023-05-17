@@ -90,6 +90,13 @@ export class NavigationService {
     });
   }
 
+  public toAppointmentDetailsDoctor(id: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/doctor/appointment-view/' + id, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
   public toAppointmentVisitsByDepartment(departmentId: number, path: string[] = [], extras?: NavigationExtras) {
     this.router.navigate(['/app/appointments/receptionist/appointment-visits/' + departmentId, ...path], {
       ...extras,

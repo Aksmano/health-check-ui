@@ -11,6 +11,7 @@ import { AppointmentCreateVisitComponent } from './pages/receptionist/appointmen
 import { ScheduledAppointmentsTableComponent } from './pages/receptionist/scheduled-appointments-table/scheduled-appointments-table.component';
 import { ReceptionistAppointmentViewComponent } from './pages/receptionist/receptionist-appointment-view/receptionist-appointment-view.component';
 import { DoctorScheduledAppointmentsTableComponent } from './pages/doctor/scheduled-appointments-table/scheduled-appointments-table.component';
+import { DoctorsAppointmentViewComponent } from './pages/doctor/doctors-appointment-view/doctors-appointment-view.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
   {
     path: 'doctor/appointment-visits/:doctorId',
     component: DoctorScheduledAppointmentsTableComponent,
+  },
+  {
+    path: 'doctor/appointment-view/:id',
+    component: DoctorsAppointmentViewComponent,
   },
 ];
 
