@@ -7,6 +7,11 @@ export interface AppointmentScheduleDay {
   assignedSchedules: {}
 }
 
+export interface AppointmentScheduleDayRec {
+  day: Date;
+  schedules: AppointmentDateRS[];
+}
+
 export const dayNames = [
   'Sunday',
   'Monday',

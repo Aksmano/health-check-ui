@@ -23,6 +23,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { AdminViewComponent } from './components/table-view/table-views/admin-view/admin-view.component';
 import { DoctorAppointmentViewComponent } from './components/table-view/table-views/doctor-appointment-view/doctor-appointment-view.component';
 import { FormsModule } from '@angular/forms';
+import { PatientsTableComponent } from './components/patients-table/patients-table.component';
+import { ToolbarModule } from 'primeng/toolbar';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,8 @@ import { FormsModule } from '@angular/forms';
     ReceptionistViewComponent,
     DepartmentViewComponent,
     AdminViewComponent,
-    DoctorAppointmentViewComponent
+    DoctorAppointmentViewComponent,
+    PatientsTableComponent
   ],
   imports: [
     CommonModule,
@@ -51,13 +54,15 @@ import { FormsModule } from '@angular/forms';
     TableModule,
     ButtonModule,
     TooltipModule,
-    FormsModule
+    FormsModule,
+    ToolbarModule
   ],
   exports: [
     LoadingSpinnerComponent,
     DataTableViewComponent,
     TableViewComponent,
-    AvatarComponent
+    AvatarComponent,
+    PatientsTableComponent
   ]
 })
 export class SharedModule { }

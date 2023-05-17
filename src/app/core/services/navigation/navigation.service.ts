@@ -90,7 +90,7 @@ export class NavigationService {
   }
 
   public toCreateAppointment(departmentId: number, spec: string, path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/medical-tests/receptionist/create-appointment/' + departmentId + '/' + spec, ...path], {
+    this.router.navigate(['/app/appointments/receptionist/create-appointment/' + departmentId + '/' + spec, ...path], {
       ...extras,
       relativeTo: this.route
     });
@@ -129,7 +129,7 @@ export class NavigationService {
 
   public toMedicalTestsPortal(path: string[] = [], extras?: NavigationExtras) {
     if (this.roleService.hasRoleReceptionist()) {
-      this.router.navigate(['/app/medical-tests/receptionist/search', ...path], { ...extras, relativeTo: this.route });
+      this.router.navigate(['/app/medical-tests/receptionist/medical-test-picker', ...path], { ...extras, relativeTo: this.route });
     } else if (this.roleService.hasRoleDoctor()) {
       this.router.navigate(['/app/medical-tests/doctor', ...path], { ...extras, relativeTo: this.route });
     } else if (this.roleService.hasRolePatient()) {

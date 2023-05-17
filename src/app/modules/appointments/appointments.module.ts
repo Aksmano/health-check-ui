@@ -27,6 +27,8 @@ import { AppointmentsPickerReceptionistComponent } from './pages/receptionist/ap
 import { AddAppointmentSchedulesComponent } from './pages/receptionist/add-appointment-schedules/add-appointment-schedules.component';
 import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { AppointmentCreateVisitComponent } from './pages/receptionist/appointment-create-visit/appointment-create-visit.component';
+import { PatientModule } from '../patient/patient.module';
 
 
 @NgModule({
@@ -37,7 +39,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     AppointmentViewComponent,
     PatientAllAppointmentsComponent,
     AppointmentsPickerReceptionistComponent,
-    AddAppointmentSchedulesComponent
+    AddAppointmentSchedulesComponent,
+    AppointmentCreateVisitComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +62,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
     TableModule,
     TagModule,
     CalendarModule,
-    InputNumberModule
+    InputNumberModule,
+    PatientModule
   ]
 })
 export class AppointmentsModule { }
