@@ -76,6 +76,13 @@ export class NavigationService {
     });
   }
 
+  public toAppointmentInsertSchedulesByDoctor(uuid: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/doctor/add-schedules/' + uuid, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
   public toAppointmentDetailsReceptionist(id: number, path: string[] = [], extras?: NavigationExtras) {
     this.router.navigate(['/app/appointments/receptionist/appointment-view/' + id, ...path], {
       ...extras,

@@ -10,6 +10,7 @@ import { AppointmentStatus } from 'src/app/data/model/dto/common/AppointmentStat
 import { DoctorRS } from 'src/app/data/model/dto/rs/employeeRS/DoctorRS';
 import { PatientRS } from 'src/app/data/model/dto/rs/PatientRS';
 import { TreatmentRS } from 'src/app/data/model/dto/rs/TreatmentRS';
+import { UserInfo } from 'src/app/core/user-info';
 
 @Component({
   selector: 'app-doctor-scheduled-appointments-table',
@@ -22,6 +23,7 @@ export class DoctorScheduledAppointmentsTableComponent {
   protected endDate: Date | undefined;
   protected visits: AppointmentRS[] | undefined;
   protected isProcessOngoing: boolean = true;
+  protected doctorUUID: string = UserInfo.profile?.id!;
   // protected visits: AppointmentRS[] = [
   //   {
   //     appointmentDate: new Date(),
