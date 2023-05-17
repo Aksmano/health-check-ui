@@ -25,7 +25,7 @@ export class ScheduleServiceImpl implements ScheduleService {
     scheduleCriteria: ScheduleCriteriaQP = {} as ScheduleCriteriaQP
   ): Observable<ScheduleRS[]> {
     const params: { [key: string]: string } = {}
-    
+
     if (!!scheduleCriteria.startDateTime)
       params['startDateTime'] = scheduleCriteria.startDateTime;
     if (!!scheduleCriteria.endDateTime)
@@ -49,7 +49,14 @@ export class ScheduleServiceImpl implements ScheduleService {
   }
 
   addSchedules(schedules: ScheduleRQ[]): Observable<ScheduleRS[]> {
-    return this.httpClient.post<ScheduleRS[]>(this.baseUrl, { ...schedules });
+    const validSchedules = schedules.map(sch => {
+      return {
+        startDateTime: toJavaLocalDateTime(sch.startDateTime),
+        endDateTime: toJavaLocalDateTime(sch.endDateTime),
+      }
+    })
+
+    return this.httpClient.post<ScheduleRS[]>(this.baseUrl, validSchedules);
   }
 
   addSchedulesByDoctorId(id: string, schedules: ScheduleRQ[]): Observable<ScheduleRS[]> {
