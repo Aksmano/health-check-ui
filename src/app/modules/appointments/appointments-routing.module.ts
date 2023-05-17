@@ -8,6 +8,7 @@ import { AppointmentViewComponent } from './pages/patient/appointment-view/appoi
 import { AppointmentsPickerReceptionistComponent } from './pages/receptionist/appointments-picker-receptionist/appointments-picker-receptionist.component';
 import { AddAppointmentSchedulesComponent } from './pages/receptionist/add-appointment-schedules/add-appointment-schedules.component';
 import { AppointmentCreateVisitComponent } from './pages/receptionist/appointment-create-visit/appointment-create-visit.component';
+import { ScheduledAppointmentsTableComponent } from './pages/receptionist/scheduled-appointments-table/scheduled-appointments-table.component';
 
 const routes: Routes = [
   {
@@ -46,7 +47,11 @@ const routes: Routes = [
   {
     path: 'receptionist/create-appointment/:id/:spec',
     component: AppointmentCreateVisitComponent
-  }
+  },
+  {
+    path: 'receptionist/appointment-visits/:id',
+    component: ScheduledAppointmentsTableComponent,
+  },
 ];
 
 @NgModule({
