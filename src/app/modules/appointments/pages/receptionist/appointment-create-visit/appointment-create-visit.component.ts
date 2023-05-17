@@ -82,22 +82,26 @@ export class AppointmentCreateVisitComponent {
         specialization: params['spec']
       })
         .subscribe({
-          next: doctor => {
-            this.doctors = doctor
-            this.doctorsDropdownData = doctor.map(doc => this.mapToDropdownItem(`${doc.firstname} ${doc.lastname}`, doc.doctorUUID))
+          next: doctors => {
+            this.doctors = doctors
+            this.doctorsDropdownData = doctors.map(doc => this.mapToDropdownItem(`${doc.firstname} ${doc.lastname}`, doc.doctorUUID))
+            if (this.doctors.length > 0) {
+              this.selectedDoctor = this.mapToDropdownItem(`${doctors[0].firstname} ${doctors[0].lastname}`, doctors[0].doctorUUID)
+              this.onDoctorSelect()
+            }
           },
           error: err => this.toastService.showError("Something went wrong while loading doctor, please try again later.")
         })
       this.currentDate$.subscribe(data => {
         this.currentDate = data;
-        this.schedulesByDay = this.getSchedulesByDay([], []);
-        //   this.schedulesSubscription = this.scheduleService.getSchedulesWithAppointments(params['spec'], {
+        //   this.schedulesByDay = undefined
+        //   this.schedulesSubscription = this.scheduleService.getSchedulesWithAppointments(this.selectedDoctor!.code, {
         //     startDateTime: getFirstDayOfWeek(this.currentDate),
         //     endDateTime: getTheLastDayOfWeek(this.currentDate)
         //   })
         //     .subscribe(data => {
         //       this.handleData(data);
-        // this.schedulesByDay = this.getSchedulesByDay(this.appointmentSchedules!.schedules, this.appointmentSchedules!.appointments);
+        //       this.schedulesByDay = this.getSchedulesByDay(this.appointmentSchedules!.schedules, this.appointmentSchedules!.appointments);
         //     })
       });
     }

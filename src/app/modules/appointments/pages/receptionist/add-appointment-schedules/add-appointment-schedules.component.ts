@@ -54,7 +54,7 @@ export class AddAppointmentSchedulesComponent {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      this.departmentId = parseInt(params['departmentId']);
+      this.departmentId = parseInt(params['id']);
       this.spec = params['spec'];
       if (this.dateSubscription) {
         this.dateSubscription.unsubscribe();
@@ -70,8 +70,8 @@ export class AddAppointmentSchedulesComponent {
             this.doctorsDropdownList = doctors.map(doc => this.mapToDropdownItem(`${doc.firstname} ${doc.lastname}`, doc.doctorUUID));
             if (doctors.length > 0) {
               this.fetchingDoctorSchedules = true;
-              const firstDoc = doctors[0];
-              this.schedulesSubscription = this.scheduleService.getSchedules(firstDoc.doctorUUID, {
+              const doctorUUID = this.selectedDoctor?.code ?? doctors[0].doctorUUID;
+              this.schedulesSubscription = this.scheduleService.getSchedules(doctorUUID, {
                 startDateTime: getFirstDayOfWeek(this.currentDate!),
                 endDateTime: getTheLastDayOfWeek(this.currentDate!)
               } as SchedulesAppointmentsCriteriaQP).subscribe({
@@ -125,6 +125,8 @@ export class AddAppointmentSchedulesComponent {
           this.hours = getAllDatesByWorkingHoursInDay(this.currentDate!);
           this.days = getAllDaysInWeekByDate(this.currentDate!);
           this.fetchingDoctorSchedules = false;
+          console.log(this.selectedDoctor);
+          
         }, error: error => {
           this.toastService.showError('Error during fetching schedules. Try again later.')
           this.assignedSchedules = [];
