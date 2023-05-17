@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router } from '@angular/router';
 import { RoleService } from '../roles/role.service';
+import { UserInfo } from '../../user-info';
 
 @Injectable({
   providedIn: 'root'
@@ -63,7 +64,7 @@ export class NavigationService {
 
     if (this.roleService.hasRolePatient()) userType = ['patient']
     if (this.roleService.hasRoleReceptionist()) userType = ['receptionist', 'appointment-picker']
-    if (this.roleService.hasRoleDoctor()) userType = ['doctor']
+    if (this.roleService.hasRoleDoctor()) userType = ['doctor', 'appointment-visits', UserInfo.profile?.id!]
 
     this.router.navigate(['app', 'appointments', ...userType, ...path], { queryParams: params });
   }

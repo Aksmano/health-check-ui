@@ -32,6 +32,7 @@ import { PatientModule } from '../patient/patient.module';
 import { ScheduledAppointmentsTableComponent } from './pages/receptionist/scheduled-appointments-table/scheduled-appointments-table.component';
 import { ReceptionistAppointmentViewComponent } from './pages/receptionist/receptionist-appointment-view/receptionist-appointment-view.component';
 import { FileUploadModule } from 'primeng/fileupload';
+import { DoctorScheduledAppointmentsTableComponent } from './pages/doctor/scheduled-appointments-table/scheduled-appointments-table.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { FileUploadModule } from 'primeng/fileupload';
     AddAppointmentSchedulesComponent,
     AppointmentCreateVisitComponent,
     ScheduledAppointmentsTableComponent,
-    ReceptionistAppointmentViewComponent
+    ReceptionistAppointmentViewComponent,
+    DoctorScheduledAppointmentsTableComponent
   ],
   imports: [
     CommonModule,

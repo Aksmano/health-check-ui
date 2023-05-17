@@ -12,11 +12,11 @@ import { PatientRS } from 'src/app/data/model/dto/rs/PatientRS';
 import { TreatmentRS } from 'src/app/data/model/dto/rs/TreatmentRS';
 
 @Component({
-  selector: 'app-scheduled-appointments-table',
+  selector: 'app-doctor-scheduled-appointments-table',
   templateUrl: './scheduled-appointments-table.component.html',
   styleUrls: ['./scheduled-appointments-table.component.scss']
 })
-export class ScheduledAppointmentsTableComponent {
+export class DoctorScheduledAppointmentsTableComponent {
   protected selectedTestType: any;
   protected startDate: Date | undefined;
   protected endDate: Date | undefined;
@@ -40,7 +40,7 @@ export class ScheduledAppointmentsTableComponent {
   //   }
   // ]
   public testTypes: any[] | undefined;
-  protected departmentId: number | undefined;
+  protected doctorId: string | undefined;
 
   constructor(private readonly toastService: ToastService,
     protected readonly navigationService: NavigationService,
@@ -51,12 +51,11 @@ export class ScheduledAppointmentsTableComponent {
   ngOnInit(): void {
     this.testTypes = specializationDropdownList;
     this.activatedRoute.params.subscribe(params => {
-      this.departmentId = parseInt(params['id']);
+      this.doctorId = params['doctorId'];
 
-      this.appointmentService.getAppointmentsByDepartmentId(this.departmentId).subscribe({
+      this.appointmentService.getAppointmentsByDoctorId(this.doctorId!).subscribe({
         next: data => {
           this.visits = data;
-          console.log(this.visits)
         },
         error: error => {
           this.toastService.showError('Error during fetching tests for department.')
@@ -96,7 +95,7 @@ export class ScheduledAppointmentsTableComponent {
       .subscribe({
         next: res => {
           this.toastService.showSuccess("Appointment was deleted successfully!")
-          this.appointmentService.getAppointmentsByDepartmentId(this.departmentId!).subscribe({
+          this.appointmentService.getAppointmentsByDoctorId(this.doctorId!).subscribe({
             next: data => {
               this.visits = data;
               console.log(this.visits)
