@@ -10,19 +10,24 @@
         {{getFriendlyAddress(department.address)}}
     </a>
 
-    <div class="flex flex-column align-items-start text-900 text-lg font-semibold" *ngIf="isScheduled()">
+    <div class="flex flex-wrap flex-row align-items-start text-900 text-lg font-semibold" *ngIf="isScheduled()">
         <div>This appointment has not yet taken place.</div>
         <p-button label="Delete appointment" icon="pi pi-trash"
-            styleClass="p-button-sm p-button-danger p-button-outlined" class="my-2"
+            styleClass="p-button-sm p-button-danger p-button-outlined" class="my-2 mr-2"
             (click)="showDateVisible = true"></p-button>
+        <p-button label="Add treatment" icon="pi pi-plus-circle"
+            styleClass="p-button-sm p-button-success p-button-outlined" class="my-2 mr-2"
+            (click)="showAddTreatmentVisible = true"></p-button>
     </div>
     <div class="my-3 text-900 text-lg font-semibold" *ngIf="isCanceled()">
         <i class="pi pi-info-circle mr-2 text-teal-500"></i>This appointment has been canceled.
     </div>
     <div class="flex flex-column align-items-start text-900 text-lg font-semibold" *ngIf="isFinished()">
         <div>This appointment has taken place</div>
-        <p-button styleClass="p-button-sm p-button-success p-button-outlined" label="Download result" class="my-2"
-            (onClick)="getResult()"></p-button>
+        <p-button label="Add referral" icon="pi pi-trash" styleClass="p-button-sm p-button-danger p-button-outlined"
+            class="my-2 mr-2" (click)="showDateVisible = true"></p-button>
+        <p-button label="Add prescription" icon="pi pi-trash" styleClass="p-button-sm p-button-danger p-button-outlined"
+            class="my-2 mr-2" (click)="showDateVisible = true"></p-button>
     </div>
 
     <!-- <p-tag class="flex my-2"
@@ -66,3 +71,135 @@
         </ng-template>
     </p-dialog>
 </div>
+<div *ngIf="!loadingList; else loading" class="flex h-6 w-6 flex-column pr-5 border-left-100">
+    <div class="flex flex-row w-full mb-3">
+        <p-button (onClick)="loadAppointmentsList()">
+            Load appointments list
+        </p-button>
+        <div class="flex flex-grow-1"></div>
+        <p-button (onClick)="loadMedTestsList()">
+            Load medical tests list
+        </p-button>
+    </div>
+    <p-table *ngIf="appointmentsListActive && !loadingList" [value]="appointmentsList" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '50rem' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:25%">Doctor</th>
+                <th style="width:20%">Date</th>
+                <th style="width:20%">Status</th>
+                <th style="width:15%"></th>
+                <th style="width:20%"></th>
+                <th style="width:10%"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <td>{{item.doctorRS.firstname}}, {{item.doctorRS.firstname}}</td>
+            <td>{{item.appointmentDate | date:'short'}}</td>
+            <td>{{item.status}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </ng-template>
+    </p-table>
+    <p-table *ngIf="medTestsListActive && !loadingList" [value]="medTestsList" [paginator]="true" [rows]="10"
+        [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '100%' }"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [rowsPerPageOptions]="[10, 25, 50]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width:10%">Type</th>
+                <th style="width:10%">Date</th>
+                <th style="width:10%">Status</th>
+                <th style="width:10%"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-visit>
+            <tr>
+                <td>{{visit.type}}</td>
+                <td>{{visit.testDateTime | date:'short'}}</td>
+                <td>
+                    <p-tag [value]=" getMessageByTestType(visit.testStatus)"
+                        [severity]="getSeverityForMT(visit.testStatus)"></p-tag>
+                </td>
+                <td class="flex flex-row">
+                    <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-text"
+                        (onClick)="navigationService.toMedicalTestDetailsReceptionist(visit.id)"></p-button>
+                    <p-button icon="pi pi-eye" styleClass="p-button-rounded p-button-text"
+                        (onClick)="navigationService.toMedicalTestById(visit.id)"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<ng-template #loading>
+    <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
+</ng-template>
+
+<p-dialog header="Header" [(visible)]="showAddTreatmentVisible" [style]="{ width: '50vw' }">
+    <ng-template pTemplate="header">
+        <span class="text-xl font-bold">Patients treatment form</span>
+    </ng-template>
+    <div class="pt-1"></div>
+    <div class="flex flex-row mb-1">
+        <p-inputSwitch [(ngModel)]="addReferral" inputId="add-referral"></p-inputSwitch>
+        <div class="font-bold text-center ml-2">Include referral</div>
+    </div>
+    <div *ngIf="!uploadingTreatment; else loading">
+        <div *ngIf="addReferral" class="mb-3">
+            <div class="mt-3 text-lg font-bold">Referral</div>
+            <div class="flex flex-column gap-2 w-4 mb-1">
+                <label htmlFor="referral-test-type">Test type</label>
+                <p-dropdown class="w-4" [options]="testTypesDropdownItems" id="referral-test-type" optionLabel="name"
+                    [(ngModel)]="referral.testType"></p-dropdown>
+            </div>
+            <div class="flex flex-column gap-2 w-4">
+                <label htmlFor="referral-exp-date">Expiration date</label>
+                <input pInputText type="date" id="referral-exp-date" placeholder="Expiration date"
+                    [(ngModel)]="referral.expirationDate" />
+            </div>
+        </div>
+        <div class="flex flex-row">
+            <p-inputSwitch [(ngModel)]="addPrescription" inputId="add-prescription"></p-inputSwitch>
+            <div class="font-bold text-center ml-2">Include prescription</div>
+        </div>
+        <div *ngIf="addPrescription" class="mb-3">
+            <div class="mt-3 text-lg font-bold">Prescription</div>
+            <div class="flex flex-column gap-2 w-4 mb-1">
+                <label htmlFor="prescription-code">Code</label>
+                <input pInputText type="text" id="prescription-code" [(ngModel)]="prescription.code" />
+            </div>
+            <div class="flex flex-column gap-2 w-4">
+                <label htmlFor="prescription-exp-date">Expiration date</label>
+                <input pInputText type="date" id="prescription-exp-date" placeholder="Expiration date"
+                    [(ngModel)]="prescription.expirationDate" />
+            </div>
+            <div class="flex flex-column gap-2 w-6">
+                <label htmlFor="prescription-desc">Description</label>
+                <textarea rows="5" cols="30" pInputTextarea type="date" id="prescription-desc"
+                    [(ngModel)]="prescription.description"></textarea>
+            </div>
+        </div>
+        <div class="mt-3 text-lg font-bold">Treatment</div>
+        <div class="flex flex-column">
+            <div class="flex flex-column gap-2 w-6">
+                <label htmlFor="treatment-diagnosis">Diagnosis</label>
+                <textarea rows="5" cols="30" pInputTextarea type="date" id="treatment-diagnosis"
+                    [(ngModel)]="treatmentRQ.diagnosis"></textarea>
+            </div>
+            <div class="flex flex-column gap-2 w-6">
+                <label htmlFor="treatment-recommendation">Recommendation</label>
+                <textarea rows="5" cols="30" pInputTextarea type="date" id="treatment-recommendation"
+                    [(ngModel)]="treatmentRQ.recommendation"></textarea>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <p-button label="Go back" (click)="showAddTreatmentVisible = false" styleClass="p-button-secondary"></p-button>
+        <p-button label="Add" icon="pi pi-plus-circle" styleClass="p-button-raised p-button-success"
+            (onClick)="addTreatment()"></p-button>
+    </ng-template>
+</p-dialog>

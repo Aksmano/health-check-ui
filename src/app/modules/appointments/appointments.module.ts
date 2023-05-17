@@ -35,7 +35,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { DoctorScheduledAppointmentsTableComponent } from './pages/doctor/scheduled-appointments-table/scheduled-appointments-table.component';
 import { DoctorsAppointmentViewComponent } from './pages/doctor/doctors-appointment-view/doctors-appointment-view.component';
 import { DoctorsScheduleInsertComponent } from './pages/doctor/doctors-schedule-insert/doctors-schedule-insert.component';
-
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,9 @@ import { DoctorsScheduleInsertComponent } from './pages/doctor/doctors-schedule-
     CalendarModule,
     InputNumberModule,
     PatientModule,
-    FileUploadModule
+    FileUploadModule,
+    InputSwitchModule,
+    InputTextareaModule
   ]
 })
 export class AppointmentsModule { }

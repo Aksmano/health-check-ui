@@ -1,19 +1,20 @@
 <div *ngIf="visits && !isProcessOngoing; else loading" class="flex flex-column w-full h-full">
-    <p-button icon="pi pi-calendar-plus" label="Add schedules"
-        styleClass="p-button-raised p-button-text p-button-secondary"
-        (onClick)="navigationService.toAppointmentInsertSchedulesByDoctor(doctorUUID)"></p-button>
     <p-table [value]="visits" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
         [tableStyle]="{ 'min-width': '50rem' }"
         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
         [rowsPerPageOptions]="[10, 25, 50]">
         <ng-template pTemplate="header">
             <tr>
-                <th style="width:20%">Doctor spec.</th>
-                <th style="width:15%">First name</th>
-                <th style="width:15%">Last name</th>
-                <th style="width:23%">Date</th>
-                <th style="width:17%">Status</th>
-                <th style="width:10%"></th>
+                <th>Doctor spec.</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>
+                    <p-button icon="pi pi-calendar-plus" label="Add schedules"
+                        styleClass="p-button-raised p-button-text p-button-secondary"
+                        (onClick)="navigationService.toAppointmentInsertSchedulesByDoctor(doctorUUID)"></p-button>
+                </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-visit>
@@ -28,6 +29,7 @@
                 <td class="flex flex-row">
                     <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-text"
                         (onClick)="navigationService.toAppointmentDetailsDoctor(visit.id)"></p-button>
+                        <!-- <div class="flex flex-grow-1"></div> -->
                     <p-button icon="pi pi-trash" styleClass="p-button-danger p-button-rounded p-button-text"
                         (onClick)="deleteAppointment(visit.id)"></p-button>
                 </td>
