@@ -6,5 +6,5 @@ export interface TreatmentRS {
     referralId: number;
     diagnosis: string;
     recommendation: string;
-    prescription: PrescriptionRS;
+    prescriptionId: number;
 }

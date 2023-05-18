@@ -47,6 +47,6 @@ export class AppointmentService {
   }
 
   addCommentToAppointment(id: number, comment: string): Observable<AppointmentRS> {
-    return this.httpClient.put<AppointmentRS>(`${this.baseUrl}/${id}`, { 'comment': comment });
+    return this.httpClient.put<AppointmentRS>(`${this.baseUrl}/${id}`, comment)
   }
 }

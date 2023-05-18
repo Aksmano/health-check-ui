@@ -23,6 +23,7 @@ import { PrescriptionRQ } from 'src/app/data/model/dto/rq/PrescriptionRQ';
 import { TreatmentRQ } from 'src/app/data/model/dto/rq/TreatmentRQ';
 import { TreatmentRS } from 'src/app/data/model/dto/rs/TreatmentRS';
 import { TreatmentService } from 'src/app/data/services/treatment/treatment.service';
+import { DropdownItem } from 'src/app/data/model/common/DropdownItem';
 
 @Component({
   selector: 'app-doctors-appointment-view',
@@ -44,6 +45,7 @@ export class DoctorsAppointmentViewComponent {
   protected testTypesDropdownItems = testTypeDropdownItems
 
   protected addReferral = false;
+  protected selectedTestType?: DropdownItem;
   protected referral: ReferralRQ = {
     expirationDate: new Date(ONE_WEEK_IN_MILLISECONDS * 4)
   } as ReferralRQ
@@ -51,12 +53,18 @@ export class DoctorsAppointmentViewComponent {
   protected addPrescription = false;
   protected prescription: PrescriptionRQ = {} as PrescriptionRQ
 
-  protected uploadingTreatment = false;
+  protected addOnlyReferral = false;
+  protected addOnlyPrescription = false;
+
+  protected showTreatment = false;
+  protected modifyingComments = false;
+
+  protected uploadingData = false;
+  protected newComment: string = ''
 
   protected treatmentRQ: TreatmentRQ = {
     appointmentId: this.appointment?.id
   } as TreatmentRQ;
-  protected treatmentRS?: TreatmentRS;
 
   private readonly ngUnsubscribe = new Subject();
 
@@ -79,6 +87,7 @@ export class DoctorsAppointmentViewComponent {
         .subscribe({
           next: appointment => {
             this.appointment = appointment;
+            this.newComment = this.appointment.comments;
             this.appointment.appointmentDate = new Date(appointment.appointmentDate)
             this.loadMedTestsList()
 
@@ -156,46 +165,26 @@ export class DoctorsAppointmentViewComponent {
 
   public addTreatment() {
     if (!!this.appointment) {
-      this.uploadingTreatment = true;
+      this.uploadingData = true;
       this.treatmentRQ.appointmentId = this.appointment?.id
       this.treatmentService.addTreatmentToAppointment(this.treatmentRQ)
         .subscribe({
           next: treatment => {
-            this.treatmentRS = treatment;
+            this.appointment!.treatmentRS = treatment;
             if (this.addReferral) {
-              this.treatmentService.addReferral(this.referral)
-                .subscribe({
-                  next: referral => {
-                    this.toastService.showSuccess("Referral has been successfully saved!")
-                    this.checkIfTreatmentIsUploaded()
-                  },
-                  error: err => {
-                    this.toastService.showError("Something went wrong while uploading referral for patient, try again later.")
-                    this.uploadingTreatment = false;
-                    this.showAddTreatmentVisible = false;
-                  }
-                })
+              this.addNewReferral()
+              this.checkIfTreatmentIsUploaded()
             }
             if (this.addPrescription) {
-              this.treatmentService.addPrescription(this.prescription)
-                .subscribe({
-                  next: prescription => {
-                    this.toastService.showSuccess("Prescription has been successfully saved!")
-                    this.checkIfTreatmentIsUploaded()
-                  },
-                  error: err => {
-                    this.toastService.showError("Something went wrong while uploading prescription for patient, try again later.")
-                    this.uploadingTreatment = false;
-                    this.showAddTreatmentVisible = false;
-                  }
-                })
+              this.addNewPrescription()
+              this.checkIfTreatmentIsUploaded()
             }
             this.toastService.showSuccess("Treatment has been successfully saved!")
             this.checkIfTreatmentIsUploaded()
           },
           error: err => {
             this.toastService.showError("Something went wrong while sending patients treatment, check if all fields are correctly filled.")
-            this.uploadingTreatment = false;
+            this.uploadingData = false;
             this.showAddTreatmentVisible = false;
           }
         })
@@ -203,11 +192,92 @@ export class DoctorsAppointmentViewComponent {
   }
 
   private checkIfTreatmentIsUploaded() {
-    if (!this.addReferral && !this.addPrescription && !!this.treatmentRS) {
-      this.uploadingTreatment = false;
+    if (!this.addReferral && !this.addPrescription && !!this.appointment?.treatmentRS) {
+      this.uploadingData = false;
       this.showAddTreatmentVisible = false;
       this.toastService.showSuccess("All data has been successfully saved!")
+      setTimeout(() => window.location.reload(), 1000)
     }
+  }
+
+  addNewReferral() {
+    if (!!this.referral && !!this.appointment?.treatmentRS && !!this.selectedTestType) {
+      this.uploadingData = true;
+
+      this.referral.expirationDate = new Date(this.referral.expirationDate);
+      this.referral.testType = this.selectedTestType.code as TestType;
+      this.referral.treatmentId = this.appointment?.treatmentRS.id;
+      this.treatmentService.addReferral(this.referral)
+        .subscribe({
+          next: prescription => {
+            this.toastService.showSuccess("Prescription has been successfully saved!")
+            this.addOnlyReferral = false;
+            this.checkIfTreatmentIsUploaded();
+            setTimeout(() => window.location.reload(), 1000)
+          },
+          error: err => {
+            this.toastService.showError("Something went wrong while uploading referral for patient, try again later.")
+            this.addOnlyReferral = false;
+            this.uploadingData = false;
+            this.showAddTreatmentVisible = false;
+          }
+        })
+    }
+  }
+
+  addNewPrescription() {
+    if (!!this.prescription && !!this.appointment?.treatmentRS) {
+      this.uploadingData = true;
+
+      this.prescription.expirationDate = new Date(this.prescription.expirationDate);
+      this.prescription.treatmentId = this.appointment?.treatmentRS.id;
+      this.treatmentService.addPrescription(this.prescription)
+        .subscribe({
+          next: prescription => {
+            this.toastService.showSuccess("Prescription has been successfully saved!")
+            this.addOnlyPrescription = false;
+            this.checkIfTreatmentIsUploaded()
+            setTimeout(() => window.location.reload(), 1000)
+          },
+          error: err => {
+            this.toastService.showError("Something went wrong while uploading prescription for patient, try again later.")
+            this.addOnlyPrescription = false;
+            this.uploadingData = false;
+            this.showAddTreatmentVisible = false;
+          }
+        })
+    }
+  }
+
+  updateAppointmentComments() {
+    if (!!this.appointment) {
+      this.uploadingData = true;
+      this.appointmentService.addCommentToAppointment(this.appointment.id, this.newComment)
+        .subscribe({
+          next: appointment => {
+            console.log('appointmnasdfasds fasfds afdsf ad');
+            
+            this.appointment = appointment;
+            this.appointment.appointmentDate = new Date(appointment.appointmentDate);
+            this.modifyingComments = false;
+            this.uploadingData = false;
+            this.toastService.showSuccess(`Comments has been successfully sent.`)
+          },
+          error: err => {
+            this.toastService.showError("Something went wrong while uploading comments for appointment, try again later.")
+            this.modifyingComments = false;
+            this.uploadingData = false;
+          }
+        })
+    }
+  }
+
+  checkReferralCreated() {
+    return !!this.appointment?.treatmentRS.referralId
+  }
+
+  checkPrescriptionCreated() {
+    return !!this.appointment?.treatmentRS.prescriptionId
   }
 
   public getDoctorName(doctor: DoctorRS) {
@@ -238,14 +308,29 @@ export class DoctorsAppointmentViewComponent {
   }
 
   public tabColor(status: AppointmentStatus) {
-    switch (status) {
-      case AppointmentStatus.FINISHED:
-        return "success";
-      case AppointmentStatus.SCHEDULED:
-        return "info";
-      case AppointmentStatus.CANCELED:
-        return "warning";
+    if (this.appointment?.status === AppointmentStatus.CANCELED) {
+      return 'warning'
     }
+    if (!this.appointment!.treatmentRS) {
+      return "info"
+    }
+    if (!!this.appointment!.treatmentRS) {
+      return "success"
+    }
+    return "info";
+  }
+
+  public getAppointmentStatusBasedOnTreatment() {
+    if (this.appointment?.status === AppointmentStatus.CANCELED) {
+      return 'Canceled'
+    }
+    if (!this.appointment!.treatmentRS) {
+      return "Scheduled"
+    }
+    if (!!this.appointment!.treatmentRS) {
+      return "Done"
+    }
+    return "Scheduled";
   }
 
   // private removeSubscriptions(): void {
@@ -258,7 +343,7 @@ export class DoctorsAppointmentViewComponent {
   // }
 
   isScheduled() {
-    return this.appointment?.status == AppointmentStatus.SCHEDULED;
+    return !this.appointment!.treatmentRS;
   }
 
   isCanceled() {
@@ -266,7 +351,7 @@ export class DoctorsAppointmentViewComponent {
   }
 
   isFinished() {
-    return this.appointment?.status == AppointmentStatus.FINISHED;
+    return !!this.appointment!.treatmentRS;
   }
 
   getResult() {
