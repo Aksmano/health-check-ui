@@ -1,4 +1,4 @@
-<div class="flex h-full" *ngIf="allDataLoaded; else loading">
+<div class="flex h-full" *ngIf="schedulesByDay">
   <div *ngIf="department" class="align-items-start justify-content-between h-full gap-3 px-3 border-right-1 border-400">
     <div class="flex flex-column text-3xl font-semibold mb-3">
       {{department.name}}
@@ -17,17 +17,26 @@
       </div>
       <div class="w-1rem"></div>
     </div>
+    <div>
+      <p-button icon="pi pi-chevron-left"
+                styleClass="p-button-raised p-button-text p-button-secondary"
+                (onClick)="decrementCurrentDate()"></p-button>
+      <p-button icon="pi pi-chevron-right"
+                styleClass="p-button-raised p-button-text p-button-secondary"
+                (onClick)="incrementCurrentDate()"></p-button>
+    </div>
   </div>
-  <div *ngIf="schedulesByDay" class="flex align-items-center justify-content-center flex-grow-1 gap-3 text-900">
-    <p-carousel *ngIf="schedulesByDay.length > 0; else noDataInfo" [value]="schedulesByDay" [numVisible]="5"
-                [numScroll]="5" [circular]="false" class="flex-grow-1">
+  <div class="flex align-items-center justify-content-center flex-grow-1 gap-3 text-900">
+    <p-carousel [value]="schedulesByDay" [numVisible]="7"
+                [numScroll]="7" [circular]="false" class="flex-grow-1">
       <ng-template let-scheduleByDay pTemplate="item">
         <div class="flex flex-column align-items-center justify-content-center">
           <div>
-            {{scheduleByDay.day}},
+            {{scheduleByDay.day | date:'y-d-M'}},<br/>
+            {{scheduleByDay.day | date:'EEEE'}}
           </div>
           <div class="mb-4">
-            {{scheduleByDay.dayName}}
+            {{scheduleByDay.dateSubscription}}
           </div>
           <p-scrollPanel [style]="{ height: '30rem', margin: '0'}">
             <div class="flex flex-column">
@@ -52,28 +61,28 @@
     </ng-template>
     <ng-template class="text-900" pTemplate="content" class="mb-0">
       <div class="flex flex-column mb-0 text-900">
-        <div class="text-900">Date of selected examination: <b class="mb-2">{{chosenDate.startDateTime |
-          date:'long'}}</b></div>
-        <div class="text-900">Estimated test duration: <b class="mb-2">15 minutes</b></div>
-        <div class="text-900">Department: <b class="mb-2">{{department.name}}</b></div>
-        <div class="mb-5 text-900">Address: <b>{{getFriendlyAddress(department.address)}}</b></div>
-        <div class="font-bold text-900">Are you sure you want to confirm the date of your visit?</div>
-        <br/>
+        <ng-template [ngIf]="!patient">
+          <app-patients-table [patient]="patient" (patientOut)="patient=$event">
+          </app-patients-table>
+        </ng-template>
+        <ng-template [ngIf]="patient">
+          Are you sure that you want to create visit for user {{patient.firstName}} {{patient.lastName}} for
+          test {{getFriendlyEnumName(testType!)}} on {{chosenDate.startDateTime | date:'short'}} <br/>
+        </ng-template>
       </div>
     </ng-template>
-    <ng-template pTemplate="footer" class="mt-0">
-      <p-button label="Go back" (click)="showDateVisible = false" styleClass="p-button-danger"></p-button>
-      <p-button label="Submit" (click)="submitMedicalTest()" styleClass="p-button-success"></p-button>
+    <ng-template pTemplate="footer">
+      <div *ngIf="patient">
+        <p-button label="Go back" (click)="showDateVisible = false; patient = undefined"
+                  styleClass="p-button-secondary"></p-button>
+        <p-button label="Create" icon="pi pi-plus" styleClass="p-button-raised p-button-success"
+        (onClick)="createVisit()"
+        ></p-button>
+      </div>
     </ng-template>
   </p-dialog>
 </div>
 
-<ng-template #loading>
-  <app-loading-spinner title="Loading medical test page..."></app-loading-spinner>
-</ng-template>
-
-<ng-template #noDataInfo>
-  <div class="text-3xl"><i class="pi pi-info-circle text-3xl"></i> There aren't any schedules for this test in this
-    facility.
-  </div>
-</ng-template>
+<div *ngIf="!schedulesByDay">
+  <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
+</div>

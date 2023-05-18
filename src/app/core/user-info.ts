@@ -46,8 +46,6 @@ export class UserInfo {
             .then(profile => {
                 UserInfo.profile = profile;
                 if (!!UserInfo.profile) {
-                    console.log(UserInfo.profile);
-
                     if (userType === UserType.Doctor) {
                         this.doctorService.getDoctorById(UserInfo.profile.id!)
                             .subscribe(res => UserInfo.deptId = res.departmentId)
