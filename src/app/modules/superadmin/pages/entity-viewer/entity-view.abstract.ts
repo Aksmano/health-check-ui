@@ -2,7 +2,9 @@ import { OnInit } from "@angular/core";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { NavigationService } from "src/app/core/services/navigation/navigation.service";
+import { UserInfo } from "src/app/core/user-info";
 import { MainEntityType } from "src/app/data/model/common/MainEntityType";
+import { UserType } from "src/app/data/model/common/UserType";
 
 export abstract class EntityView {
     protected viewMode: string = '';
@@ -60,6 +62,10 @@ export abstract class EntityView {
                 this.entityType = MainEntityType.Doctor;
                 break;
         }
+    }
+
+    isSuperadmin() {
+        return UserInfo.role === UserType.Superadmin;
     }
 
     abstract queryParamsModifyMode(params: ParamMap): void;

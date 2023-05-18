@@ -31,7 +31,7 @@
         </div>
         <div class="field flex flex-column">
             <label for="phoneNumber">Department ID</label>
-            <input pInputText [(ngModel)]="valueRQ.departmentId" id="receptionist-rq-dept-id" type="number" />
+            <input pInputText [disabled]="!isSuperadmin()"  [(ngModel)]="valueRQ.departmentId" id="receptionist-rq-dept-id" type="number" />
         </div>
     </div>
     <div class="card w-4 px-2">

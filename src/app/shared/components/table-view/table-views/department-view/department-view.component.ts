@@ -77,7 +77,8 @@ export class DepartmentViewComponent extends TableView {
           if (err.status === 404) {
             this.navigationService.navigateInSuperadminPanel(['entity-view'], {
               'mode': 'create',
-              'type': 'admin'
+              'type': 'admin',
+              'deptId': dept.id
             })
             this.processOngoing = false;
           }

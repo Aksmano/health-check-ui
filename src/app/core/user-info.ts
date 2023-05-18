@@ -50,10 +50,10 @@ export class UserInfo {
                         this.doctorService.getDoctorById(UserInfo.profile.id!)
                             .subscribe(res => UserInfo.deptId = res.departmentId)
                     }
-                    // if (userType === UserType.Admin) {
-                    //     this.adminService.getAdministratorByUUID(UserInfo.profile.id!)
-                    //         .subscribe(res => UserInfo.deptId = res.departmentId)
-                    // }
+                    if (userType === UserType.Admin) {
+                        this.adminService.getDepartmentByAdministratorUUID(UserInfo.profile.id!)
+                            .subscribe(res => UserInfo.deptId = res.id)
+                    }
                     if (userType === UserType.Receptionist) {
                         this.receptionistService.getReceptionistByUUID(UserInfo.profile.id!)
                             .subscribe(res => UserInfo.deptId = res.departmentId)

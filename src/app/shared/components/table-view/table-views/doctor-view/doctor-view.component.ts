@@ -68,7 +68,8 @@ export class DoctorViewComponent extends TableView {
     this.navigationService.navigateInSuperadminPanel(['entity-view'], {
       'mode': 'modify',
       'type': TableViewType.Doctor.toLowerCase(),
-      'id': entity.doctorUUID
+      'id': entity.doctorUUID,
+      'deptId': entity.departmentId
     })
   }
 }

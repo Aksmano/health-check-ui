@@ -24,12 +24,18 @@ export class AdminViewComponent extends EntityView implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParamMap
-      .subscribe(params => this.queryParamsChanged(params));
+      .subscribe(params => {
+        this.queryParamsChanged(params)
+
+        if (!!params.get('deptId')) {
+          this.valueRQ.departmentId = parseInt(params.get('deptId')!)
+        }
+      });
   }
 
   override queryParamsModifyMode(params: ParamMap): void {
     console.log(this.id);
-    
+
     if (!!this.id)
       this.adminService.getAdministratorByUUID(this.id)
         .subscribe(adminRS => {
@@ -37,6 +43,8 @@ export class AdminViewComponent extends EntityView implements OnInit {
           this.operationOngoing = false;
           console.log(this.operationOngoing);
         });
+
+    console.log(params.get('deptId'));
   }
 
   override queryParamsCreateMode(params: ParamMap): void {

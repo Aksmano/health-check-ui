@@ -4,6 +4,7 @@ import { AdministratorRS } from '../../model/dto/rs/employeeRS/AdministratorRS';
 import { AdministratorRQ } from '../../model/dto/rq/employeeRQ/AdministratorRQ';
 import { HttpClient } from '@angular/common/http';
 import { AdministrationService } from './AdministrationService';
+import { DepartmentRS } from '../../model/dto/rs/DepartmentRS';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,10 @@ export class AdministrationServiceImpl implements AdministrationService {
 
   getAdministratorByUUID(uuid: string): Observable<AdministratorRS> {
     return this.httpClient.get<AdministratorRS>(`${this.baseUrl}/${uuid}`);
+  }
+
+  getDepartmentByAdministratorUUID(uuid: string): Observable<DepartmentRS> {
+    return this.httpClient.get<DepartmentRS>(`${this.baseUrl}/administrator/${uuid}`);
   }
 
   getAdministratorByDepartmentId(departmentId: number): Observable<AdministratorRS> {

@@ -30,7 +30,15 @@ export class ReceptionistViewComponent extends EntityView implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParamMap
-      .subscribe(params => this.queryParamsChanged(params));
+      .subscribe(params => {
+        this.queryParamsChanged(params)
+
+        if (!!params.get('deptId')) {
+          this.valueRQ.departmentId = parseInt(params.get('deptId')!)
+        } else if (UserInfo.role === UserType.Admin && !!UserInfo.deptId) {
+          this.valueRQ.departmentId = UserInfo.deptId;
+        }
+      });
   }
 
   override queryParamsModifyMode(params: ParamMap): void {

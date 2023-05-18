@@ -31,7 +31,13 @@ export class DoctorViewComponent extends EntityView {
     console.log(this.route, this.navigationService);
 
     this.route.queryParamMap
-      .subscribe(params => this.queryParamsChanged(params));
+      .subscribe(params => {
+        this.queryParamsChanged(params)
+
+        if (!!params.get('deptId')) {
+          this.valueRQ.departmentId = parseInt(params.get('deptId')!)
+        }
+      });
   }
 
   override queryParamsModifyMode(params: ParamMap): void {

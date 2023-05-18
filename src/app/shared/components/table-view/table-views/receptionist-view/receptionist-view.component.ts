@@ -45,7 +45,8 @@ export class ReceptionistViewComponent extends TableView {
     this.navigationService.navigateInSuperadminPanel(['entity-view'], {
       'mode': 'modify',
       'type': 'receptionist',
-      'id': entity.receptionistUUID
+      'id': entity.receptionistUUID,
+      'deptId': entity.departmentId
     })
   }
 }
