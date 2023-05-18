@@ -10,6 +10,7 @@ import { DoctorServiceImpl } from './data/services/doctor/doctor.service';
 import { AdministrationServiceImpl } from './data/services/administration/administration.service';
 import { PatientService } from './data/services/patient/patient.service';
 import { ReceptionistService } from './data/services/receptionist/receptionist.service';
+import { DepartmentServiceImpl } from './data/services/department/department.service';
 
 @Component({
   selector: 'app-root',
@@ -27,13 +28,14 @@ export class AppComponent {
     private readonly adminService: AdministrationServiceImpl,
     private readonly patientService: PatientService,
     private readonly receptionistService: ReceptionistService,
+    private readonly departmentService: DepartmentServiceImpl,
     private readonly keycloak: KeycloakService
   ) {
   }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    this.userInfo = new UserInfo(this.doctorService, this.adminService, this.patientService, this.receptionistService, this.keycloak);
+    this.userInfo = new UserInfo(this.doctorService, this.adminService, this.patientService, this.receptionistService, this.departmentService, this.keycloak);
 
 
     // this.store.dispatch(fetchCitiesRequest());

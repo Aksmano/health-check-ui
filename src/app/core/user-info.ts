@@ -6,6 +6,7 @@ import { PatientService } from "../data/services/patient/patient.service";
 import { ReceptionistService } from "../data/services/receptionist/receptionist.service";
 import { KeycloakProfile } from "keycloak-js";
 import { DepartmentRS } from "../data/model/dto/rs/DepartmentRS";
+import { DepartmentServiceImpl } from "../data/services/department/department.service";
 
 export class UserInfo {
 
@@ -20,6 +21,7 @@ export class UserInfo {
         private readonly adminService: AdministrationServiceImpl,
         private readonly patientService: PatientService,
         private readonly receptionistService: ReceptionistService,
+        private readonly departmentService: DepartmentServiceImpl,
         private readonly keycloak: KeycloakService
     ) {
         if (this.keycloak.isUserInRole(UserType.Admin)) {
@@ -51,7 +53,7 @@ export class UserInfo {
                             .subscribe(res => UserInfo.deptId = res.departmentId)
                     }
                     if (userType === UserType.Admin) {
-                        this.adminService.getDepartmentByAdministratorUUID(UserInfo.profile.id!)
+                        this.departmentService.getDepartmentByAdministratorUUID(UserInfo.profile.id!)
                             .subscribe(res => UserInfo.deptId = res.id)
                     }
                     if (userType === UserType.Receptionist) {

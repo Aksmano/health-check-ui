@@ -40,4 +40,8 @@ export class DepartmentServiceImpl implements DepartmentService {
   deleteDepartmentById(id: number): Observable<DepartmentRS> {
     return this.httpClient.delete<DepartmentRS>(`${this.baseUrl}/${id}`);
   }
+
+  getDepartmentByAdministratorUUID(uuid: string): Observable<DepartmentRS> {
+    return this.httpClient.get<DepartmentRS>(`${this.baseUrl}/administrator/${uuid}`);
+  }
 }

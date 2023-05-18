@@ -20,10 +20,6 @@ export class AdministrationServiceImpl implements AdministrationService {
     return this.httpClient.get<AdministratorRS>(`${this.baseUrl}/${uuid}`);
   }
 
-  getDepartmentByAdministratorUUID(uuid: string): Observable<DepartmentRS> {
-    return this.httpClient.get<DepartmentRS>(`${this.baseUrl}/administrator/${uuid}`);
-  }
-
   getAdministratorByDepartmentId(departmentId: number): Observable<AdministratorRS> {
     return this.httpClient.get<AdministratorRS>(this.baseUrl, { params: { 'departmentId': departmentId } });
   }
