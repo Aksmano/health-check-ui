@@ -31,6 +31,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./modules/appointments/appointments.module').then(m => m.AppointmentsModule)
       },
+      {
+        path: 'update-user-data',
+        loadChildren: () =>
+          import('./modules/register-user-data/register-user-data.module').then(m => m.RegisterUserDataModule)
+      },
       // {
       //   path: 'admin',
       //   canActivate: [AdminGuard],

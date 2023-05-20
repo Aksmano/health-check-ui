@@ -7,5 +7,5 @@ export interface PatientRS {
   lastName: string;
   phoneNumber: string;
   gender: Gender;
-  address: AddressRS;
+  addressRS: AddressRS;
 }

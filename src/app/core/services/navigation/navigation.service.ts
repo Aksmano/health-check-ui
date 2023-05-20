@@ -119,6 +119,14 @@ export class NavigationService {
     this.router.navigate(['app', 'appointments', id.toString()]);
   }
 
+  public toRegisterData(mode: string) {
+    if (this.roleService.hasRolePatient()) {
+      this.router.navigate(['app', 'update-user-data', 'patient', mode]);
+    } else {
+      this.toMainPage();
+    }
+  }
+
   public toMainPage() {
     this.router.navigate(['/app']);
   }

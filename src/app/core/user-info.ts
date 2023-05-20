@@ -60,7 +60,7 @@ export class UserInfo {
                     }
                     if (userType === UserType.Patient) {
                         this.patientService.getPatientData()
-                            .subscribe(res => UserInfo.patientData = res)
+                            .subscribe(res => UserInfo.patientData = res);
                     }
                 }
             });

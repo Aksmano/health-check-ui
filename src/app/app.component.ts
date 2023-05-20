@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PrimeNGConfig } from 'primeng/api';
 import { fetchCitiesRequest } from './redux/actions/medical-offer.actions';
@@ -10,13 +10,17 @@ import { DoctorServiceImpl } from './data/services/doctor/doctor.service';
 import { AdministrationServiceImpl } from './data/services/administration/administration.service';
 import { PatientService } from './data/services/patient/patient.service';
 import { ReceptionistService } from './data/services/receptionist/receptionist.service';
+import { NavigationStart, Router } from '@angular/router';
+import { RoleService } from './core/services/roles/role.service';
+import { NavigationService } from './core/services/navigation/navigation.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   public userInfo: UserInfo;
   public title: string = 'health-check-ui';
 
