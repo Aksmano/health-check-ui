@@ -6,11 +6,11 @@ import { PatientComponent } from './pages/patient/patient.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'update-user-data/patient',
+    redirectTo: 'update-user-data',
     pathMatch: 'full'
   },
   {
-    path: 'patient',
+    path: 'patient/:mode',
     canActivate: [PatientGuard],
     component: PatientComponent
   }

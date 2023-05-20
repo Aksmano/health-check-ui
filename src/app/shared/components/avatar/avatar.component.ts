@@ -50,6 +50,7 @@ export class AvatarComponent {
       ) this.avatarMenuItems.push(this.adminPanel)
 
       if (this.roleService.hasRolePatient()) {
+        avatarMenuItems.push(this.patientUpdateData)
         avatarMenuItems.push(this.patientTests)
       }
 
@@ -96,6 +97,12 @@ export class AvatarComponent {
       this.navigationService.toMedicalTestByPatient(this.userId!)
     }
   }
-
+  private patientUpdateData = {
+    label: 'Update personal data',
+    icon: 'pi pi-user-edit',
+    command: () => {
+      this.navigationService.toRegisterData('update-data')
+    }
+  }
 
 }

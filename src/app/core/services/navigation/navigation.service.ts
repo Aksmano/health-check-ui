@@ -48,9 +48,9 @@ export class NavigationService {
     this.router.navigate([...path], { ...extras, relativeTo: this.route })
   }
 
-  public toRegisterData() {
+  public toRegisterData(mode: string) {
     if (this.roleService.hasRolePatient()) {
-      this.router.navigate(['app', 'update-user-data', 'patient']);
+      this.router.navigate(['app', 'update-user-data', 'patient', mode]);
     } else {
       this.toMainPage();
     }

@@ -59,8 +59,8 @@ export class UserInfo {
                             .subscribe(res => UserInfo.deptId = res.departmentId)
                     }
                     if (userType === UserType.Patient) {
-                        this.patientService.getPatientByUUID(UserInfo.profile.id!)
-                        .subscribe(res => UserInfo.patientData = res);
+                        this.patientService.getPatientData()
+                            .subscribe(res => UserInfo.patientData = res);
                     }
                 }
             });

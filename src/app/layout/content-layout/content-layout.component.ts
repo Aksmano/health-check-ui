@@ -13,7 +13,7 @@ import { PatientService } from 'src/app/data/services/patient/patient.service';
   styleUrls: ['./content-layout.component.scss']
 })
 export class ContentLayoutComponent {
-  private readonly patientRegisterUrl = '/app/update-user-data/patient'
+  private readonly patientRegisterUrl = '/app/update-user-data/patient/register-data'
 
   constructor(
     private readonly router: Router,
@@ -23,10 +23,8 @@ export class ContentLayoutComponent {
   ) {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationStart || event instanceof NavigationEnd) {
-        console.log(event);
         if (event.url !== this.patientRegisterUrl && this.roleService.hasRolePatient() && !UserInfo.patientData) {
-          console.log(event);
-          this.navigation.toRegisterData();
+          this.navigation.toRegisterData('register-data');
         }
       }
     })
