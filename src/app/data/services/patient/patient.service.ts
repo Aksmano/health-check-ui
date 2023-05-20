@@ -17,12 +17,16 @@ export class PatientService {
   ) {
   }
 
+  getPatientData() {
+    return this.httpClient.get<PatientRS>(this.baseUrl);
+  }
+
   getPatientByUUID(uuid: string): Observable<PatientRS> {
     return this.httpClient.get<PatientRS>(`${this.baseUrl}/${uuid}`);
   }
 
   updatePatientData(patientData: PatientDataRQ): Observable<PatientRS> {
-    return this.httpClient.post<PatientRS>(this.baseUrl, {patientData});
+    return this.httpClient.put<PatientRS>(this.baseUrl, { ...patientData });
   }
 
   hasPatientDataUpdated(uuid: string): Observable<boolean> {

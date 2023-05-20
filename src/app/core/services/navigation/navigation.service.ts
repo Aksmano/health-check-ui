@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router} from '@angular/router';
-import {RoleService} from '../roles/role.service';
+import { Injectable } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router } from '@angular/router';
+import { RoleService } from '../roles/role.service';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,15 @@ export class NavigationService {
   }
 
   public toLocation(path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate([...path], {...extras, relativeTo: this.route})
+    this.router.navigate([...path], { ...extras, relativeTo: this.route })
+  }
+
+  public toRegisterData(mode: string) {
+    if (this.roleService.hasRolePatient()) {
+      this.router.navigate(['app', 'update-user-data', 'patient', mode]);
+    } else {
+      this.toMainPage();
+    }
   }
 
   public toMainPage() {
@@ -64,23 +72,20 @@ export class NavigationService {
   }
 
   public toPatientsPortal(path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/patient', ...path], {...extras, relativeTo: this.route});
+    this.router.navigate(['/app/patient', ...path], { ...extras, relativeTo: this.route });
   }
 
   public toDoctorsPortal(path: string[] = [], extras?: NavigationExtras) {
-    this.router.navigate(['/app/doctor', ...path], {...extras});
+    this.router.navigate(['/app/doctor', ...path], { ...extras });
   }
 
   public toMedicalTestsPortal(path: string[] = [], extras?: NavigationExtras) {
     if (this.roleService.hasRoleReceptionist()) {
-      this.router.navigate(['/app/medical-tests/receptionist/medical-test-picker', ...path], {
-        ...extras,
-        relativeTo: this.route
-      });
+      this.router.navigate(['/app/medical-tests/receptionist/search', ...path], { ...extras, relativeTo: this.route });
     } else if (this.roleService.hasRoleDoctor()) {
-      this.router.navigate(['/app/medical-tests/doctor', ...path], {...extras, relativeTo: this.route});
+      this.router.navigate(['/app/medical-tests/doctor', ...path], { ...extras, relativeTo: this.route });
     } else if (this.roleService.hasRolePatient()) {
-      this.router.navigate(['/app/medical-tests/patient/search', ...path], {...extras, relativeTo: this.route});
+      this.router.navigate(['/app/medical-tests/patient/search', ...path], { ...extras, relativeTo: this.route });
     }
   }
 
