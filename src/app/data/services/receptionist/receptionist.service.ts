@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ReceptionistRS } from '../../model/dto/rs/employeeRS/ReceptionistRS';
 import { Observable } from 'rxjs';
 import { ReceptionistRQ } from '../../model/dto/rq/employeeRQ/ReceptionistRQ';
-
+import { DepartmentRS } from '../../model/dto/rs/DepartmentRS';
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +14,10 @@ export class ReceptionistService {
   constructor(
     private readonly httpClient: HttpClient
   ) { }
+
+  public getDepartmentByReceptionistId(uuid: string): Observable<DepartmentRS> {
+    return this.httpClient.get<DepartmentRS>(`${this.baseUrl}/departments/${uuid}`);
+  }
 
   public getReceptionistByUUID(uuid: string): Observable<ReceptionistRS> {
     return this.httpClient.get<ReceptionistRS>(`${this.baseUrl}/${uuid}`);

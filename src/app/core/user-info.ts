@@ -7,12 +7,14 @@ import { ReceptionistService } from "../data/services/receptionist/receptionist.
 import { KeycloakProfile } from "keycloak-js";
 import { DepartmentRS } from "../data/model/dto/rs/DepartmentRS";
 import { DepartmentServiceImpl } from "../data/services/department/department.service";
+import { PatientRS } from "../data/model/dto/rs/PatientRS";
 
 export class UserInfo {
 
     public static role: UserType = UserType.Guest;
     public static profile?: KeycloakProfile;
     public static deptId?: number;
+    public static patientData?: PatientRS;
 
     public loaded: boolean = false;
 
@@ -46,8 +48,6 @@ export class UserInfo {
             .then(profile => {
                 UserInfo.profile = profile;
                 if (!!UserInfo.profile) {
-                    console.log(UserInfo.profile);
-
                     if (userType === UserType.Doctor) {
                         this.doctorService.getDoctorById(UserInfo.profile.id!)
                             .subscribe(res => UserInfo.deptId = res.departmentId)
@@ -59,6 +59,10 @@ export class UserInfo {
                     if (userType === UserType.Receptionist) {
                         this.receptionistService.getReceptionistByUUID(UserInfo.profile.id!)
                             .subscribe(res => UserInfo.deptId = res.departmentId)
+                    }
+                    if (userType === UserType.Patient) {
+                        this.patientService.getPatientData()
+                            .subscribe(res => UserInfo.patientData = res);
                     }
                 }
             });

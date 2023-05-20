@@ -1,11 +1,9 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './core/guards/auth/auth.guard';
-import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
-import { HeaderComponent } from './layout/header/header.component';
-import { AdminGuard } from './core/guards/admin/admin.guard';
-import { SuperadminGuard } from './core/guards/superadmin/superadmin.guard';
-import { AdminPanelLayoutComponent } from './layout/admin-panel-layout/admin-panel-layout.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from './core/guards/auth/auth.guard';
+import {ContentLayoutComponent} from './layout/content-layout/content-layout.component';
+import {SuperadminGuard} from './core/guards/superadmin/superadmin.guard';
+import {AdminPanelLayoutComponent} from './layout/admin-panel-layout/admin-panel-layout.component';
 
 const routes: Routes = [
   {
@@ -22,6 +20,16 @@ const routes: Routes = [
         path: 'patient',
         loadChildren: () =>
           import('./modules/patient/patient.module').then(m => m.PatientModule)
+      },
+      {
+        path: 'medical-tests',
+        loadChildren: () =>
+          import('./modules/medical-tests/medical-tests.module').then(m => m.MedicalTestsModule)
+      },
+      {
+        path: 'update-user-data',
+        loadChildren: () =>
+          import('./modules/register-user-data/register-user-data.module').then(m => m.RegisterUserDataModule)
       },
       // {
       //   path: 'admin',

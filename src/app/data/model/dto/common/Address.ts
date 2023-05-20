@@ -2,7 +2,7 @@ export interface Address {
     city: string;
     street: string;
     houseNumber: string;
-    apartmentNumber?: string;
+    apartmentNumber?: string | null;
     postalCode: string;
     post: string;
     country: string;

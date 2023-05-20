@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { PrimeNGConfig } from 'primeng/api';
 import { fetchCitiesRequest } from './redux/actions/medical-offer.actions';
@@ -11,6 +11,10 @@ import { AdministrationServiceImpl } from './data/services/administration/admini
 import { PatientService } from './data/services/patient/patient.service';
 import { ReceptionistService } from './data/services/receptionist/receptionist.service';
 import { DepartmentServiceImpl } from './data/services/department/department.service';
+import { NavigationStart, Router } from '@angular/router';
+import { RoleService } from './core/services/roles/role.service';
+import { NavigationService } from './core/services/navigation/navigation.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-root',
