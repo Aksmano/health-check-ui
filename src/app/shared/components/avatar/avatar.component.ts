@@ -47,7 +47,11 @@ export class AvatarComponent {
     if (loggedIn) {
       if (this.keycloak.isUserInRole(UserType.Admin)
         || this.keycloak.isUserInRole(UserType.Superadmin)
-      ) this.avatarMenuItems.push(this.adminPanel)
+      ) {
+        console.log('aaa');
+        
+        avatarMenuItems.push(this.adminPanel)
+      }
 
       if (this.roleService.hasRolePatient()) {
         avatarMenuItems.push(this.patientUpdateData)
@@ -59,7 +63,7 @@ export class AvatarComponent {
       avatarMenuItems.push(this.login);
       avatarMenuItems.push(this.register);
     }
-    this.avatarMenuItems = avatarMenuItems;
+    this.avatarMenuItems = avatarMenuItems;    
   }
 
   private logout = {

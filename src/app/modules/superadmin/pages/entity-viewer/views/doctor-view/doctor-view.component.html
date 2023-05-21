@@ -35,7 +35,7 @@
         </div>
         <div class="field flex flex-column">
             <label for="phoneNumber">Department ID</label>
-            <input pInputText [(ngModel)]="valueRQ.departmentId" id="doc-rq-dept-id" type="number" />
+            <input pInputText [disabled]="!isSuperadmin()"  [(ngModel)]="valueRQ.departmentId" id="doc-rq-dept-id" type="number" />
         </div>
     </div>
     <div class="card w-4 px-2">
@@ -48,10 +48,9 @@
             <input pInputText [(ngModel)]="valueRQ.passwordConfirmation" id="doc-rq-conf-password" type="password" />
         </div>
         <div class="flex mt-6">
+            <div class="flex-grow-1"></div>
             <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
                 Delete</p-button>
-            <div class="flex-grow-1"></div>
-            <p-button *ngIf="viewMode == 'modify'" (click)="updateEntity()" type="button">Modify</p-button>
             <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
                 styleClass="p-button-success">Create</p-button>
         </div>
@@ -62,7 +61,7 @@
     <div class="card w-4 px-2">
         <div class="field flex flex-column">
             <label for="firstname">Doctor UUID</label>
-            <input [disabled]="true" pInputText [(ngModel)]="valueRS.doctorUUID" id="doc-rs-id" type="text" />
+            <input pInputText [(ngModel)]="valueRS.doctorUUID" id="doc-rs-id" type="text" />
         </div>
         <div class="field flex flex-column">
             <label for="firstname">Firstname</label>
@@ -87,17 +86,16 @@
     <div class="card w-4 px-2">
         <div class="field flex flex-column">
             <label for="houseNumber">Rate</label>
-            <input [disabled]="true" pInputText [(ngModel)]="valueRS.rate" id="doc-rs-rate" type="text" />
+            <input  pInputText [(ngModel)]="valueRS.rate" id="doc-rs-rate" type="text" />
         </div>
         <div class="field flex flex-column">
             <label for="apartmentNumber">Rate number</label>
-            <input [disabled]="true" pInputText [(ngModel)]="valueRS.rateNumber" id="doc-rs-rate-number" type="text" />
+            <input pInputText [(ngModel)]="valueRS.rateNumber" id="doc-rs-rate-number" type="text" />
         </div>
         <div class="flex mt-6">
+            <div class="flex-grow-1"></div>
             <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
                 Delete</p-button>
-            <div class="flex-grow-1"></div>
-            <p-button *ngIf="viewMode == 'modify'" (click)="updateEntity()" type="button">Modify</p-button>
             <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
                 styleClass="p-button-success">Create</p-button>
         </div>

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router } from '@angular/router';
+import { UserInfo } from '../../user-info';
+import { UserType } from 'src/app/data/model/common/UserType';
 import { RoleService } from '../roles/role.service';
 
 @Injectable({
@@ -61,12 +63,20 @@ export class NavigationService {
   }
 
   public toSuperadminPanel() {
-    window.open(`${window.location.origin}/app/admin/superpanel`, '_blank');
+    let panelType = 'panel';
+    if (UserInfo.role === UserType.Superadmin) {
+      panelType = 'superpanel'
+    }
+    window.open(`${window.location.origin}/app/admin/${panelType}`, '_blank');
   }
 
   public navigateInSuperadminPanel(path: string[] = [], params: Params) {
+    let panelType = 'panel';
+    if (UserInfo.role === UserType.Superadmin) {
+      panelType = 'superpanel'
+    }
 
-    this.router.navigate(['app', 'admin', 'superpanel', ...path], {
+    this.router.navigate(['app', 'admin', panelType, ...path], {
       relativeTo: this.route, queryParams: params
     });
   }

@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { UserInfo } from 'src/app/core/user-info';
 import { MainEntityType } from 'src/app/data/model/common/MainEntityType';
+import { UserType } from 'src/app/data/model/common/UserType';
 import { DepartmentServiceImpl } from 'src/app/data/services/department/department.service';
 import { DoctorServiceImpl } from 'src/app/data/services/doctor/doctor.service';
 import { ReceptionistService } from 'src/app/data/services/receptionist/receptionist.service';
@@ -21,13 +24,15 @@ export class EntityViewerComponent {
 
   constructor(
     private readonly navigationService: NavigationService,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly keycloak: KeycloakService
   ) {
     this.route.queryParamMap
       .subscribe(params => {
         const mode = params.get('mode');
         const type = params.get('type');
         const id = params.get('id');
+        const deptId = params.get('deptId');
 
         if (mode === 'create') {
           this.currentMode = mode;
@@ -51,7 +56,7 @@ export class EntityViewerComponent {
               break;
           }
         } else if (mode === 'modify') {
-          if (!id) {
+          if (!id && (!this.keycloak.isUserInRole(UserType.Admin) && !deptId)) {
             this.navigationService.navigateInSuperadminPanel([], {});
             return;
           } else {
@@ -90,8 +95,12 @@ export class EntityViewerComponent {
   }
 
   getCurrentButtonStyle(view: string) {
-    return this.currentType === view
+    return this.currentType === view || this.isSuperadmin()
       ? 'bg-teal-500 text-white'
       : 'text-700 transition-colors transition-duration-100 hover:bg-teal-300 hover:text-50';
+  }
+
+  isSuperadmin() {
+    return UserInfo.role === UserType.Superadmin;
   }
 }

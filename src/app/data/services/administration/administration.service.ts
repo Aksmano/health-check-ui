@@ -4,6 +4,7 @@ import { AdministratorRS } from '../../model/dto/rs/employeeRS/AdministratorRS';
 import { AdministratorRQ } from '../../model/dto/rq/employeeRQ/AdministratorRQ';
 import { HttpClient } from '@angular/common/http';
 import { AdministrationService } from './AdministrationService';
+import { DepartmentRS } from '../../model/dto/rs/DepartmentRS';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class AdministrationServiceImpl implements AdministrationService {
   }
 
   createAdministrator(administratorData: AdministratorRQ): Observable<AdministratorRS> {
-    return this.httpClient.post<AdministratorRS>(this.baseUrl, { 'administratorRQ': administratorData });
+    return this.httpClient.post<AdministratorRS>(this.baseUrl, { ...administratorData });
   }
 
   deleteAdministratorByUUID(uuid: string): Observable<string> {

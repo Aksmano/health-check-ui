@@ -6,6 +6,7 @@ import { PatientService } from "../data/services/patient/patient.service";
 import { ReceptionistService } from "../data/services/receptionist/receptionist.service";
 import { KeycloakProfile } from "keycloak-js";
 import { DepartmentRS } from "../data/model/dto/rs/DepartmentRS";
+import { DepartmentServiceImpl } from "../data/services/department/department.service";
 import { PatientRS } from "../data/model/dto/rs/PatientRS";
 
 export class UserInfo {
@@ -22,6 +23,7 @@ export class UserInfo {
         private readonly adminService: AdministrationServiceImpl,
         private readonly patientService: PatientService,
         private readonly receptionistService: ReceptionistService,
+        private readonly departmentService: DepartmentServiceImpl,
         private readonly keycloak: KeycloakService
     ) {
         if (this.keycloak.isUserInRole(UserType.Admin)) {
@@ -34,9 +36,9 @@ export class UserInfo {
             this.setUserData(UserType.Receptionist)
         } else if (this.keycloak.isUserInRole(UserType.Patient)) {
             this.setUserData(UserType.Patient)
+        } else {
+            this.loaded = true;
         }
-
-        this.loaded = true;
     }
 
     private setUserData(userType: UserType) {
@@ -48,19 +50,34 @@ export class UserInfo {
                 if (!!UserInfo.profile) {
                     if (userType === UserType.Doctor) {
                         this.doctorService.getDoctorById(UserInfo.profile.id!)
-                            .subscribe(res => UserInfo.deptId = res.departmentId)
+                            .subscribe(res => {
+                                UserInfo.deptId = res.departmentId
+                                this.loaded = true;
+                            })
                     }
-                    // if (userType === UserType.Admin) {
-                    //     this.adminService.getAdministratorByUUID(UserInfo.profile.id!)
-                    //         .subscribe(res => UserInfo.deptId = res.departmentId)
-                    // }
+                    if (userType === UserType.Admin) {
+                        this.departmentService.getDepartmentByAdministratorUUID(UserInfo.profile.id!)
+                            .subscribe(res => {
+                                UserInfo.deptId = res.id
+                                this.loaded = true
+                            })
+                    }
                     if (userType === UserType.Receptionist) {
                         this.receptionistService.getReceptionistByUUID(UserInfo.profile.id!)
-                            .subscribe(res => UserInfo.deptId = res.departmentId)
+                            .subscribe(res => {
+                                UserInfo.deptId = res.departmentId
+                                this.loaded = true;
+                            })
                     }
                     if (userType === UserType.Patient) {
                         this.patientService.getPatientData()
-                            .subscribe(res => UserInfo.patientData = res);
+                            .subscribe(res => {
+                                UserInfo.patientData = res
+                                this.loaded = true;
+                            });
+                    }
+                    if (userType === UserType.Superadmin) {
+                        this.loaded = true;
                     }
                 }
             });

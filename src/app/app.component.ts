@@ -10,6 +10,7 @@ import { DoctorServiceImpl } from './data/services/doctor/doctor.service';
 import { AdministrationServiceImpl } from './data/services/administration/administration.service';
 import { PatientService } from './data/services/patient/patient.service';
 import { ReceptionistService } from './data/services/receptionist/receptionist.service';
+import { DepartmentServiceImpl } from './data/services/department/department.service';
 import { NavigationStart, Router } from '@angular/router';
 import { RoleService } from './core/services/roles/role.service';
 import { NavigationService } from './core/services/navigation/navigation.service';
@@ -20,8 +21,8 @@ import { filter } from 'rxjs';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-  public userInfo: UserInfo;
+export class AppComponent {
+  public userInfo?: UserInfo;
   public title: string = 'health-check-ui';
 
   constructor(
@@ -31,13 +32,14 @@ export class AppComponent implements OnInit {
     private readonly adminService: AdministrationServiceImpl,
     private readonly patientService: PatientService,
     private readonly receptionistService: ReceptionistService,
+    private readonly departmentService: DepartmentServiceImpl,
     private readonly keycloak: KeycloakService
   ) {
-    this.userInfo = new UserInfo(doctorService, adminService, patientService, receptionistService, keycloak);
   }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+    this.userInfo = new UserInfo(this.doctorService, this.adminService, this.patientService, this.receptionistService, this.departmentService, this.keycloak);
 
 
     // this.store.dispatch(fetchCitiesRequest());
