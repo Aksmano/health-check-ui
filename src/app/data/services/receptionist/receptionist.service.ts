@@ -28,7 +28,7 @@ export class ReceptionistService {
   }
 
   public createReceptionist(receptionistData: ReceptionistRQ): Observable<ReceptionistRS> {
-    return this.httpClient.post<ReceptionistRS>(this.baseUrl, { 'receptionistRQ': receptionistData });
+    return this.httpClient.post<ReceptionistRS>(this.baseUrl, { ...receptionistData });
   }
 
   public deleteReceptionistByUUID(uuid: string): Observable<string> {

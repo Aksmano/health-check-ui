@@ -45,11 +45,14 @@
             <label for="province">Province</label>
             <input pInputText [(ngModel)]="value.address.province" id="dept-province" type="text" />
         </div>
+        <div class="field flex flex-column">
+            <label for="province">Country</label>
+            <input pInputText [(ngModel)]="value.address.country" id="dept-country" type="text" />
+        </div>
         <div class="flex">
+            <div class="flex-grow-1"></div>
             <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
                 Delete</p-button>
-            <div class="flex-grow-1"></div>
-            <p-button *ngIf="viewMode == 'modify'" (click)="updateEntity()" type="button">Modify</p-button>
             <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
                 styleClass="p-button-success">Create</p-button>
         </div>

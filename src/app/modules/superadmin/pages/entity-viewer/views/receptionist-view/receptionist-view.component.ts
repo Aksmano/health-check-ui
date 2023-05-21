@@ -5,6 +5,8 @@ import { ReceptionistService } from 'src/app/data/services/receptionist/receptio
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
 import { ReceptionistRQ } from 'src/app/data/model/dto/rq/employeeRQ/ReceptionistRQ';
 import { ReceptionistRS } from 'src/app/data/model/dto/rs/employeeRS/ReceptionistRS';
+import { UserInfo } from 'src/app/core/user-info';
+import { UserType } from 'src/app/data/model/common/UserType';
 
 @Component({
   selector: 'app-receptionist-view',
@@ -19,11 +21,24 @@ export class ReceptionistViewComponent extends EntityView implements OnInit {
     private readonly receptionistService: ReceptionistService,
     private readonly navigationService: NavigationService,
     override readonly route: ActivatedRoute
-  ) { super(); }
+  ) {
+    super();
+    if (!(UserInfo.role === UserType.Admin)) {
+      this.navigationService.navigateInSuperadminPanel([], {});
+    }
+  }
 
   ngOnInit(): void {
     this.route.queryParamMap
-      .subscribe(params => this.queryParamsChanged(params));
+      .subscribe(params => {
+        this.queryParamsChanged(params)
+
+        if (!!params.get('deptId')) {
+          this.valueRQ.departmentId = parseInt(params.get('deptId')!)
+        } else if (UserInfo.role === UserType.Admin && !!UserInfo.deptId) {
+          this.valueRQ.departmentId = UserInfo.deptId;
+        }
+      });
   }
 
   override queryParamsModifyMode(params: ParamMap): void {

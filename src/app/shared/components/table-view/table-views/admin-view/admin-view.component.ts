@@ -26,7 +26,7 @@ export class AdminViewComponent {
     this.navigationService.navigateInSuperadminPanel(['entity-view'], {
       'mode': 'modify',
       'type': TableViewType.Doctor.toLowerCase(),
-      'id': doctor.administratorUUID
+      'id': doctor.administratorUUID,
     })
   }
 }

@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './core/guards/auth/auth.guard';
-import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
-import { SuperadminGuard } from './core/guards/superadmin/superadmin.guard';
-import { AdminPanelLayoutComponent } from './layout/admin-panel-layout/admin-panel-layout.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from './core/guards/auth/auth.guard';
+import {ContentLayoutComponent} from './layout/content-layout/content-layout.component';
+import {SuperadminGuard} from './core/guards/superadmin/superadmin.guard';
+import {AdminPanelLayoutComponent} from './layout/admin-panel-layout/admin-panel-layout.component';
+import { AdminGuard } from './core/guards/admin/admin.guard';
 
 const routes: Routes = [
   {
@@ -60,7 +61,13 @@ const routes: Routes = [
         canActivate: [SuperadminGuard],
         loadChildren: () =>
           import('./modules/superadmin/superadmin.module').then(m => m.SuperadminModule)
-      }
+      },
+      {
+        path: 'panel',
+        canActivate: [AdminGuard],
+        loadChildren: () =>
+          import('./modules/superadmin/superadmin.module').then(m => m.SuperadminModule)
+      },
     ]
   },
   {

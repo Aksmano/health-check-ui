@@ -7,6 +7,8 @@ import { DepartmentServiceImpl } from 'src/app/data/services/department/departme
 import { EntityView } from '../../entity-view.abstract';
 import { KeycloakService } from 'keycloak-angular';
 import { UserType } from 'src/app/data/model/common/UserType';
+import { AdministrationServiceImpl } from 'src/app/data/services/administration/administration.service';
+import { UserInfo } from 'src/app/core/user-info';
 
 @Component({
   selector: 'app-department-view',
@@ -17,20 +19,39 @@ export class DepartmentViewComponent extends EntityView implements OnInit {
   value: DepartmentRS = {
     address: {} as AddressRS
   } as DepartmentRS;
+  adminDeptId?: number;
 
   constructor(
     private readonly deptService: DepartmentServiceImpl,
     private readonly navigationService: NavigationService,
+    private readonly adminService: AdministrationServiceImpl,
     private readonly keycloak: KeycloakService,
     override readonly route: ActivatedRoute
   ) { super(); }
 
   ngOnInit(): void {
-    if(!this.keycloak.isUserInRole(UserType.Superadmin)) {
-      this.navigationService.navigateInSuperadminPanel([], {}); // TODO toast to show user is redirected
-    }
     this.route.queryParamMap
-      .subscribe(params => this.queryParamsChanged(params));
+      .subscribe(params => {
+        this.queryParamsChanged(params)
+
+        if (!!params.get('deptId')) {
+          this.deptService.getDepartmentByAdministratorUUID(UserInfo.profile?.id!)
+            .subscribe({
+              next: (value) => {
+                console.log('pppp');
+
+                this.value = value;
+                this.operationOngoing = false;
+              },
+              error: err => this.navigationService.navigateInSuperadminPanel([], {})
+            })
+        }
+
+        if (!this.keycloak.isUserInRole(UserType.Superadmin)
+          && (!this.keycloak.isUserInRole(UserType.Admin) && !params.get('deptId'))) {
+          this.navigationService.navigateInSuperadminPanel([], {}); // TODO toast to show user is redirected
+        }
+      });
   }
 
   override queryParamsModifyMode(params: ParamMap): void {

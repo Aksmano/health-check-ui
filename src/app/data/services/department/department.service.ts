@@ -31,13 +31,17 @@ export class DepartmentServiceImpl implements DepartmentService {
   }
 
   createDepartment(departmentData: DepartmentRQ): Observable<DepartmentRS> {
-    return this.httpClient.post<DepartmentRS>(this.baseUrl, { 'departmentRQ': {
+    return this.httpClient.post<DepartmentRS>(this.baseUrl, {
       'name': departmentData.name,
       'addressRQ': departmentData.address as AddressRQ
-    } });
+    });
   }
 
   deleteDepartmentById(id: number): Observable<DepartmentRS> {
     return this.httpClient.delete<DepartmentRS>(`${this.baseUrl}/${id}`);
+  }
+
+  getDepartmentByAdministratorUUID(uuid: string): Observable<DepartmentRS> {
+    return this.httpClient.get<DepartmentRS>(`${this.baseUrl}/administrator/${uuid}`);
   }
 }
