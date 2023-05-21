@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router } from '@angular/router';
-import { UserInfo } from '../../user-info';
 import { UserType } from 'src/app/data/model/common/UserType';
 import { RoleService } from '../roles/role.service';
 import { UserInfo } from '../../user-info';
