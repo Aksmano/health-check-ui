@@ -18,11 +18,12 @@
                         (click)="navigateInSuperpanel(['entity-view'], {'mode': 'create','type': 'department'})"
                         class="element cursor-pointer transition-colors transition-duration-100 hover:bg-teal-500 hover:text-50 z-5">
                         Create</div>
-                    <div *ngIf="!isSuperadmin()" (click)="navigateInSuperpanel(['browse'], {'type': 'department'})"
+                    <div *ngIf="!isSuperadmin()"
+                        (click)="navigateInSuperpanel(['entity-view'], {'mode': 'modify','type': 'department', 'deptId': 'admins'})"
                         class="element cursor-pointer transition-colors transition-duration-100 hover:bg-teal-500 hover:text-50 z-5">
                         Show details</div>
                     <div class="element title shadow-3">Users</div>
-                    <div (click)="navigateInSuperpanel(['browse'], {'type': 'users', 'user-type': 'Doctor'})"
+                    <div *ngIf="!isSuperadmin()" (click)="navigateInSuperpanel(['browse'], {'type': 'users', 'user-type': 'Doctor'})"
                         class="element cursor-pointer transition-colors transition-duration-100 hover:bg-teal-500 hover:text-50 z-5">
                         Browse</div>
                     <div (click)="navigateInSuperpanel(['entity-view'], {'mode': 'create','type': 'Doctor'})"
@@ -31,9 +32,13 @@
                 </div>
             </div>
             <div class="right-container-elem h-full flex flex-column bg-bluegray-50 inside-shadow">
-                <router-outlet></router-outlet>
+                <router-outlet *ngIf="!loadingDeptDetails; else loading"></router-outlet>
             </div>
         </div>
         <!-- </div> -->
     </div>
 </div>
+
+<ng-template #loading>
+    <app-loading-spinner title="Loading dept details..."></app-loading-spinner>
+</ng-template>

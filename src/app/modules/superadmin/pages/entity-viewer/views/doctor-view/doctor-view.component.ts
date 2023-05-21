@@ -7,6 +7,8 @@ import { DoctorRQ } from 'src/app/data/model/dto/rq/employeeRQ/DoctorRQ';
 import { DoctorRS } from 'src/app/data/model/dto/rs/employeeRS/DoctorRS';
 import { DoctorServiceImpl } from 'src/app/data/services/doctor/doctor.service';
 import { EntityView } from '../../entity-view.abstract';
+import { UserInfo } from 'src/app/core/user-info';
+import { UserType } from 'src/app/data/model/common/UserType';
 
 @Component({
   selector: 'app-doctor-view',
@@ -28,7 +30,7 @@ export class DoctorViewComponent extends EntityView {
   ) { super(); }
 
   ngOnInit(): void {
-    console.log(this.route, this.navigationService);
+    // console.log(this.route, this.navigationService);
 
     this.route.queryParamMap
       .subscribe(params => {
@@ -36,6 +38,8 @@ export class DoctorViewComponent extends EntityView {
 
         if (!!params.get('deptId')) {
           this.valueRQ.departmentId = parseInt(params.get('deptId')!)
+        } else if (UserInfo.role === UserType.Admin && !!UserInfo.deptId) {
+          this.valueRQ.departmentId = UserInfo.deptId;
         }
       });
   }

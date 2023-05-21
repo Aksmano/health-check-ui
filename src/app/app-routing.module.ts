@@ -4,6 +4,7 @@ import {AuthGuard} from './core/guards/auth/auth.guard';
 import {ContentLayoutComponent} from './layout/content-layout/content-layout.component';
 import {SuperadminGuard} from './core/guards/superadmin/superadmin.guard';
 import {AdminPanelLayoutComponent} from './layout/admin-panel-layout/admin-panel-layout.component';
+import { AdminGuard } from './core/guards/admin/admin.guard';
 
 const routes: Routes = [
   {

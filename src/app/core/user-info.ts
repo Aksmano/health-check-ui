@@ -36,9 +36,9 @@ export class UserInfo {
             this.setUserData(UserType.Receptionist)
         } else if (this.keycloak.isUserInRole(UserType.Patient)) {
             this.setUserData(UserType.Patient)
+        } else {
+            this.loaded = true;
         }
-
-        this.loaded = true;
     }
 
     private setUserData(userType: UserType) {
@@ -50,19 +50,34 @@ export class UserInfo {
                 if (!!UserInfo.profile) {
                     if (userType === UserType.Doctor) {
                         this.doctorService.getDoctorById(UserInfo.profile.id!)
-                            .subscribe(res => UserInfo.deptId = res.departmentId)
+                            .subscribe(res => {
+                                UserInfo.deptId = res.departmentId
+                                this.loaded = true;
+                            })
                     }
                     if (userType === UserType.Admin) {
                         this.departmentService.getDepartmentByAdministratorUUID(UserInfo.profile.id!)
-                            .subscribe(res => UserInfo.deptId = res.id)
+                            .subscribe(res => {
+                                UserInfo.deptId = res.id
+                                this.loaded = true
+                            })
                     }
                     if (userType === UserType.Receptionist) {
                         this.receptionistService.getReceptionistByUUID(UserInfo.profile.id!)
-                            .subscribe(res => UserInfo.deptId = res.departmentId)
+                            .subscribe(res => {
+                                UserInfo.deptId = res.departmentId
+                                this.loaded = true;
+                            })
                     }
                     if (userType === UserType.Patient) {
                         this.patientService.getPatientData()
-                            .subscribe(res => UserInfo.patientData = res);
+                            .subscribe(res => {
+                                UserInfo.patientData = res
+                                this.loaded = true;
+                            });
+                    }
+                    if (userType === UserType.Superadmin) {
+                        this.loaded = true;
                     }
                 }
             });

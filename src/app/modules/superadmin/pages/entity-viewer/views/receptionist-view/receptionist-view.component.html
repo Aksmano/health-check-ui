@@ -31,7 +31,7 @@
         </div>
         <div class="field flex flex-column">
             <label for="phoneNumber">Department ID</label>
-            <input pInputText [disabled]="!isSuperadmin()"  [(ngModel)]="valueRQ.departmentId" id="receptionist-rq-dept-id" type="number" />
+            <input pInputText [disabled]="!isSuperadmin()" [(ngModel)]="valueRQ.departmentId" id="receptionist-rq-dept-id" type="number" />
         </div>
     </div>
     <div class="card w-4 px-2">
@@ -44,10 +44,9 @@
             <input pInputText [(ngModel)]="valueRQ.passwordConfirmation" id="receptionist-rq-conf-password" type="password" />
         </div>
         <div class="flex mt-6">
+            <div class="flex-grow-1"></div>
             <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
                 Delete</p-button>
-            <div class="flex-grow-1"></div>
-            <p-button *ngIf="viewMode == 'modify'" (click)="updateEntity()" type="button">Modify</p-button>
             <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
                 styleClass="p-button-success">Create</p-button>
         </div>
@@ -68,17 +67,16 @@
     <div class="card w-6 px-2">
         <div class="field flex flex-column">
             <label for="firstname">Receptionist UUID</label>
-            <input [disabled]="true" pInputText [(ngModel)]="valueRS.receptionistUUID" id="receptionist-rs-id" type="text" />
+            <input pInputText [(ngModel)]="valueRS.receptionistUUID" id="receptionist-rs-id" type="text" />
         </div>
         <div class="field flex flex-column">
             <label for="phoneNumber">Department ID</label>
             <input pInputText [(ngModel)]="valueRS.departmentId" id="receptionist-rs-dept-id" type="text" />
         </div>
         <div class="flex mt-6">
+            <div class="flex-grow-1"></div>
             <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
                 Delete</p-button>
-            <div class="flex-grow-1"></div>
-            <p-button *ngIf="viewMode == 'modify'" (click)="updateEntity()" type="button">Modify</p-button>
             <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
                 styleClass="p-button-success">Create</p-button>
         </div>

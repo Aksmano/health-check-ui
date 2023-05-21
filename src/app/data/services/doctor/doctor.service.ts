@@ -29,9 +29,9 @@ export class DoctorServiceImpl implements DoctorService {
   getAllDoctors(
     doctorsCriteria: DoctorsCriteriaQP = {} as DoctorsCriteriaQP
   ): Observable<DoctorRS[]> {
-    const doctorsParams = objectToHttpParams(doctorsCriteria);
+    // const doctorsParams = objectToHttpParams(doctorsCriteria);
 
-    return this.httpClient.get<DoctorRS[]>(this.baseUrl, { params: doctorsParams });
+    return this.httpClient.get<DoctorRS[]>(this.baseUrl, { params: { ...doctorsCriteria } });
   }
 
   getDoctorById(uuid: string): Observable<DoctorRS> {
