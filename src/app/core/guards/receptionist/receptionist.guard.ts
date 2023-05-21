@@ -9,7 +9,7 @@ import { RoleService } from '../../services/roles/role.service';
 @Injectable({
   providedIn: 'root'
 })
-export class DoctorGuard extends KeycloakAuthGuard {
+export class ReceptionistGuard extends KeycloakAuthGuard {
   constructor(
     protected override readonly router: Router,
     protected readonly keycloak: KeycloakService,
@@ -29,7 +29,7 @@ export class DoctorGuard extends KeycloakAuthGuard {
       });
     }
 
-    if (!this.roleService.hasRoleDoctor()) {
+    if (!this.roleService.hasRoleReceptionist()) {
       this.navigationService.toMainPage();
     }
 

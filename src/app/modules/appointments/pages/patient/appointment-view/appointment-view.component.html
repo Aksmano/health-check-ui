@@ -34,6 +34,13 @@
         <div class="text-base text-500 font-bold">Doctor</div>
         <div class="text-xl font-bold">{{getDoctorName(appointment.doctorRS)}}</div>
     </div>
+    <!-- <div class="flex flex-column text-xl pb-3">
+        <div class="text-base text-500 font-bold">Your doctors rating</div>
+        <p-rating [(ngModel)]="doctorRating" [stars]="5" [cancel]="false"></p-rating>
+        <p-button *ngIf="!!this.appointment.treatmentRS" [disabled]="ratingButtonDisabled" label="Rate the doctor"
+            icon="pi pi-thumbs-up" styleClass="p-button-sm p-button-outlined" class="my-2 mr-2"
+            (click)="addRating()"></p-button>
+    </div> -->
     <div class="flex flex-column text-xl pb-3">
         <div class="text-base text-500 font-bold">Doctor specialization</div>
         <div class="text-xl font-bold">{{getEnumValueName(appointment.doctorRS.specialization)}}</div>
@@ -177,6 +184,7 @@
     </ng-template>
 </p-dialog>
 
-<ng-template #loading >
-    <app-loading-spinner class="flex align-items-center justify-content-center w-6" title="Current operation is ongoing..."></app-loading-spinner>
+<ng-template #loading>
+    <app-loading-spinner class="flex align-items-center justify-content-center w-6"
+        title="Current operation is ongoing..."></app-loading-spinner>
 </ng-template>

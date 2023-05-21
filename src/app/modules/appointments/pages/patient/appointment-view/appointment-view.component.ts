@@ -8,6 +8,7 @@ import { Specialization } from 'src/app/data/model/common/Specialization';
 import { TestStatus } from 'src/app/data/model/common/TestStatus';
 import { Address } from 'src/app/data/model/dto/common/Address';
 import { AppointmentStatus } from 'src/app/data/model/dto/common/AppointmentStatus';
+import { RateRQ } from 'src/app/data/model/dto/rq/RateRQ';
 import { AppointmentRS } from 'src/app/data/model/dto/rs/AppointmentRS';
 import { DepartmentRS } from 'src/app/data/model/dto/rs/DepartmentRS';
 import { MedicalTestRS } from 'src/app/data/model/dto/rs/MedicalTestRS';
@@ -20,6 +21,7 @@ import { AppointmentService } from 'src/app/data/services/appointment/appointmen
 import { DepartmentServiceImpl } from 'src/app/data/services/department/department.service';
 import { DoctorServiceImpl } from 'src/app/data/services/doctor/doctor.service';
 import { MedicalTestsService } from 'src/app/data/services/medical-test/medical-tests.service';
+import { RatingService } from 'src/app/data/services/rating/rating.service';
 import { TreatmentService } from 'src/app/data/services/treatment/treatment.service';
 import { getFriendlyEnumName, getUserFriendlyAddress } from 'src/app/utils';
 
@@ -55,6 +57,9 @@ export class AppointmentViewComponent implements OnInit {
 
   protected showTreatment = false;
 
+  protected doctorRating: number = 0;
+  protected ratingButtonDisabled = false;
+
   private readonly ngUnsubscribe = new Subject();
 
   constructor(
@@ -62,7 +67,7 @@ export class AppointmentViewComponent implements OnInit {
     private readonly appointmentService: AppointmentService,
     private readonly medicalTestsService: MedicalTestsService,
     private readonly treatmentService: TreatmentService,
-    private readonly doctorService: DoctorServiceImpl,
+    private readonly ratingService: RatingService,
     private readonly departmentService: DepartmentServiceImpl,
     private readonly toastService: ToastService,
     private readonly route: ActivatedRoute,
@@ -115,6 +120,30 @@ export class AppointmentViewComponent implements OnInit {
 
       this.loadMedTestsList()
     })
+  }
+
+  addRating() {
+    if (!!this.appointment?.doctorRS && !!UserInfo.profile) {
+      this.ratingButtonDisabled = true;
+
+      const rateRQ: RateRQ = {
+        doctorUUID: this.appointment?.doctorRS.doctorUUID,
+        patientUUID: UserInfo.profile?.id!,
+        grade: this.doctorRating
+      };
+
+      this.ratingService.addRating(rateRQ)
+        .subscribe({
+          next: (val) => {
+            this.toastService.showSuccess("Rating has been successfully added. Thank you for your feedback!")
+            this.ratingButtonDisabled = false;
+          },
+          error: (err) => {
+            this.toastService.showSuccess("Something went wrong while uploading rating, try again later.")
+            this.ratingButtonDisabled = false;
+          }
+        })
+    }
   }
 
   public loadAppointmentsList() {

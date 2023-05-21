@@ -13,6 +13,9 @@ import { ReceptionistAppointmentViewComponent } from './pages/receptionist/recep
 import { DoctorScheduledAppointmentsTableComponent } from './pages/doctor/scheduled-appointments-table/scheduled-appointments-table.component';
 import { DoctorsAppointmentViewComponent } from './pages/doctor/doctors-appointment-view/doctors-appointment-view.component';
 import { DoctorsScheduleInsertComponent } from './pages/doctor/doctors-schedule-insert/doctors-schedule-insert.component';
+import { PatientGuard } from 'src/app/core/guards/patient/patient.guard';
+import { ReceptionistGuard } from 'src/app/core/guards/receptionist/receptionist.guard';
+import { DoctorGuard } from 'src/app/core/guards/doctor/doctor.guard';
 
 const routes: Routes = [
   {
@@ -22,54 +25,67 @@ const routes: Routes = [
   },
   {
     path: 'patient',
+    canActivate: [PatientGuard],
     component: SearchComponent
   },
   {
     path: 'patient/search',
+    canActivate: [PatientGuard],
     component: SearchTableComponent
   },
   {
     path: 'patient/doctor/:id',
+    canActivate: [PatientGuard],
     component: DoctorsScheduleDetailsComponent
   },
   {
     path: 'patient/schedules',
+    canActivate: [PatientGuard],
     component: PatientAllAppointmentsComponent
   },
   {
     path: 'patient/appointment-details/:id',
+    canActivate: [PatientGuard],
     component: AppointmentViewComponent
   },
   {
     path: 'receptionist/appointment-picker',
+    canActivate: [ReceptionistGuard],
     component: AppointmentsPickerReceptionistComponent
   },
   {
     path: 'receptionist/add-schedules/:id/:spec',
+    canActivate: [ReceptionistGuard],
     component: AddAppointmentSchedulesComponent
   },
   {
     path: 'receptionist/create-appointment/:id/:spec',
+    canActivate: [ReceptionistGuard],
     component: AppointmentCreateVisitComponent
   },
   {
     path: 'receptionist/appointment-visits/:id',
+    canActivate: [ReceptionistGuard],
     component: ScheduledAppointmentsTableComponent,
   },
   {
     path: 'receptionist/appointment-view/:id',
+    canActivate: [ReceptionistGuard],
     component: ReceptionistAppointmentViewComponent,
   },
   {
     path: 'doctor/appointment-visits/:doctorId',
+    canActivate: [DoctorGuard],
     component: DoctorScheduledAppointmentsTableComponent,
   },
   {
     path: 'doctor/appointment-view/:id',
+    canActivate: [DoctorGuard],
     component: DoctorsAppointmentViewComponent,
   },
   {
     path: 'doctor/add-schedules/:id',
+    canActivate: [DoctorGuard],
     component: DoctorsScheduleInsertComponent,
   },
 ];

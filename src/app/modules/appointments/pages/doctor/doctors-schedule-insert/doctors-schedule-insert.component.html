@@ -1,4 +1,4 @@
-<div *ngIf="(hours && days) && !fetchingDoctorSchedules">
+<div *ngIf="(hours && days) && !fetchingDoctorSchedules; else loading">
     <p-table [value]="hours" dataKey="id" [rows]="24" [tableStyle]="{ 'min-width': '100%' }">
         <ng-template pTemplate="caption">
             <div class="flex align-items-center justify-content-between">

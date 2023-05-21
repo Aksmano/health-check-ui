@@ -1,9 +1,9 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AuthGuard} from './core/guards/auth/auth.guard';
-import {ContentLayoutComponent} from './layout/content-layout/content-layout.component';
-import {SuperadminGuard} from './core/guards/superadmin/superadmin.guard';
-import {AdminPanelLayoutComponent} from './layout/admin-panel-layout/admin-panel-layout.component';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './core/guards/auth/auth.guard';
+import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
+import { SuperadminGuard } from './core/guards/superadmin/superadmin.guard';
+import { AdminPanelLayoutComponent } from './layout/admin-panel-layout/admin-panel-layout.component';
 import { AdminGuard } from './core/guards/admin/admin.guard';
 
 const routes: Routes = [
@@ -19,21 +19,25 @@ const routes: Routes = [
     children: [
       {
         path: 'patient',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./modules/patient/patient.module').then(m => m.PatientModule)
       },
       {
         path: 'medical-tests',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./modules/medical-tests/medical-tests.module').then(m => m.MedicalTestsModule)
       },
       {
         path: 'appointments',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./modules/appointments/appointments.module').then(m => m.AppointmentsModule)
       },
       {
         path: 'update-user-data',
+        canActivate: [AuthGuard],
         loadChildren: () =>
           import('./modules/register-user-data/register-user-data.module').then(m => m.RegisterUserDataModule)
       },

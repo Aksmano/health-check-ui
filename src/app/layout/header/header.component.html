@@ -7,9 +7,16 @@
         <img (click)="navigationService.toMainPage()" class="navbar-logo" src="../../../assets/health-check.png"
             alt="health-check-icon" />
         <div (click)="navigationService.toMainPage()" class="navbar-title">Health Check</div>
-        <div (click)="navigationService.toAppointmentsFromHeader()" class="navbar-button">Appointments</div>
-        <div (click)="navigationService.toMedicalTestsPortal()" class="navbar-button">Medical test</div>
-        <div (click)="navigationService.toDoctorsPortal()" class="navbar-button">Doctor</div>
+        <div (click)="navigationService.toAppointmentsFromHeader()"
+            *ngIf="roleService.hasRoleReceptionist() || roleService.hasRolePatient() || roleService.hasRoleDoctor()"
+            class="navbar-button">Appointments
+        </div>
+        <div (click)="navigationService.toAppointmentInsertSchedulesByDoctor(profile?.id!)" *ngIf="roleService.hasRoleDoctor()"
+            class="navbar-button">Add Schedules
+        </div>
+        <div (click)="navigationService.toMedicalTestsPortal()"
+            *ngIf="roleService.hasRoleReceptionist() || roleService.hasRolePatient()" class="navbar-button">Medical test
+        </div>
         <!-- <div (click)="navigationService.toContact()" class="navbar-button">Contact</div>
         <div class="navbar-button">About</div> -->
         <div class="flex-grow-1"></div>

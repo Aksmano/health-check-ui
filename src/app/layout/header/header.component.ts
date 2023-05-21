@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {KeycloakService} from 'keycloak-angular';
+import { KeycloakProfile } from 'keycloak-js';
 import {MenuItem} from 'primeng/api/menuitem';
 import {Subject} from 'rxjs';
 import {NavigationService} from 'src/app/core/services/navigation/navigation.service';
 import {RoleService} from 'src/app/core/services/roles/role.service';
+import { UserInfo } from 'src/app/core/user-info';
 import {AppState} from 'src/app/redux/index.reducers';
 
 @Component({
@@ -16,6 +18,7 @@ export class HeaderComponent implements OnInit {
   public sidebar = false;
   public avatarMenuItems: MenuItem[] = [];
   public avatarName: string = 'Sign in';
+  public profile?: KeycloakProfile = UserInfo.profile;
 
   private readonly ngUnsubscribe = new Subject();
 
@@ -23,7 +26,7 @@ export class HeaderComponent implements OnInit {
     public readonly navigationService: NavigationService,
     private readonly store: Store<AppState>,
     private readonly keycloak: KeycloakService,
-    private readonly roleService: RoleService
+    protected readonly roleService: RoleService
   ) {
   }
 

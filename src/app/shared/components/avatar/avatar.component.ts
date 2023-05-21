@@ -61,10 +61,6 @@ export class AvatarComponent {
 
       }
 
-      if (this.roleService.hasRoleDoctor()) {
-        avatarMenuItems.push(this.doctorAppointments)
-      }
-
       avatarMenuItems.push(this.logout);
     } else {
       avatarMenuItems.push(this.login);
@@ -113,13 +109,6 @@ export class AvatarComponent {
     icon: 'pi pi-calendar',
     command: () => {
       this.navigationService.toAppointments(['schedules'])
-    }
-  }
-  private doctorAppointments = {
-    label: 'My appointments',
-    icon: 'pi pi-calendar',
-    command: () => {
-      this.navigationService.toAppointments(['appointment-visits', UserInfo.profile?.id!])
     }
   }
   private patientUpdateData = {
