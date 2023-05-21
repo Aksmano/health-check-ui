@@ -6,6 +6,7 @@ import { MenuItem } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
 import { RoleService } from 'src/app/core/services/roles/role.service';
+import { UserInfo } from 'src/app/core/user-info';
 import { UserType } from 'src/app/data/model/common/UserType';
 import { AppState } from 'src/app/redux/index.reducers';
 
@@ -56,6 +57,10 @@ export class AvatarComponent {
 
       }
 
+      if (this.roleService.hasRoleDoctor()) {
+        avatarMenuItems.push(this.doctorAppointments)
+      }
+
       avatarMenuItems.push(this.logout);
     } else {
       avatarMenuItems.push(this.login);
@@ -99,12 +104,18 @@ export class AvatarComponent {
       this.navigationService.toMedicalTestByPatient(this.userId!)
     }
   }
-
   private patientAppointments = {
     label: 'My appointments',
     icon: 'pi pi-calendar',
     command: () => {
       this.navigationService.toAppointments(['schedules'])
+    }
+  }
+  private doctorAppointments = {
+    label: 'My appointments',
+    icon: 'pi pi-calendar',
+    command: () => {
+      this.navigationService.toAppointments(['appointment-visits', UserInfo.profile?.id!])
     }
   }
   private patientUpdateData = {

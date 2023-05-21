@@ -7,6 +7,8 @@ import { UpdateTreatmentRQ } from '../../model/dto/rq/UpdateTreatmentRQ';
 import { ReferralRQ } from '../../model/dto/rq/ReferralRQ';
 import { PrescriptionRQ } from '../../model/dto/rq/PrescriptionRQ';
 import { toJavaLocalDateTime } from 'src/app/utils';
+import { ReferralRS } from '../../model/dto/rs/ReferralRS';
+import { PrescriptionRS } from '../../model/dto/rs/PrescriptionRS';
 
 interface TreatmentRepository {
   getTreatmentById(id: number): Observable<TreatmentRS>;
@@ -58,5 +60,13 @@ export class TreatmentService {
     };
 
     return this.httpClient.post<PrescriptionRQ>(`${this.baseUrl}/prescription`, { ...prescriptionToSend })
+  }
+
+  getReferralById(referralId: number): Observable<ReferralRS> {
+    return this.httpClient.get<ReferralRS>(`${this.baseUrl}/referral/${referralId}`)
+  }
+
+  getPrescriptionById(prescriptionId: number): Observable<PrescriptionRS> {
+    return this.httpClient.get<PrescriptionRS>(`${this.baseUrl}/prescription/${prescriptionId}`)
   }
 }

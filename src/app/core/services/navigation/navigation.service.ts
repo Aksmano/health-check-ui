@@ -116,7 +116,7 @@ export class NavigationService {
   }
 
   public toAppointmentById(id: number) {
-    this.router.navigate(['app', 'appointments', id.toString()]);
+    this.router.navigate(['app', 'appointments', 'patient', 'appointment-details' , id.toString()]);
   }
 
   public toRegisterData(mode: string) {

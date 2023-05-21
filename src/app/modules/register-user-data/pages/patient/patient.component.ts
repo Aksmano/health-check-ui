@@ -1,5 +1,6 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { KeycloakProfile } from 'keycloak-js';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
@@ -52,8 +53,25 @@ export class PatientComponent implements OnInit {
                 if (!!res) {
                   if (this.navigation.previousUrl.split('/').pop() === 'register-data')
                     this.navigation.toRegisterData('update-data')
-                  else
-                    this.navigation.toLocation(this.navigation.previousUrl.split('/').filter((v, i) => i !== 0))
+                  else {
+                    const paths = this.navigation.previousUrl.split('/').filter((v, i) => i !== 0);
+                    const lastPath = paths[paths.length - 1].split('?');
+
+                    paths[paths.length - 1] = lastPath[0];
+
+                    const params = new URLSearchParams(`?${lastPath[1]}`);
+                    let queryParams: Params = {};
+
+                    params.forEach((k, v) => {
+                      if (k.length > 0)
+                        queryParams[k] = v
+                    });
+
+                    console.log(params);
+
+
+                    this.navigation.toLocation(paths, { queryParams: queryParams })
+                  }
                 }
               } else if (params.get('mode') == 'update-data' && !!res) {
                 console.log(res);

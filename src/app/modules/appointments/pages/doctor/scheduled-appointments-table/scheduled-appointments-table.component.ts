@@ -11,6 +11,7 @@ import { DoctorRS } from 'src/app/data/model/dto/rs/employeeRS/DoctorRS';
 import { PatientRS } from 'src/app/data/model/dto/rs/PatientRS';
 import { TreatmentRS } from 'src/app/data/model/dto/rs/TreatmentRS';
 import { UserInfo } from 'src/app/core/user-info';
+import { ONE_DAY_IN_MILISECONDS, ONE_WEEK_IN_MILLISECONDS } from '../../../utils/TimeUtils';
 
 @Component({
   selector: 'app-doctor-scheduled-appointments-table',
@@ -44,6 +45,9 @@ export class DoctorScheduledAppointmentsTableComponent {
   public testTypes: any[] | undefined;
   protected doctorId: string | undefined;
 
+  protected weekBeginning: Date = this.getWeekBeginning()
+  protected weekEnd: Date = new Date(this.getWeekBeginning().getTime() + ONE_DAY_IN_MILISECONDS * 6)
+
   constructor(private readonly toastService: ToastService,
     protected readonly navigationService: NavigationService,
     private readonly appointmentService: AppointmentService,
@@ -55,7 +59,10 @@ export class DoctorScheduledAppointmentsTableComponent {
     this.activatedRoute.params.subscribe(params => {
       this.doctorId = params['doctorId'];
 
-      this.appointmentService.getAppointmentsByDoctorId(this.doctorId!).subscribe({
+      this.appointmentService.getAppointmentsByDoctorId(this.doctorId!, {
+        startDateTime: this.weekBeginning,
+        endDateTime: new Date(this.weekBeginning.getTime() + ONE_WEEK_IN_MILLISECONDS)
+      }).subscribe({
         next: data => {
           this.visits = data;
         },
@@ -68,27 +75,52 @@ export class DoctorScheduledAppointmentsTableComponent {
     );
   }
 
+  private getAppointments() {
+    if (!!this.doctorId) {
+      this.isProcessOngoing = true
+      this.appointmentService.getAppointmentsByDoctorId(this.doctorId, {
+        startDateTime: this.weekBeginning,
+        endDateTime: new Date(this.weekBeginning.getTime() + ONE_WEEK_IN_MILLISECONDS)
+      }).subscribe({
+        next: data => {
+          this.visits = data;
+          console.log(this.visits)
+        },
+        error: error => {
+          this.toastService.showError('Error during fetching tests for department.')
+        },
+        complete: () => this.isProcessOngoing = false
+      })
+    }
+  }
+
+  incrementCurrentDate() {
+    this.weekBeginning = new Date(this.weekBeginning.getTime() + ONE_WEEK_IN_MILLISECONDS);
+    this.weekEnd = new Date(this.weekBeginning.getTime() + ONE_DAY_IN_MILISECONDS * 6)
+    this.getAppointments()
+  }
+
+  decrementCurrentDate() {
+    this.weekBeginning = new Date(this.weekBeginning.getTime() - ONE_WEEK_IN_MILLISECONDS);
+    this.weekEnd = new Date(this.weekBeginning.getTime() + ONE_DAY_IN_MILISECONDS * 6)
+    this.getAppointments()
+  }
+
   ngOnDestroy(): void {
   }
 
-  getMessageByTestType(testStatus: string): string {
-    if (testStatus == AppointmentStatus.FINISHED.toString()) {
-      return 'Finished';
-    }
-    if (testStatus == AppointmentStatus.SCHEDULED.toString()) {
+  getMessageByTestType(appointment: AppointmentRS): string {
+    if (!appointment.treatmentRS) {
       return 'Scheduled';
     }
-    return 'Canceled';
+    else return 'Finished';
   }
 
-  getSeverity(testStatus: string): string {
-    if (testStatus == AppointmentStatus.FINISHED.toString()) {
-      return 'success';
+  getSeverity(appointment: AppointmentRS): string {
+    if (!appointment.treatmentRS) {
+      return 'info';
     }
-    if (testStatus == AppointmentStatus.SCHEDULED.toString()) {
-      return 'warning';
-    }
-    return 'danger';
+    else return 'success';
   }
 
   deleteAppointment(id: number) {
@@ -113,5 +145,12 @@ export class DoctorScheduledAppointmentsTableComponent {
           this.isProcessOngoing = false
         }
       })
+  }
+
+  getWeekBeginning() {
+    const d = new Date();
+    var day = d.getDay(),
+      diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+    return new Date(d.setDate(diff));
   }
 }

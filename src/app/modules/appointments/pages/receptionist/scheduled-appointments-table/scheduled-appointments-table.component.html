@@ -1,4 +1,11 @@
-<div *ngIf="visits && !isProcessOngoing; else loading" class="flex flex-column w-full h-full">
+<div *ngIf="visits && !isProcessOngoing && !!weekBeginning; else loading" class="flex flex-column w-full h-full">
+  <div class="mb-3 flex flex-row align-items-center">
+    <p-button class="mx-3" icon="pi pi-chevron-left" styleClass="p-button-raised p-button-text p-button-secondary"
+      (onClick)="decrementCurrentDate()"></p-button>
+    <p-button icon="pi pi-chevron-right" styleClass="p-button-raised p-button-text p-button-secondary"
+      (onClick)="incrementCurrentDate()"></p-button>
+    <div class="font-semibold ml-5 text-lg">Week: {{weekBeginning | date:'dd.MM.yyyy'}} - {{weekEnd | date:'dd.MM.yyyy'}}</div>
+  </div>
   <p-table [value]="visits" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
     [tableStyle]="{ 'min-width': '50rem' }"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 25, 50]">
@@ -19,7 +26,7 @@
         <td>{{visit.patientRS!.lastName}}</td>
         <td>{{visit.appointmentDate | date:'short'}}</td>
         <td>
-          <p-tag [value]=" getMessageByTestType(visit.status)" [severity]="getSeverity(visit.status)"></p-tag>
+          <p-tag [value]=" getMessageByTestType(visit)" [severity]="getSeverity(visit)"></p-tag>
         </td>
         <td class="flex flex-row">
           <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-text"
@@ -32,5 +39,5 @@
   </p-table>
 </div>
 <ng-template #loading>
-  <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
+  <app-loading-spinner title="Loading schedules..."></app-loading-spinner>
 </ng-template>

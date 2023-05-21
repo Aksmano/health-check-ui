@@ -256,7 +256,7 @@ export class DoctorsAppointmentViewComponent {
         .subscribe({
           next: appointment => {
             console.log('appointmnasdfasds fasfds afdsf ad');
-            
+
             this.appointment = appointment;
             this.appointment.appointmentDate = new Date(appointment.appointmentDate);
             this.modifyingComments = false;
@@ -307,17 +307,22 @@ export class DoctorsAppointmentViewComponent {
     return `${date.toLocaleDateString()}, ${date.toLocaleTimeString()}`;
   }
 
-  public tabColor(status: AppointmentStatus) {
-    if (this.appointment?.status === AppointmentStatus.CANCELED) {
-      return 'warning'
-    }
-    if (!this.appointment!.treatmentRS) {
+  public tabColor(item: AppointmentRS) {
+    if (!item.treatmentRS) {
       return "info"
     }
-    if (!!this.appointment!.treatmentRS) {
+    else {
       return "success"
     }
-    return "info";
+  }
+
+  public getTabText(item: AppointmentRS) {
+    if (!item.treatmentRS) {
+      return "Scheduled"
+    }
+    else {
+      return "Done"
+    }
   }
 
   public getAppointmentStatusBasedOnTreatment() {
