@@ -74,3 +74,5 @@ export const getFriendlyEnumName = (name: string) => {
 export const getUserFriendlyAddress = (address: Address): string => {
   return `${address.street} ${address.houseNumber}${!!address.apartmentNumber ? '/' + address.apartmentNumber : ''}`
 }
+
+export const toJavaLocalDateTime = (date: Date) => date.toISOString().substring(0,19);

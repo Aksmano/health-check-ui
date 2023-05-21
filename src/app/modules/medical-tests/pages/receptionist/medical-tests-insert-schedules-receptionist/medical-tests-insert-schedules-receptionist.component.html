@@ -34,7 +34,6 @@
         </td>
         <td *ngFor="let day of days" (click)="showTimeInsertWindow(day, hour)"
             [ngStyle]="{'background-color': isDateInSchedule(hour, day) ? '#777777' : '#f0f0f0'}">
-
         </td>
       </tr>
     </ng-template>

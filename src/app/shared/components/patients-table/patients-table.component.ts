@@ -1,9 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {ToastService} from "../../../../core/services/toast/toast.service";
-import {PatientService} from "../../../../data/services/patient/patient.service";
+import {ToastService} from "../../../core/services/toast/toast.service";
+import {PatientService} from "../../../data/services/patient/patient.service";
 import {BehaviorSubject, Subscription} from "rxjs";
-import {PatientRS} from "../../../../data/model/dto/rs/PatientRS";
-import {Patient} from "../../../../data/model/entities/Patient";
+import {PatientRS} from "../../../data/model/dto/rs/PatientRS";
+import {Patient} from "../../../data/model/entities/Patient";
 
 @Component({
   selector: 'app-patients-table',

@@ -1,0 +1,73 @@
+<div *ngIf="(hours && days && spec ) && !fetchingDoctorSchedules">
+    <p-table [value]="hours" dataKey="id" [rows]="24" [tableStyle]="{ 'min-width': '100%' }">
+        <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+                <div>
+                    Specialization: {{getUserFriendlySpec(spec)}} | Doctor: 
+                    <p-dropdown class="mx-3" [options]="doctorsDropdownList" optionLabel="name"
+                        [(ngModel)]="selectedDoctor" (onChange)="onDoctorSelect()"></p-dropdown>
+                </div>
+                <div>
+                    <p-button [style]="{padding: '0.25rem'}" icon="pi pi-chevron-left"
+                        styleClass="p-button-raised p-button-text p-button-secondary"
+                        (onClick)="changeDate(false)"></p-button>
+                    <p-button [style]="{padding: '0.25rem'}" icon="pi pi-chevron-right"
+                        styleClass="p-button-raised p-button-text p-button-secondary"
+                        (onClick)="changeDate(true)"></p-button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="min-width:10rem; max-height: 3rem"></th>
+                <th *ngFor="let day of days">
+                    {{day | date:'EEEE'}}<br />
+                    {{day | date:'dd LLL'}}
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-hour>
+            <tr style="height: 1rem; max-height: 1rem">
+                <td style="padding: 0.3rem">
+                    {{ hour |date:'shortTime'}}
+                </td>
+                <td *ngFor="let day of days" (click)="showTimeInsertWindow(day, hour)"
+                    [ngStyle]="{'background-color': isDateInSchedule(hour, day) ? '#777777' : '#f0f0f0'}">
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">No customers found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog header="Header" [(visible)]="showDateVisible" [style]="{ width: '50vw',height:'100vw'}">
+        <ng-template pTemplate="header">
+            <span class="text-xl font-bold">Create schedule for {{selectedDoctor?.name}}</span>
+        </ng-template>
+        <p>
+            Date: {{chosenDate | date:'fullDate'}} <br />
+            Time: <br />
+            <p-calendar [defaultDate]="this.chosenDate!" [showIcon]="true" [timeOnly]="true"></p-calendar>
+            <br />
+            Hours: <br />
+            <p-inputNumber [min]="1" [max]="8" [(ngModel)]="chosenHours" [showButtons]="true" inputId="stacked"
+                currency="USD"></p-inputNumber>
+            <br />
+        </p>
+        <ng-template pTemplate="footer">
+            <p-button label="Go back" (click)="showDateVisible = false" styleClass="p-button-secondary"></p-button>
+            <p-button label="Create" icon="pi pi-plus" styleClass="p-button-raised p-button-success"
+                (onClick)="addSchedule()"></p-button>
+        </ng-template>
+    </p-dialog>
+</div>
+<div *ngIf="!(hours && days && spec) || fetchingDoctorSchedules">
+    <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
+</div>
+
+<ng-template #loading>
+    <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
+</ng-template>

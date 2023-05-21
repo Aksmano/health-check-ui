@@ -1,0 +1,43 @@
+<div *ngIf="visits && !isProcessOngoing && !!weekBeginning; else loading" class="flex flex-column w-full h-full">
+  <div class="mb-3 flex flex-row align-items-center">
+    <p-button class="mx-3" icon="pi pi-chevron-left" styleClass="p-button-raised p-button-text p-button-secondary"
+      (onClick)="decrementCurrentDate()"></p-button>
+    <p-button icon="pi pi-chevron-right" styleClass="p-button-raised p-button-text p-button-secondary"
+      (onClick)="incrementCurrentDate()"></p-button>
+    <div class="font-semibold ml-5 text-lg">Week: {{weekBeginning | date:'dd.MM.yyyy'}} - {{weekEnd | date:'dd.MM.yyyy'}}</div>
+  </div>
+  <p-table [value]="visits" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 25, 50]">
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width:20%">Doctor spec.</th>
+        <th style="width:15%">First name</th>
+        <th style="width:15%">Last name</th>
+        <th style="width:23%">Date</th>
+        <th style="width:17%">Status</th>
+        <th style="width:10%"></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-visit>
+      <tr>
+        <td>{{visit.doctorRS.specialization}}</td>
+        <td>{{visit.patientRS!.firstName}}</td>
+        <td>{{visit.patientRS!.lastName}}</td>
+        <td>{{visit.appointmentDate | date:'short'}}</td>
+        <td>
+          <p-tag [value]=" getMessageByTestType(visit)" [severity]="getSeverity(visit)"></p-tag>
+        </td>
+        <td class="flex flex-row">
+          <p-button icon="pi pi-pencil" styleClass="p-button-rounded p-button-text"
+            (onClick)="navigationService.toAppointmentDetailsReceptionist(visit.id)"></p-button>
+          <p-button icon="pi pi-trash" styleClass="p-button-danger p-button-rounded p-button-text"
+            (onClick)="deleteAppointment(visit.id)"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<ng-template #loading>
+  <app-loading-spinner title="Loading schedules..."></app-loading-spinner>
+</ng-template>

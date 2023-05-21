@@ -28,6 +28,11 @@ const routes: Routes = [
           import('./modules/medical-tests/medical-tests.module').then(m => m.MedicalTestsModule)
       },
       {
+        path: 'appointments',
+        loadChildren: () =>
+          import('./modules/appointments/appointments.module').then(m => m.AppointmentsModule)
+      },
+      {
         path: 'update-user-data',
         loadChildren: () =>
           import('./modules/register-user-data/register-user-data.module').then(m => m.RegisterUserDataModule)

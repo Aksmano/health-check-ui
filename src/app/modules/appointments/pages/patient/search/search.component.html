@@ -1,0 +1,35 @@
+<div class="home">
+    <p-card header="Search for available doctors"
+        [style]="{ width: '58rem', backgroundImage: 'url(../assets/medical-facility.jpg)', color: 'white'}">
+        <ng-template pTemplate="content">
+            <div *ngIf="!loadingDepartments; else loading">
+                <span class="p-input-icon-left flex flex-column gap-2">
+                    <label for="city-input-ac">Specialization</label>
+                    <p-dropdown [(ngModel)]="selectedSpec" id="city-input-ac" [options]="dropdownSpecializations"
+                        (onChange)="pickedSpec = true" [editable]="true" optionLabel="name"
+                        [style]="{'color': 'red'}"></p-dropdown>
+                </span>
+                <span class="p-input-icon-left flex flex-column gap-2 mt-3">
+                    <label for="city-input-ac">City</label>
+                    <p-dropdown [(ngModel)]="selectedCity" id="city-input-ac" [options]="dropdownCities"
+                        (onChange)="onCitySelect($event)" [editable]="true" optionLabel="name"
+                        [style]="{'color': 'red'}"></p-dropdown>
+                </span>
+                <span class="p-input-icon-left flex flex-column gap-2 mt-3">
+                    <label for="city-input-ac">Department</label>
+                    <p-dropdown [(ngModel)]="selectedDept" id="city-input-ac" [disabled]="!pickedCity"
+                        [options]="dropdownDepts" (onChange)="pickedDept = true" [editable]="true" optionLabel="name"
+                        [style]="{'color': 'red'}"></p-dropdown>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <p-button *ngIf="!loadingDepartments" [disabled]="disabledSearch()" label="Search" icon="pi pi-search"
+                (onClick)="searchForAvailableAppointments()"></p-button>
+        </ng-template>
+    </p-card>
+</div>
+
+<ng-template #loading>
+    <app-loading-spinner></app-loading-spinner>
+</ng-template>

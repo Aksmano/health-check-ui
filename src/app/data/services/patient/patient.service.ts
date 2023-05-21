@@ -17,7 +17,7 @@ export class PatientService {
   ) {
   }
 
-  getPatientData() {
+  getPatientData(): Observable<PatientRS> {
     return this.httpClient.get<PatientRS>(this.baseUrl);
   }
 

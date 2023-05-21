@@ -1,3 +1,5 @@
+import { getFriendlyEnumName } from "src/app/utils";
+
 export enum TestType {
   ARTHROSCOPY = "ARTHROSCOPY",
   AUDIOMETRY = "AUDIOMETRY",
@@ -45,3 +47,51 @@ export enum TestType {
   VIDEO_OTOSCOPY = "VIDEO_OTOSCOPY",
   VIDEODERMATOSCOPY = "VIDEODERMATOSCOPY"
 }
+
+export const testTypeDropdownItems: { name: string, code: string }[] = [
+  { name: getFriendlyEnumName(TestType.ARTHROSCOPY), code: TestType.ARTHROSCOPY },
+  { name: getFriendlyEnumName(TestType.AUDIOMETRY), code: TestType.AUDIOMETRY },
+  { name: getFriendlyEnumName(TestType.BACTERIOLOGICAL_RESEARCH), code: TestType.BACTERIOLOGICAL_RESEARCH },
+  { name: getFriendlyEnumName(TestType.RESEARCH_FOR_DRIVERS), code: TestType.RESEARCH_FOR_DRIVERS },
+  { name: getFriendlyEnumName(TestType.PSYCHOTECHNICAL_RESEARCH), code: TestType.PSYCHOTECHNICAL_RESEARCH },
+  { name: getFriendlyEnumName(TestType.URODYNAMIC_STUDIES), code: TestType.URODYNAMIC_STUDIES },
+  { name: getFriendlyEnumName(TestType.ULTRASOUND_EXAMINATION), code: TestType.ULTRASOUND_EXAMINATION },
+  { name: getFriendlyEnumName(TestType.CEPHALOMETRY), code: TestType.CEPHALOMETRY },
+  { name: getFriendlyEnumName(TestType.CYTOLOGY), code: TestType.CYTOLOGY },
+  { name: getFriendlyEnumName(TestType.PICTURE_DIAGNOSIS), code: TestType.PICTURE_DIAGNOSIS },
+  { name: getFriendlyEnumName(TestType.SELECTION_OF_CONTACT_LENSES), code: TestType.SELECTION_OF_CONTACT_LENSES },
+  { name: getFriendlyEnumName(TestType.CARDIAC_ECHOCARDIOGRAPHY), code: TestType.CARDIAC_ECHOCARDIOGRAPHY },
+  { name: getFriendlyEnumName(TestType.ELECTROENCEPHALOGRAPHY), code: TestType.ELECTROENCEPHALOGRAPHY },
+  { name: getFriendlyEnumName(TestType.ENT_ENDOSCOPY), code: TestType.ENT_ENDOSCOPY },
+  { name: getFriendlyEnumName(TestType.GASTROSCOPY), code: TestType.GASTROSCOPY },
+  { name: getFriendlyEnumName(TestType.HOLTER_ECG), code: TestType.HOLTER_ECG },
+  { name: getFriendlyEnumName(TestType.BLOOD_PRESSURE_MONITOR), code: TestType.BLOOD_PRESSURE_MONITOR },
+  { name: getFriendlyEnumName(TestType.CAPILLAROSCOPY), code: TestType.CAPILLAROSCOPY },
+  { name: getFriendlyEnumName(TestType.COLONOSCOPY), code: TestType.COLONOSCOPY },
+  { name: getFriendlyEnumName(TestType.COMPREHENSIVE_ENT_CARE), code: TestType.COMPREHENSIVE_ENT_CARE },
+  { name: getFriendlyEnumName(TestType.LASER_THERAPY_OF_THE_RETINA_OF_THE_EYE), code: TestType.LASER_THERAPY_OF_THE_RETINA_OF_THE_EYE },
+  { name: getFriendlyEnumName(TestType.MAMMOGRAPHY), code: TestType.MAMMOGRAPHY },
+  { name: getFriendlyEnumName(TestType.MEDICINE_FOR_SPORTS_AND_ACTIVE_PEOPLE), code: TestType.MEDICINE_FOR_SPORTS_AND_ACTIVE_PEOPLE },
+  { name: getFriendlyEnumName(TestType.AVIATION_MEDICINE), code: TestType.AVIATION_MEDICINE },
+  { name: getFriendlyEnumName(TestType.ORTHOPTICS), code: TestType.ORTHOPTICS },
+  { name: getFriendlyEnumName(TestType.PLATELET_RICH_PLASMA_IN_ORTHOPEDICS), code: TestType.PLATELET_RICH_PLASMA_IN_ORTHOPEDICS },
+  { name: getFriendlyEnumName(TestType.LABORATORY_TEST_PACKAGE), code: TestType.LABORATORY_TEST_PACKAGE },
+  { name: getFriendlyEnumName(TestType.PANORAMA), code: TestType.PANORAMA },
+  { name: getFriendlyEnumName(TestType.X_RAY), code: TestType.X_RAY },
+  { name: getFriendlyEnumName(TestType.RADIOVISIOGRAPHY), code: TestType.RADIOVISIOGRAPHY },
+  { name: getFriendlyEnumName(TestType.MAGNETIC_RESONANCE_IMAGING), code: TestType.MAGNETIC_RESONANCE_IMAGING },
+  { name: getFriendlyEnumName(TestType.HOSPITAL_DIAGNOSTIC_REVIEW), code: TestType.HOSPITAL_DIAGNOSTIC_REVIEW },
+  { name: getFriendlyEnumName(TestType.FLU_RAPID_TEST), code: TestType.FLU_RAPID_TEST },
+  { name: getFriendlyEnumName(TestType.HARMONY_TEST), code: TestType.HARMONY_TEST },
+  { name: getFriendlyEnumName(TestType.ROMA_TEST), code: TestType.ROMA_TEST },
+  { name: getFriendlyEnumName(TestType.CORONAVIRUS_TEST), code: TestType.CORONAVIRUS_TEST },
+  { name: getFriendlyEnumName(TestType.ALLERGY_SKIN_TESTS), code: TestType.ALLERGY_SKIN_TESTS },
+  { name: getFriendlyEnumName(TestType.BLOOD_ALLERGY_TESTS), code: TestType.BLOOD_ALLERGY_TESTS },
+  { name: getFriendlyEnumName(TestType.COMPUTED_TOMOGRAPHY), code: TestType.COMPUTED_TOMOGRAPHY },
+  { name: getFriendlyEnumName(TestType.FUNCTIONAL_TRAINING), code: TestType.FUNCTIONAL_TRAINING },
+  { name: getFriendlyEnumName(TestType.TYMPANOMETRY), code: TestType.TYMPANOMETRY },
+  { name: getFriendlyEnumName(TestType.ULTRASOUND_OF_THE_EYEBALL), code: TestType.ULTRASOUND_OF_THE_EYEBALL },
+  { name: getFriendlyEnumName(TestType.VIDEOFIBEROSCOPY), code: TestType.VIDEOFIBEROSCOPY },
+  { name: getFriendlyEnumName(TestType.VIDEO_OTOSCOPY), code: TestType.VIDEO_OTOSCOPY },
+  { name: getFriendlyEnumName(TestType.VIDEODERMATOSCOPY), code: TestType.VIDEODERMATOSCOPY }
+]

@@ -42,7 +42,7 @@ import {
 import {CalendarModule} from "primeng/calendar";
 import {PaginatorModule} from "primeng/paginator";
 import {FileUploadModule} from "primeng/fileupload";
-import {PatientsTableComponent} from './components/patients-table/patients-table.component';
+import {PatientsTableComponent} from '../../shared/components/patients-table/patients-table.component';
 import {RippleModule} from "primeng/ripple";
 
 @NgModule({
@@ -56,7 +56,6 @@ import {RippleModule} from "primeng/ripple";
     MedicalTestsVisitsReceptionistComponent,
     MedicalTestsReceptionistComponent,
     MedicalTestsPickerReceptionistComponent,
-    PatientsTableComponent,
   ],
   imports: [
     CommonModule,
@@ -78,6 +77,9 @@ import {RippleModule} from "primeng/ripple";
     PaginatorModule,
     FileUploadModule,
     RippleModule
+  ],
+  exports: [
+    PatientsTableComponent
   ]
 })
 export class MedicalTestsModule {

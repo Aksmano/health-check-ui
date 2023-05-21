@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, NavigationExtras, Params, Router } from '@angular/router';
-import { UserInfo } from '../../user-info';
 import { UserType } from 'src/app/data/model/common/UserType';
 import { RoleService } from '../roles/role.service';
+import { UserInfo } from '../../user-info';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +50,76 @@ export class NavigationService {
     this.router.navigate([...path], { ...extras, relativeTo: this.route })
   }
 
+  public toAppointments(path: string[] = [], params?: Params) {
+    let userType: string = '';
+
+    if (this.roleService.hasRolePatient()) userType = 'patient'
+    if (this.roleService.hasRoleReceptionist()) userType = 'receptionist'
+    if (this.roleService.hasRoleDoctor()) userType = 'doctor'
+
+    this.router.navigate(['app', 'appointments', userType, ...path], { queryParams: params });
+  }
+
+  public toAppointmentsFromHeader(path: string[] = [], params?: Params) {
+    let userType: string[] = [];
+
+    if (this.roleService.hasRolePatient()) userType = ['patient']
+    if (this.roleService.hasRoleReceptionist()) userType = ['receptionist', 'appointment-picker']
+    if (this.roleService.hasRoleDoctor()) userType = ['doctor', 'appointment-visits', UserInfo.profile?.id!]
+
+    this.router.navigate(['app', 'appointments', ...userType, ...path], { queryParams: params });
+  }
+
+  public toAppointmentInsertSchedules(departmentId: number, spec: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/receptionist/add-schedules/' + departmentId + '/' + spec, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toAppointmentInsertSchedulesByDoctor(uuid: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/doctor/add-schedules/' + uuid, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toAppointmentDetailsReceptionist(id: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/receptionist/appointment-view/' + id, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toAppointmentDetailsDoctor(id: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/doctor/appointment-view/' + id, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toAppointmentVisitsByDepartment(departmentId: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/receptionist/appointment-visits/' + departmentId, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toCreateAppointment(departmentId: number, spec: string, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/appointments/receptionist/create-appointment/' + departmentId + '/' + spec, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
+  public toAppointmentsByDept(id: number) {
+    this.router.navigate(['app', 'appointments', 'receptionist', ''])
+  }
+
+  public toAppointmentById(id: number) {
+    this.router.navigate(['app', 'appointments', 'patient', 'appointment-details' , id.toString()]);
+  }
+
   public toRegisterData(mode: string) {
     if (this.roleService.hasRolePatient()) {
       this.router.navigate(['app', 'update-user-data', 'patient', mode]);
@@ -91,7 +161,7 @@ export class NavigationService {
 
   public toMedicalTestsPortal(path: string[] = [], extras?: NavigationExtras) {
     if (this.roleService.hasRoleReceptionist()) {
-      this.router.navigate(['/app/medical-tests/receptionist/search', ...path], { ...extras, relativeTo: this.route });
+      this.router.navigate(['/app/medical-tests/receptionist/medical-test-picker', ...path], { ...extras, relativeTo: this.route });
     } else if (this.roleService.hasRoleDoctor()) {
       this.router.navigate(['/app/medical-tests/doctor', ...path], { ...extras, relativeTo: this.route });
     } else if (this.roleService.hasRolePatient()) {

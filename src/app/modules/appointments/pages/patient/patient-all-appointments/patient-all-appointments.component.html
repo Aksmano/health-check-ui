@@ -1,0 +1,33 @@
+<p-table *ngIf="appointments; else loading" [value]="appointments" [paginator]="true" [rows]="10"
+    [showCurrentPageReport]="true" [tableStyle]="{ 'min-width': '100%' }"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowsPerPageOptions]="[10, 25, 50]">
+    <ng-template pTemplate="caption">Your appointments</ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:25%">Doctor</th>
+            <th style="width:25%">Test date</th>
+            <th style="width:20%">Status</th>
+            <th style="width:20%">Specialization</th>
+            <th style="width:10%"></th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-appointment>
+        <tr>
+            <td>{{ getDocNames(appointment.doctorRS) }}</td>
+            <td>{{ appointment.appointmentDate| date:'short' }}</td>
+            <td>
+                <p-tag [value]=" getMessageByTestType(appointment.treatmentRS)"
+                    [severity]="getSeverity(appointment.treatmentRS)"></p-tag>
+            </td>
+            <td>{{ appointment.doctorRS.specialization }}</td>
+            <td>
+                <p-button type="button" icon="pi pi-eye" styleClass="p-button-text"
+                    (onClick)="goToAppointment(appointment.id)"></p-button>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<ng-template #loading>
+    <app-loading-spinner title="Loading patient appointments..."></app-loading-spinner>
+</ng-template>
