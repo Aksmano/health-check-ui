@@ -1,8 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {MedicalTestRQ} from "../../model/dto/rq/MedicalTestRQ";
-import {MedicalTestRS} from "../../model/dto/rs/MedicalTestRS";
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { MedicalTestRQ } from "../../model/dto/rq/MedicalTestRQ";
+import { MedicalTestRS } from "../../model/dto/rs/MedicalTestRS";
+import { ScheduleRQ } from '../../model/dto/rq/ScheduleRQ';
+import { toJavaLocalDateTime } from 'src/app/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -17,25 +19,39 @@ export class MedicalTestsService {
   createMedicalTestVisit(medicalTestRq: MedicalTestRQ): Observable<MedicalTestRS> {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.httpClient.post<MedicalTestRS>(this.baseUrl, {...medicalTestRq});
+    return this.httpClient.post<MedicalTestRS>(this.baseUrl, { ...medicalTestRq });
   }
 
   getMedicalTestById(id: number): Observable<MedicalTestRS> {
     return this.httpClient.get<MedicalTestRS>(this.baseUrl + "/id/" + id);
   }
 
-  getMedicalTestsByDepartmentId(departmentId: number): Observable<MedicalTestRS[]> {
-    return this.httpClient.get<MedicalTestRS[]>(this.baseUrl + "/department/" + departmentId);
+  getMedicalTestsByDepartmentId(departmentId: number, criteria?: ScheduleRQ): Observable<MedicalTestRS[]> {
+    let httpParams = new HttpParams();
+
+    if (!!criteria) {
+      httpParams = httpParams.append('startDateTime', toJavaLocalDateTime(criteria.startDateTime))
+      httpParams = httpParams.append('endDateTime', toJavaLocalDateTime(criteria.endDateTime))
+    }
+
+    return this.httpClient.get<MedicalTestRS[]>(this.baseUrl + "/department/" + departmentId, { params: httpParams });
   }
 
-  getMedicalTestsByDepartmentIdWithCriteria(departmentId: number): Observable<MedicalTestRS[]> {
-    return this.httpClient.get<MedicalTestRS[]>(this.baseUrl + "/department/" + departmentId);
+  getMedicalTestsByDepartmentIdWithCriteria(departmentId: number, criteria?: ScheduleRQ): Observable<MedicalTestRS[]> {
+    let httpParams = new HttpParams();
+
+    if (!!criteria) {
+      httpParams = httpParams.append('startDateTime', toJavaLocalDateTime(criteria.startDateTime))
+      httpParams = httpParams.append('endDateTime', toJavaLocalDateTime(criteria.endDateTime))
+    }
+
+    return this.httpClient.get<MedicalTestRS[]>(this.baseUrl + "/department/" + departmentId, { params: httpParams });
   }
 
   getMedicalTestResult(testId: number): Observable<Blob> {
     let headers = new HttpHeaders();
     headers = headers.set('Accept', 'application/pdf');
-    return this.httpClient.get(this.baseUrl + "/result/" + testId, {headers: headers, responseType: 'blob'});
+    return this.httpClient.get(this.baseUrl + "/result/" + testId, { headers: headers, responseType: 'blob' });
   }
 
   deleteMedicalTest(testId: number): Observable<any> {

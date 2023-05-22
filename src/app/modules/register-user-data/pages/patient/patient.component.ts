@@ -115,6 +115,7 @@ export class PatientComponent implements OnInit {
             if (!!res) {
               UserInfo.patientData = res;
               this.navigation.toMainPage();
+              this.toastService.showSuccess("Your data has been added successfully.");
             } else {
               this.toastService.showError("Something went wrong while sending the data, try later");
             }

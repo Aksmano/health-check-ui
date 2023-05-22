@@ -26,51 +26,53 @@ import {
 import {
   MedicalTestsPickerReceptionistComponent
 } from "./pages/receptionist/medical-tests-picker-receptionist/medical-tests-picker-receptionist.component";
+import { PatientGuard } from 'src/app/core/guards/patient/patient.guard';
+import { ReceptionistGuard } from 'src/app/core/guards/receptionist/receptionist.guard';
 
 const routes: Routes = [
   {
     path: 'patient/search',
-    canActivate: [AuthGuard],
+    canActivate: [PatientGuard],
     component: MedicalTestsSearchPatientComponent
   },
   {
     path: 'patient/medical-test-schedules',
-    canActivate: [AuthGuard],
+    canActivate: [PatientGuard],
     component: MedicalTestsSchedulesPatientComponent,
   },
   {
     path: 'patient/medical-test-details/:id',
-    canActivate: [AuthGuard],
+    canActivate: [PatientGuard],
     component: MedicalTestsPatientComponent,
   },
   {
     path: 'patient/medical-test-patient/:id',
-    canActivate: [AuthGuard],
+    canActivate: [PatientGuard],
     component: MedicalTestsAllPatientComponent,
   },
   {
     path: 'receptionist/medical-test-picker',
-    canActivate: [AuthGuard],
+    canActivate: [ReceptionistGuard],
     component: MedicalTestsPickerReceptionistComponent,
   },
   {
     path: 'receptionist/medical-test-create-visit/:departmentId/:type',
-    canActivate: [AuthGuard],
+    canActivate: [ReceptionistGuard],
     component: MedicalTestsCreateVisitReceptionistComponent,
   },
   {
     path: 'receptionist/medical-test-insert-schedules/:departmentId/:type',
-    canActivate: [AuthGuard],
+    canActivate: [ReceptionistGuard],
     component: MedicalTestsInsertSchedulesReceptionistComponent,
   },
   {
     path: 'receptionist/medical-test-details/:id',
-    canActivate: [AuthGuard],
+    canActivate: [ReceptionistGuard],
     component: MedicalTestsReceptionistComponent,
   },
   {
     path: 'receptionist/medical-test-visits/:departmentId',
-    canActivate: [AuthGuard],
+    canActivate: [ReceptionistGuard],
     component: MedicalTestsVisitsReceptionistComponent,
   },
 ];

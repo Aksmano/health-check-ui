@@ -183,6 +183,13 @@ export class NavigationService {
     });
   }
 
+  public toMedicalTestByIdForReceptionist(testId: number, path: string[] = [], extras?: NavigationExtras) {
+    this.router.navigate(['/app/medical-tests/receptionist/medical-test-details/' + testId, ...path], {
+      ...extras,
+      relativeTo: this.route
+    });
+  }
+
   public toMedicalTestByPatient(patientId: string, path: string[] = [], extras?: NavigationExtras) {
     this.router.navigate(['/app/medical-tests/patient/medical-test-patient/' + patientId, ...path], {
       ...extras,

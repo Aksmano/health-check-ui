@@ -274,7 +274,7 @@ export class MedicalTestsCreateVisitReceptionistComponent {
       this.resultSubscription = this.medicalTestService.createMedicalTestVisit(visitRQ)
         .subscribe(data => {
           this.toastService.showSuccess('Visit created');
-          this.navigationService.toMedicalTestById(data.id)
+          this.navigationService.toMedicalTestByIdForReceptionist(data.id)
         }, error => {
           console.log(error)
           this.toastService.showError('Error during creating visit. Try again later');

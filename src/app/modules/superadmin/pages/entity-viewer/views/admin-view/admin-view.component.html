@@ -77,8 +77,8 @@
         </div>
         <div class="flex mt-5">
             <div class="flex-grow-1"></div>
-            <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
-                styleClass="p-button-success">Create</p-button>
+            <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
+                Delete</p-button>
         </div>
     </div>
 </ng-template>

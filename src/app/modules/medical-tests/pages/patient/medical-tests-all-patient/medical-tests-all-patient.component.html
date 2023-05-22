@@ -1,5 +1,5 @@
 <div class="card">
-  <p-table *ngIf="medicalTests"
+  <p-table *ngIf="medicalTests; else loading"
            [value]="medicalTests"
            [paginator]="true"
            [rows]="10"
@@ -33,3 +33,7 @@
     </ng-template>
   </p-table>
 </div>
+
+<ng-template #loading>
+  <app-loading-spinner title="Loading medical tests..."></app-loading-spinner>
+</ng-template>

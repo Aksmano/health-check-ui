@@ -31,10 +31,10 @@ export class PatientAllAppointmentsComponent implements OnInit {
   ngOnInit(): void {
     if (!!UserInfo.profile) {
       this.appointmentService.getAllPatientAppointments(UserInfo.profile.id!)
-      // , {
-      //   startDateTime: new Date(new Date().getTime() - ONE_WEEK_IN_MILLISECONDS * 10),
-      //   endDateTime: new Date(new Date().getTime() + ONE_WEEK_IN_MILLISECONDS  * 10)
-      // })
+        // , {
+        //   startDateTime: new Date(new Date().getTime() - ONE_WEEK_IN_MILLISECONDS * 10),
+        //   endDateTime: new Date(new Date().getTime() + ONE_WEEK_IN_MILLISECONDS  * 10)
+        // })
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({
           next: appointments => {
@@ -44,7 +44,12 @@ export class PatientAllAppointmentsComponent implements OnInit {
             console.log(this.appointments);
           },
           error: err => {
-            this.toastService.showError('Error during downloading appointments. Try again later.')
+            if (err.status === 404)
+              this.toastService.showWarn("You don't have any appointments for this moment.")
+            else
+              this.toastService.showError('Error during downloading appointments. Try again later.')
+
+              this.appointments = [];
           }
         })
     }
@@ -63,7 +68,7 @@ export class PatientAllAppointmentsComponent implements OnInit {
 
   getMessageByTestType(treatmentRS: AppointmentStatus) {
     console.log(treatmentRS);
-    
+
     if (!!treatmentRS)
       return 'Done';
     else

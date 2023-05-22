@@ -71,9 +71,12 @@ export class UserInfo {
                     }
                     if (userType === UserType.Patient) {
                         this.patientService.getPatientData()
-                            .subscribe(res => {
-                                UserInfo.patientData = res
-                                this.loaded = true;
+                            .subscribe({
+                                next: res => {
+                                    UserInfo.patientData = res
+                                    this.loaded = true;
+                                },
+                                error: err => this.loaded = true
                             });
                     }
                     if (userType === UserType.Superadmin) {
