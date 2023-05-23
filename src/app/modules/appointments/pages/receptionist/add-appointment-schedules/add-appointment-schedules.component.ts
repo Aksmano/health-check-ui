@@ -89,6 +89,7 @@ export class AddAppointmentSchedulesComponent {
                   this.assignedSchedules = [];
                   this.hours = getAllDatesByWorkingHoursInDay(this.currentDate!);
                   this.days = getAllDaysInWeekByDate(this.currentDate!);
+                  this.fetchingDoctorSchedules = false;
                 }
               });
             }
@@ -132,6 +133,7 @@ export class AddAppointmentSchedulesComponent {
           this.assignedSchedules = [];
           this.hours = getAllDatesByWorkingHoursInDay(this.currentDate!);
           this.days = getAllDaysInWeekByDate(this.currentDate!);
+          this.fetchingDoctorSchedules = false;
         }
       });
   }

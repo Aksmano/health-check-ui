@@ -49,7 +49,7 @@ export class PatientAllAppointmentsComponent implements OnInit {
             else
               this.toastService.showError('Error during downloading appointments. Try again later.')
 
-              this.appointments = [];
+            this.appointments = [];
           }
         })
     }

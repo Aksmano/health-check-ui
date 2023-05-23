@@ -114,7 +114,10 @@ export class AppointmentViewComponent implements OnInit {
               })
           },
           error: err => {
-            this.toastService.showError('Error during fetching appointment. Try again later.')
+            if (err.status === 404) {
+              this.toastService.showWarn("You don't have any appointments for this moment.")
+            } else
+              this.toastService.showError('Error during fetching appointment. Try again later.')
           }
         })
 
