@@ -1,4 +1,4 @@
-<p-table [loading]="loadingValues" columnResizeMode="expand" [value]="values" [rows]="rows" [paginator]="paginator"
+<p-table *ngIf="!processOngoing; else loading" [loading]="loadingValues" columnResizeMode="expand" [value]="values" [rows]="rows" [paginator]="paginator"
     [scrollable]="true" scrollHeight="calc(100vh - 20rem)" styleClass="p-datatable-striped" [showCurrentPageReport]="true"
     [rowsPerPageOptions]="[10, 25, 50, rows]" [tableStyle]="{'min-width': '100%'}" [resizableColumns]="true">
     <ng-template pTemplate="header">
@@ -46,9 +46,13 @@
             <td>{{value.specialization}}</td>
             <td>{{value.departmentId}}</td>
             <td class="p-2">
-                <p-button (onClick)="modifyEntity(value)" pTooltip="See department details" tooltipPosition="left"  icon="pi pi-file-edit" styleClass="p-button-rounded p-button-text"></p-button>
-                <p-button (onClick)="deleteEntity(value)" pTooltip="Delete department" tooltipPosition="left"  icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+                <p-button (onClick)="modifyEntity(value)" pTooltip="See doctor details" tooltipPosition="left"  icon="pi pi-file-edit" styleClass="p-button-rounded p-button-text"></p-button>
+                <p-button (onClick)="deleteEntity(value)" pTooltip="Delete doctor" tooltipPosition="left"  icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
             </td>
         </tr>
     </ng-template>
 </p-table>
+
+<ng-template #loading class="my-2">
+    <app-loading-spinner class="m-8" [title]="loadingMessage"></app-loading-spinner>
+</ng-template>

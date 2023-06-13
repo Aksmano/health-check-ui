@@ -12,6 +12,7 @@ import { PatientRS } from 'src/app/data/model/dto/rs/PatientRS';
 import { TreatmentRS } from 'src/app/data/model/dto/rs/TreatmentRS';
 import { UserInfo } from 'src/app/core/user-info';
 import { ONE_DAY_IN_MILISECONDS, ONE_WEEK_IN_MILLISECONDS } from '../../../utils/TimeUtils';
+import { getFriendlyEnumName } from 'src/app/utils';
 
 @Component({
   selector: 'app-doctor-scheduled-appointments-table',
@@ -73,6 +74,10 @@ export class DoctorScheduledAppointmentsTableComponent {
       })
     }
     );
+  }
+
+  getFriendlyEnum(text: string) {
+    return getFriendlyEnumName(text);
   }
 
   private getAppointments() {

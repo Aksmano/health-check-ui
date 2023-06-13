@@ -10,6 +10,7 @@ import { TestStatus } from "../../../../../data/model/common/TestStatus";
 import { BehaviorSubject } from "rxjs";
 import { MedicalTestCriteriaQP } from "../../../qp/medical-test-criteria-qp";
 import { ONE_DAY_IN_MILISECONDS, ONE_WEEK_IN_MILLISECONDS } from '../../../utils/TimeUtils';
+import { getFriendlyEnumName } from 'src/app/utils';
 
 @Component({
   selector: 'app-medical-test-visits-receptionist',
@@ -44,6 +45,10 @@ export class MedicalTestsVisitsReceptionistComponent implements OnInit, OnDestro
   }
 
   ngOnDestroy(): void {
+  }
+
+  getFriendlyEnum(text: string): string {
+    return getFriendlyEnumName(text);
   }
 
   getMessageByTestType(testStatus: string): string {

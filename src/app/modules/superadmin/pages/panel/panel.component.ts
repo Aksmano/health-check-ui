@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 import { UserInfo } from 'src/app/core/user-info';
 import { UserType } from 'src/app/data/model/common/UserType';
 import { AdministrationServiceImpl } from 'src/app/data/services/administration/administration.service';
@@ -16,7 +17,7 @@ import { TableViewType } from 'src/app/shared/components/table-view/table-view.c
 @Component({
   selector: 'app-panel',
   templateUrl: './panel.component.html',
-  styleUrls: ['./panel.component.scss']
+  styleUrls: ['./panel.component.scss'],
 })
 export class PanelComponent implements OnInit {
   items: any[] = [];
@@ -38,64 +39,93 @@ export class PanelComponent implements OnInit {
     private readonly receptionistService: ReceptionistService,
     private readonly navigationService: NavigationService,
     private readonly route: ActivatedRoute,
-    private readonly keycloak: KeycloakService
+    private readonly keycloak: KeycloakService,
+    private readonly toastService: ToastService
   ) {
-    this.route.queryParamMap
-      .subscribe(params => {
-        this.currentBrowseType = params.get('type');
-        if (this.currentBrowseType?.toLowerCase() === 'users') {
-          this.tableItems = [];
-          this.loadingTableItems = true;
-          switch (params.get('user-type')?.toLowerCase()) {
-            case 'doctor':
-              this.currentViewType = TableViewType.Doctor;
-              if (UserInfo.role === UserType.Superadmin) {
-                this.doctorService.getAllDoctors()
-                  // .pipe(takeUntil(this.ngUnsubscribe))
-                  .subscribe(doctors => {
-                    console.log(doctors)
+    this.route.queryParamMap.subscribe((params) => {
+      this.currentBrowseType = params.get('type');
+      if (this.currentBrowseType?.toLowerCase() === 'users') {
+        this.tableItems = [];
+        this.loadingTableItems = true;
+        switch (params.get('user-type')?.toLowerCase()) {
+          case 'doctor':
+            this.currentViewType = TableViewType.Doctor;
+            if (UserInfo.role === UserType.Superadmin) {
+              this.doctorService
+                .getAllDoctors()
+                // .pipe(takeUntil(this.ngUnsubscribe))
+                .subscribe({
+                  next: (doctors) => {
+                    console.log(doctors);
 
                     this.tableItems = doctors;
                     this.loadingTableItems = false;
-                  })
-              } else if (UserInfo.role === UserType.Admin) {
-                this.doctorService.getAllDoctors({ departmentId: UserInfo.deptId })
+                  },
+                  error: (err) => {
+                    this.toastService.showError(
+                      'Something went wrong during loading, try again later'
+                    );
+                  },
+                });
+            } else if (UserInfo.role === UserType.Admin) {
+              this.doctorService
+                .getAllDoctors({ departmentId: UserInfo.deptId })
                 // .pipe(takeUntil(this.ngUnsubscribe))
-                .subscribe(doctors => {
+                .subscribe({
+                  next: (doctors) => {
                     this.tableItems = doctors;
                     this.loadingTableItems = false;
-                  })
-              }
-              break;
-            case 'receptionist':
-              this.currentViewType = TableViewType.Receptionist;
-              this.receptionistService.getReceptionists()
-                .pipe(takeUntil(this.ngUnsubscribe))
-                .subscribe(receptionists => {
+                  },
+                  error: (err) => {
+                    this.toastService.showError(
+                      'Something went wrong during loading, try again later'
+                    );
+                  },
+                });
+            }
+            break;
+          case 'receptionist':
+            this.currentViewType = TableViewType.Receptionist;
+            this.receptionistService
+              .getReceptionists()
+              .pipe(takeUntil(this.ngUnsubscribe))
+              .subscribe({
+                next: (receptionists) => {
                   this.tableItems = receptionists;
                   this.loadingTableItems = false;
-                })
-              break;
-          }
-        } else if (this.currentBrowseType?.toLowerCase() === 'department') {
-          if (!this.keycloak.isUserInRole(UserType.Superadmin)) {
-            this.currentBrowseType = 'users';
-            this.navigationService.navigateInSuperadminPanel([], {});
-            return;
-          }
-          this.currentViewType = TableViewType.Department;
-          this.tableItems = [];
-          this.loadingTableItems = true;
-
-          this.deptService.getDepartmentsByCriteria()
-            .subscribe(departments => {
-              this.tableItems = departments;
-              this.loadingTableItems = false;
-              console.log(departments);
-
-            })
+                },
+                error: (err) => {
+                  this.toastService.showError(
+                    'Something went wrong during loading, try again later'
+                  );
+                },
+              });
+            break;
         }
-      })
+      } else if (this.currentBrowseType?.toLowerCase() === 'department') {
+        if (!this.keycloak.isUserInRole(UserType.Superadmin)) {
+          this.currentBrowseType = 'users';
+          this.navigationService.navigateInSuperadminPanel([], {});
+          return;
+        }
+        this.currentViewType = TableViewType.Department;
+        this.tableItems = [];
+        this.loadingTableItems = true;
+
+        this.deptService.getDepartmentsByCriteria().subscribe({
+          next: (departments) => {
+            this.tableItems = departments;
+            this.loadingTableItems = false;
+            console.log(departments);
+          },
+          error: (err) => {
+            this.toastService.showError(
+              'Something went wrong during loading, try again later'
+            );
+          },
+        });
+      }
+    });
 
     // this.deptService.getDepartmentsByCriteria()
     //   .subscribe(depts => console.log(depts))
@@ -111,14 +141,14 @@ export class PanelComponent implements OnInit {
     this.items = [
       { label: 'Create', icon: 'pi pi-fw pi-home' },
       { label: 'Modify', icon: 'pi pi-fw pi-calendar' },
-      { label: 'Delete', icon: 'pi pi-fw pi-trash' }
+      { label: 'Delete', icon: 'pi pi-fw pi-trash' },
     ];
   }
 
   navigate(view: string) {
     const params: Params = {
-      'type': this.currentBrowseType,
-      'user-type': view
+      type: this.currentBrowseType,
+      'user-type': view,
     };
 
     this.navigationService.navigateInSuperadminPanel(['browse'], params);

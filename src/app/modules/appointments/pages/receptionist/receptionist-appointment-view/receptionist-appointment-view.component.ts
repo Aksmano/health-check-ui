@@ -102,15 +102,16 @@ export class ReceptionistAppointmentViewComponent {
     return `${date.toLocaleDateString()}, ${date.toLocaleTimeString()}`;
   }
 
-  public tabColor(status: AppointmentStatus) {
-    switch (status) {
-      case AppointmentStatus.FINISHED:
-        return "success";
-      case AppointmentStatus.SCHEDULED:
-        return "info";
-      case AppointmentStatus.CANCELED:
-        return "warning";
-    }
+  public tabColor(item: AppointmentRS) {
+    if (!item.treatmentRS)
+      return 'info'
+    else return 'success'
+  }
+
+  public getTabText(item: AppointmentRS) {
+    if (!item.treatmentRS)
+      return 'Scheduled'
+    else return 'Finished'
   }
 
   // private removeSubscriptions(): void {
@@ -123,7 +124,7 @@ export class ReceptionistAppointmentViewComponent {
   // }
 
   isScheduled() {
-    return this.appointment?.status == AppointmentStatus.SCHEDULED;
+    return !this.appointment?.treatmentRS;
   }
 
   isCanceled() {
@@ -131,7 +132,7 @@ export class ReceptionistAppointmentViewComponent {
   }
 
   isFinished() {
-    return this.appointment?.status == AppointmentStatus.FINISHED;
+    return !!this.appointment?.treatmentRS;
   }
 
   getResult() {

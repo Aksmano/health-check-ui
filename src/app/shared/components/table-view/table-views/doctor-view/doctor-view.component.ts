@@ -10,6 +10,7 @@ import { UserType } from 'src/app/data/model/common/UserType';
 import { AdministrationServiceImpl } from 'src/app/data/services/administration/administration.service';
 import { DepartmentServiceImpl } from 'src/app/data/services/department/department.service';
 import { UserInfo } from 'src/app/core/user-info';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 
 @Component({
   selector: 'app-doctor-view',
@@ -30,9 +31,10 @@ export class DoctorViewComponent extends TableView {
     private readonly doctorService: DoctorServiceImpl,
     private readonly adminService: AdministrationServiceImpl,
     private readonly deptService: DepartmentServiceImpl,
+    override readonly toastService: ToastService,
     private readonly keycloak: KeycloakService
   ) {
-    super();
+    super(toastService);
     console.log(this.values);
   }
 
@@ -43,6 +45,7 @@ export class DoctorViewComponent extends TableView {
     this.doctorService.deleteDoctorById(entity.doctorUUID)
       .subscribe({
         next: res => {
+          this.deleteEntitySuccess();
           if (UserInfo.role === UserType.Superadmin)
             this.doctorService.getAllDoctors()
               .subscribe(res => {
@@ -60,6 +63,7 @@ export class DoctorViewComponent extends TableView {
         error: (err) => {
           // place for toast
           this.processOngoing = false;
+          this.deleteEntityError();
         }
       })
   }

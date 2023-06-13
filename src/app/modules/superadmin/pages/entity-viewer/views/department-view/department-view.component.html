@@ -1,64 +1,124 @@
 <h2 class="ml-2">
-    Department view {{ viewMode === 'modify' && !!value.id ? '(ID: ' + value.id + ')' : '' }}
+  Department view
+  {{ viewMode === "modify" && !!value.id ? "(ID: " + value.id + ")" : "" }}
 </h2>
-<div class="container card flex flex-row z-1" *ngIf="!operationOngoing; else loading">
-    <div class="card w-4 px-2">
-        <div class="field flex flex-column">
-            <label for="firstname">Name</label>
-            <input pInputText [(ngModel)]="value.name" id="dept-name" type="text" />
-        </div>
-        <div class="field flex flex-column">
-            <label for="city">City</label>
-            <input pInputText [(ngModel)]="value.address.city" id="dept-city" type="text" />
-        </div>
-        <div class="field flex flex-column">
-            <label for="county">County</label>
-            <input pInputText [(ngModel)]="value.address.county" id="dept-county" type="text" />
-        </div>
-
+<div
+  class="container card flex flex-row z-1"
+  *ngIf="!operationOngoing; else loading"
+>
+  <div class="card w-4 px-2">
+    <div class="field flex flex-column">
+      <label for="firstname">Name</label>
+      <input pInputText [(ngModel)]="value.name" id="dept-name" type="text" />
     </div>
-    <div class="card w-4 px-2">
-        <div class="field flex flex-column">
-            <label for="street">Street</label>
-            <input pInputText [(ngModel)]="value.address.street" id="dept-street" type="text" />
-        </div>
-        <div class="field flex flex-column">
-            <label for="houseNumber">House number</label>
-            <input pInputText [(ngModel)]="value.address.houseNumber" id="dept-houseNumber" type="text" />
-        </div>
-        <div class="field flex flex-column">
-            <label for="apartmentNumber">Apartment number</label>
-            <input pInputText [(ngModel)]="value.address.apartmentNumber" id="dept-ApartmentNumber" type="text" />
-        </div>
+    <div class="field flex flex-column">
+      <label for="city">City</label>
+      <input
+        pInputText
+        [(ngModel)]="value.address.city"
+        id="dept-city"
+        type="text"
+      />
     </div>
-    <div class="card w-4 px-2">
-        <div class="field flex flex-column">
-            <label for="postalCode">Postal code</label>
-            <input pInputText [(ngModel)]="value.address.postalCode" pattern="^[0-9]{2}-[0-9]{3}"
-                id="dept-postalCode" />
-        </div>
-        <div class="field flex flex-column">
-            <label for="post">Post</label>
-            <input pInputText [(ngModel)]="value.address.post" id="dept-post" type="text" />
-        </div>
-        <div class="field flex flex-column">
-            <label for="province">Province</label>
-            <input pInputText [(ngModel)]="value.address.province" id="dept-province" type="text" />
-        </div>
-        <div class="field flex flex-column">
-            <label for="province">Country</label>
-            <input pInputText [(ngModel)]="value.address.country" id="dept-country" type="text" />
-        </div>
-        <div class="flex">
-            <div class="flex-grow-1"></div>
-            <p-button *ngIf="viewMode == 'modify'" (click)="deleteEntity()" type="button" styleClass="p-button-danger">
-                Delete</p-button>
-            <p-button *ngIf="viewMode == 'create'" (click)="createEntity()" type="button"
-                styleClass="p-button-success">Create</p-button>
-        </div>
+    <div class="field flex flex-column">
+      <label for="county">County</label>
+      <input
+        pInputText
+        [(ngModel)]="value.address.county"
+        id="dept-county"
+        type="text"
+      />
     </div>
+  </div>
+  <div class="card w-4 px-2">
+    <div class="field flex flex-column">
+      <label for="street">Street</label>
+      <input
+        pInputText
+        [(ngModel)]="value.address.street"
+        id="dept-street"
+        type="text"
+      />
+    </div>
+    <div class="field flex flex-column">
+      <label for="houseNumber">House number</label>
+      <input
+        pInputText
+        [(ngModel)]="value.address.houseNumber"
+        id="dept-houseNumber"
+        type="text"
+      />
+    </div>
+    <div class="field flex flex-column">
+      <label for="apartmentNumber">Apartment number</label>
+      <input
+        pInputText
+        [(ngModel)]="value.address.apartmentNumber"
+        id="dept-ApartmentNumber"
+        type="text"
+      />
+    </div>
+  </div>
+  <div class="card w-4 px-2">
+    <div class="field flex flex-column">
+      <label for="postalCode">Postal code</label>
+      <input
+        pInputText
+        [(ngModel)]="value.address.postalCode"
+        pattern="^[0-9]{2}-[0-9]{3}"
+        id="dept-postalCode"
+      />
+    </div>
+    <div class="field flex flex-column">
+      <label for="post">Post</label>
+      <input
+        pInputText
+        [(ngModel)]="value.address.post"
+        id="dept-post"
+        type="text"
+      />
+    </div>
+    <div class="field flex flex-column">
+      <label for="province">Province</label>
+      <input
+        pInputText
+        [(ngModel)]="value.address.province"
+        id="dept-province"
+        type="text"
+      />
+    </div>
+    <div class="field flex flex-column">
+      <label for="province">Country</label>
+      <input
+        pInputText
+        [(ngModel)]="value.address.country"
+        id="dept-country"
+        type="text"
+      />
+    </div>
+    <div class="flex">
+      <div class="flex-grow-1"></div>
+      <p-button
+        *ngIf="viewMode == 'modify' && isSuperadmin()"
+        (click)="deleteEntity()"
+        type="button"
+        styleClass="p-button-danger"
+      >
+        Delete</p-button
+      >
+      <p-button
+        *ngIf="viewMode == 'create' && isSuperadmin()"
+        (click)="createEntity()"
+        type="button"
+        styleClass="p-button-success"
+        >Create</p-button
+      >
+    </div>
+  </div>
 </div>
 
 <ng-template #loading>
-    <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
+  <app-loading-spinner
+    title="Current operation is ongoing..."
+  ></app-loading-spinner>
 </ng-template>

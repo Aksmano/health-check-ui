@@ -76,6 +76,7 @@ export class AppointmentViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
+      this.appointment = undefined;
       this.appointmentService.getAppointmentById(params['id'])
         .pipe(takeUntil(this.ngUnsubscribe))
         .subscribe({

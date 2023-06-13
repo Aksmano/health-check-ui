@@ -1,50 +1,86 @@
-<div class="flex h-full" *ngIf="schedulesByDay">
-  <div *ngIf="department" class="align-items-start justify-content-between h-full gap-3 px-3 border-right-1 border-400">
+<div class="flex h-full" *ngIf="department && schedulesByDay; else loading">
+  <div
+    *ngIf="schedulesByDay.length > 0; else info"
+    class="align-items-start justify-content-between h-full gap-3 px-3 border-right-1 border-400"
+  >
     <div class="flex flex-column text-3xl font-semibold mb-3">
-      {{department.name}}
+      {{ department.name }}
     </div>
-    <div class="flex flex-column align-items-start text-sm mb-3 pb-2 border-bottom-1 border-400">
+    <div
+      class="flex flex-column align-items-start text-sm mb-3 pb-2 border-bottom-1 border-400"
+    >
       <div class="text-xl">
-        <a target="_blank" [href]="linkToGoogleMaps(department.address)"
-          class="text-color no-underline transition-colors transition-duration-150 hover:text-teal-500"><i
-            class="pi pi-map-marker"></i> {{getFriendlyAddress(department.address)}}</a>
+        <a
+          target="_blank"
+          [href]="linkToGoogleMaps(department.address)"
+          class="text-color no-underline transition-colors transition-duration-150 hover:text-teal-500"
+          ><i class="pi pi-map-marker"></i>
+          {{ getFriendlyAddress(department.address) }}</a
+        >
       </div>
     </div>
-    <div *ngIf="specialization" class="flex flex-column align-items-start text-sm mb-1">
+    <div
+      *ngIf="specialization"
+      class="flex flex-column align-items-start text-sm mb-1"
+    >
       <div class="flex flex-column text-xl pb-3">
         <div class="text-base text-500 font-bold">Test name</div>
-        <div class="text-xl font-bold">{{getTestTypeName()}}</div>
+        <div class="text-xl font-bold">{{ getTestTypeName() }}</div>
       </div>
       <div class="w-1rem"></div>
     </div>
     <div>
-      <p-button icon="pi pi-chevron-left" class="mr-3" styleClass="p-button-raised p-button-text p-button-secondary"
-        (onClick)="decrementCurrentDate()"></p-button>
-      <p-button icon="pi pi-chevron-right" styleClass="p-button-raised p-button-text p-button-secondary"
-        (onClick)="incrementCurrentDate()"></p-button>
+      <p-button
+        icon="pi pi-chevron-left"
+        class="mr-3"
+        styleClass="p-button-raised p-button-text p-button-secondary"
+        (onClick)="decrementCurrentDate()"
+      ></p-button>
+      <p-button
+        icon="pi pi-chevron-right"
+        styleClass="p-button-raised p-button-text p-button-secondary"
+        (onClick)="incrementCurrentDate()"
+      ></p-button>
     </div>
     <div class="mt-3">
-      <p-dropdown [options]="doctorsDropdownData" optionLabel="name" [(ngModel)]="selectedDoctor"
-        (onChange)="onDoctorSelect()"></p-dropdown>
+      <p-dropdown
+        [options]="doctorsDropdownData"
+        optionLabel="name"
+        [(ngModel)]="selectedDoctor"
+        (onChange)="onDoctorSelect()"
+      ></p-dropdown>
     </div>
   </div>
-  <div class="flex align-items-center justify-content-center flex-grow-1 gap-3 text-900">
-    <p-carousel [value]="schedulesByDay" [numVisible]="7" [numScroll]="7" [circular]="false" class="flex-grow-1">
+  <div
+    class="flex align-items-center justify-content-center flex-grow-1 gap-3 text-900"
+    *ngIf="schedulesByDay.length > 0"
+  >
+    <p-carousel
+      [value]="schedulesByDay"
+      [numVisible]="7"
+      [numScroll]="7"
+      [circular]="false"
+      class="flex-grow-1"
+    >
       <ng-template let-scheduleByDay pTemplate="item">
         <div class="flex flex-column align-items-center justify-content-center">
           <div>
-            {{scheduleByDay.day | date:'y-d-M'}},<br />
-            {{scheduleByDay.day | date:'EEEE'}}
+            {{ scheduleByDay.day | date : "y-d-M" }},<br />
+            {{ scheduleByDay.day | date : "EEEE" }}
           </div>
           <div class="mb-4">
-            {{scheduleByDay.dateSubscription}}
+            {{ scheduleByDay.dateSubscription }}
           </div>
-          <p-scrollPanel [style]="{ height: '30rem', margin: '0'}">
+          <p-scrollPanel [style]="{ height: '30rem', margin: '0' }">
             <div class="flex flex-column">
               <ng-container *ngFor="let schedule of scheduleByDay.schedules">
-                <div class="hour-button" *ngIf="!schedule.busy" (click)="showChosenDate(schedule)">
+                <div
+                  class="hour-button"
+                  *ngIf="!schedule.busy"
+                  (click)="showChosenDate(schedule)"
+                >
                   <div class="m-2">
-                    {{schedule.startDateTime.toLocaleTimeString()}}
+                    {{ schedule.startDateTime.toLocaleTimeString() }}
                   </div>
                 </div>
               </ng-container>
@@ -55,34 +91,62 @@
     </p-carousel>
   </div>
 
-  <p-dialog class="text-900" header="Header" *ngIf="chosenDate && department" [(visible)]="showDateVisible"
-    [style]="{ width: '50vw' }">
+  <p-dialog
+    class="text-900"
+    header="Header"
+    *ngIf="chosenDate && department"
+    [(visible)]="showDateVisible"
+    [style]="{ width: '50vw' }"
+  >
     <ng-template pTemplate="header">
       <span class="text-xl font-bold">Appointment confirmation</span>
     </ng-template>
     <ng-template class="text-900" pTemplate="content" class="mb-0">
       <div class="flex flex-column mb-0 text-900">
         <ng-template [ngIf]="!patient">
-          <app-patients-table [patient]="patient" (patientOut)="patient=$event">
+          <app-patients-table
+            [patient]="patient"
+            (patientOut)="patient = $event"
+          >
           </app-patients-table>
         </ng-template>
         <ng-template [ngIf]="patient">
-          Are you sure that you want to create visit for user {{patient.firstName}} {{patient.lastName}} for
-          test {{getFriendlyEnumName(specialization!)}} on {{chosenDate.startDateTime | date:'short'}} <br />
+          Are you sure that you want to create visit for user
+          {{ patient.firstName }} {{ patient.lastName }} for test
+          {{ getFriendlyEnumName(specialization!) }} on
+          {{ chosenDate.startDateTime | date : "short" }} <br />
         </ng-template>
       </div>
     </ng-template>
     <ng-template pTemplate="footer">
       <div *ngIf="patient">
-        <p-button label="Go back" (click)="showDateVisible = false; patient = undefined"
-          styleClass="p-button-secondary"></p-button>
-        <p-button label="Create" icon="pi pi-plus" styleClass="p-button-raised p-button-success"
-          (onClick)="createVisit()"></p-button>
+        <p-button
+          label="Go back"
+          (click)="showDateVisible = false; patient = undefined"
+          styleClass="p-button-secondary"
+        ></p-button>
+        <p-button
+          label="Create"
+          icon="pi pi-plus"
+          styleClass="p-button-raised p-button-success"
+          (onClick)="createVisit()"
+        ></p-button>
       </div>
     </ng-template>
   </p-dialog>
 </div>
 
-<div *ngIf="!schedulesByDay">
-  <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
-</div>
+<ng-template #loading>
+  <app-loading-spinner
+    title="Current operation is ongoing..."
+  ></app-loading-spinner>
+</ng-template>
+
+<ng-template #info>
+  <div
+    class="my-3 text-900 text-3xl font-semibold flex flex-row align-items-center justify-content-center w-full"
+  >
+    <i class="text-3xl pi pi-info-circle mr-2 text-teal-500"></i>There is no
+    doctors of this specialization in this facility.
+  </div>
+</ng-template>

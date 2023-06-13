@@ -3,6 +3,7 @@ import { EntityView } from '../../entity-view.abstract';
 import { ParamMap } from '@angular/router';
 import { PatientService } from 'src/app/data/services/patient/patient.service';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 
 @Component({
   selector: 'app-patient-view',
@@ -13,8 +14,9 @@ export class PatientViewComponent extends EntityView {
 
   constructor(
     private readonly patientService: PatientService,
-    private readonly navigationService: NavigationService
-  ) { super(); }
+    private readonly navigationService: NavigationService,
+    override readonly toastService: ToastService
+  ) { super(toastService); }
 
   override queryParamsModifyMode(params: ParamMap): void {
     throw new Error('Method not implemented.');

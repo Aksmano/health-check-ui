@@ -9,15 +9,16 @@ import { KeycloakService } from 'keycloak-angular';
 import { UserType } from 'src/app/data/model/common/UserType';
 import { AdministrationServiceImpl } from 'src/app/data/services/administration/administration.service';
 import { UserInfo } from 'src/app/core/user-info';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 
 @Component({
   selector: 'app-department-view',
   templateUrl: './department-view.component.html',
-  styleUrls: ['./department-view.component.scss']
+  styleUrls: ['./department-view.component.scss'],
 })
 export class DepartmentViewComponent extends EntityView implements OnInit {
   value: DepartmentRS = {
-    address: {} as AddressRS
+    address: {} as AddressRS,
   } as DepartmentRS;
   adminDeptId?: number;
 
@@ -26,41 +27,49 @@ export class DepartmentViewComponent extends EntityView implements OnInit {
     private readonly navigationService: NavigationService,
     private readonly adminService: AdministrationServiceImpl,
     private readonly keycloak: KeycloakService,
+    override readonly toastService: ToastService,
     override readonly route: ActivatedRoute
-  ) { super(); }
+  ) {
+    super(toastService);
+  }
 
   ngOnInit(): void {
-    this.route.queryParamMap
-      .subscribe(params => {
-        this.queryParamsChanged(params)
+    this.route.queryParamMap.subscribe((params) => {
+      this.queryParamsChanged(params);
 
-        if (!!params.get('deptId')) {
-          this.deptService.getDepartmentByAdministratorUUID(UserInfo.profile?.id!)
-            .subscribe({
-              next: (value) => {
-                console.log('pppp');
+      if (!!params.get('deptId')) {
+        this.deptService
+          .getDepartmentByAdministratorUUID(UserInfo.profile?.id!)
+          .subscribe({
+            next: (value) => {
+              console.log('pppp');
 
-                this.value = value;
-                this.operationOngoing = false;
-              },
-              error: err => this.navigationService.navigateInSuperadminPanel([], {})
-            })
-        }
+              this.value = value;
+              this.operationOngoing = false;
+            },
+            error: (err) =>
+              this.navigationService.navigateInSuperadminPanel([], {}),
+          });
+      }
 
-        if (!this.keycloak.isUserInRole(UserType.Superadmin)
-          && (!this.keycloak.isUserInRole(UserType.Admin) && !params.get('deptId'))) {
-          this.navigationService.navigateInSuperadminPanel([], {}); // TODO toast to show user is redirected
-        }
-      });
+      if (
+        !this.keycloak.isUserInRole(UserType.Superadmin) &&
+        !this.keycloak.isUserInRole(UserType.Admin) &&
+        !params.get('deptId')
+      ) {
+        this.navigationService.navigateInSuperadminPanel([], {}); // TODO toast to show user is redirected
+      }
+    });
   }
 
   override queryParamsModifyMode(params: ParamMap): void {
     if (!!this.id)
-      this.deptService.getDepartmentById(parseInt(params.get('id')!))
-        .subscribe(value => {
+      this.deptService
+        .getDepartmentById(parseInt(params.get('id')!))
+        .subscribe((value) => {
           this.value = value;
           this.operationOngoing = false;
-        })
+        });
   }
 
   override queryParamsCreateMode(params: ParamMap): void {
@@ -69,15 +78,23 @@ export class DepartmentViewComponent extends EntityView implements OnInit {
 
   override createEntity(): void {
     this.operationOngoing = true;
-    this.deptService.createDepartment(this.value)
-      .subscribe(res => {
+    if (this.value.address.apartmentNumber === null)
+      this.value.address.apartmentNumber = '-1';
+    this.deptService.createDepartment(this.value).subscribe({
+      next: (res) => {
         this.value = {} as DepartmentRS;
+        this.createEntitySuccess();
         this.navigationService.navigateInSuperadminPanel(['entity-view'], {
-          'mode': 'modify',
-          'type': 'department',
-          'id': res.id
-        })
-      });
+          mode: 'modify',
+          type: 'department',
+          id: res.id,
+        });
+      },
+      error: (err) => {
+        this.createEntityError();
+        this.operationOngoing = false;
+      },
+    });
   }
 
   updateEntity() {
@@ -95,14 +112,20 @@ export class DepartmentViewComponent extends EntityView implements OnInit {
 
   deleteEntity() {
     this.operationOngoing = true;
-    this.deptService.deleteDepartmentById(this.value.id)
-      .subscribe(res => {
+    this.deptService.deleteDepartmentById(this.value.id).subscribe({
+      next: (res) => {
         this.operationOngoing = false;
+        this.deleteEntitySuccess();
         this.navigationService.navigateInSuperadminPanel(['entity-view'], {
-          'mode': 'create',
-          'type': 'department'
-        })
-      });
+          mode: 'create',
+          type: 'department',
+        });
+      },
+      error: (err) => {
+        this.deleteEntityError();
+        this.operationOngoing = false;
+      },
+    });
   }
 
   override navigate(): void {

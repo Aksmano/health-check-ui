@@ -27,7 +27,7 @@
         </ng-template>
         <ng-template pTemplate="body" let-visit>
             <tr>
-                <td>{{visit.doctorRS.specialization}}</td>
+                <td>{{getFriendlyEnum(visit.doctorRS.specialization)}}</td>
                 <td>{{visit.patientRS!.firstName}}</td>
                 <td>{{visit.patientRS!.lastName}}</td>
                 <td>{{visit.appointmentDate | date:'short'}}</td>

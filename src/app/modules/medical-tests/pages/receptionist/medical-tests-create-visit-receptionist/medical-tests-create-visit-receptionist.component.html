@@ -1,4 +1,4 @@
-<div class="flex h-full" *ngIf="schedulesByDay">
+<div class="flex h-full" *ngIf="schedulesByDay && department">
   <div *ngIf="department" class="align-items-start justify-content-between h-full gap-3 px-3 border-right-1 border-400">
     <div class="flex flex-column text-3xl font-semibold mb-3">
       {{department.name}}
@@ -83,6 +83,6 @@
   </p-dialog>
 </div>
 
-<div *ngIf="!schedulesByDay">
+<div *ngIf="!schedulesByDay || !department">
   <app-loading-spinner title="Current operation is ongoing..."></app-loading-spinner>
 </div>

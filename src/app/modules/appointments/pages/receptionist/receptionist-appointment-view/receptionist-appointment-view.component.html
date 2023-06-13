@@ -1,8 +1,8 @@
 <div *ngIf="appointment" class="flex flex-column px-5 w-6">
     <div class="flex mb-2">
         <div class="text-3xl font-bold">Appointment view</div>
-        <p-tag class="flex ml-3 my-1" [value]="getEnumValueName(appointment.status)"
-            [severity]="tabColor(appointment.status)"></p-tag>
+        <p-tag class="flex ml-3 my-1" [value]="getTabText(appointment)"
+            [severity]="tabColor(appointment)"></p-tag>
     </div>
     <a target="_blank" [href]="linkToGoogleMaps(department.address)" *ngIf="department && department.address"
         class="border-bottom-1 border-400 mb-2 pb-2 text-900 text-xl font-semibold no-underline transition-colors transition-duration-150 hover:text-teal-500"><i
@@ -19,10 +19,8 @@
     <div class="my-3 text-900 text-lg font-semibold" *ngIf="isCanceled()">
         <i class="pi pi-info-circle mr-2 text-teal-500"></i>This appointment has been canceled.
     </div>
-    <div class="flex flex-column align-items-start text-900 text-lg font-semibold" *ngIf="isFinished()">
-        <div>This appointment has taken place</div>
-        <p-button styleClass="p-button-sm p-button-success p-button-outlined" label="Download result" class="my-2"
-            (onClick)="getResult()"></p-button>
+    <div class="flex flex-column align-items-start text-900 text-lg font-semibold my-2" *ngIf="isFinished()">
+        <div><i class="pi pi-info-circle mr-2 text-green-500"></i>This appointment has taken place</div>
     </div>
 
     <!-- <p-tag class="flex my-2"

@@ -1,30 +1,31 @@
 import { Component } from '@angular/core';
-import { MedicalTestSchedulesRS } from "../../../../../data/model/dto/rs/schedules/MedicalTestSchedulesRS";
-import { DepartmentRS } from "../../../../../data/model/dto/rs/DepartmentRS";
-import { TestDateRS } from "../../../../../data/model/dto/rs/schedules/TestDateRS";
-import { AppointmentScheduleDayRec } from "../../../utils/models/appointment-schedule-day";
-import { BehaviorSubject, Subscription } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
+import { MedicalTestSchedulesRS } from '../../../../../data/model/dto/rs/schedules/MedicalTestSchedulesRS';
+import { DepartmentRS } from '../../../../../data/model/dto/rs/DepartmentRS';
+import { TestDateRS } from '../../../../../data/model/dto/rs/schedules/TestDateRS';
+import { AppointmentScheduleDayRec } from '../../../utils/models/appointment-schedule-day';
+import { BehaviorSubject, Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { MedicalTestSchedulesService } from '../../../../../data/services/medical-test-schedules/medical-test-schedules.service';
+import { MedicalTestsService } from '../../../../../data/services/medical-test/medical-tests.service';
+import { DepartmentServiceImpl } from '../../../../../data/services/department/department.service';
+import { KeycloakService } from 'keycloak-angular';
+import { NavigationService } from '../../../../../core/services/navigation/navigation.service';
+import { ToastService } from '../../../../../core/services/toast/toast.service';
+import { Address } from '../../../../../data/model/dto/common/Address';
 import {
-  MedicalTestSchedulesService
-} from "../../../../../data/services/medical-test-schedules/medical-test-schedules.service";
-import { MedicalTestsService } from "../../../../../data/services/medical-test/medical-tests.service";
-import { DepartmentServiceImpl } from "../../../../../data/services/department/department.service";
-import { KeycloakService } from "keycloak-angular";
-import { NavigationService } from "../../../../../core/services/navigation/navigation.service";
-import { ToastService } from "../../../../../core/services/toast/toast.service";
-import { Address } from "../../../../../data/model/dto/common/Address";
-import { getFriendlyEnumName, getUserFriendlyAddress } from "../../../../../utils";
-import { ScheduleRS } from "../../../../../data/model/dto/rs/schedules/ScheduleRS";
+  getFriendlyEnumName,
+  getUserFriendlyAddress,
+} from '../../../../../utils';
+import { ScheduleRS } from '../../../../../data/model/dto/rs/schedules/ScheduleRS';
 import {
   getAllDaysInWeekByDate,
   getFirstDayOfWeek,
   getTheLastDayOfWeek,
-  ONE_WEEK_IN_MILLISECONDS
-} from "../../../utils/TimeUtils";
-import { TestType } from "../../../../../data/model/common/TestType";
-import { MedicalTestRQ } from "../../../../../data/model/dto/rq/MedicalTestRQ";
-import { PatientRS } from "../../../../../data/model/dto/rs/PatientRS";
+  ONE_WEEK_IN_MILLISECONDS,
+} from '../../../utils/TimeUtils';
+import { TestType } from '../../../../../data/model/common/TestType';
+import { MedicalTestRQ } from '../../../../../data/model/dto/rq/MedicalTestRQ';
+import { PatientRS } from '../../../../../data/model/dto/rs/PatientRS';
 import { AppointmentService } from 'src/app/data/services/appointment/appointment.service';
 import { ScheduleServiceImpl } from 'src/app/data/services/schedule/schedule.service';
 import { DoctorServiceImpl } from 'src/app/data/services/doctor/doctor.service';
@@ -36,7 +37,7 @@ import { DropdownItem } from 'src/app/data/model/common/DropdownItem';
 @Component({
   selector: 'app-appointment-create-visit',
   templateUrl: './appointment-create-visit.component.html',
-  styleUrls: ['./appointment-create-visit.component.scss']
+  styleUrls: ['./appointment-create-visit.component.scss'],
 })
 export class AppointmentCreateVisitComponent {
   public allDataLoaded: boolean = false;
@@ -59,40 +60,58 @@ export class AppointmentCreateVisitComponent {
   protected doctorsDropdownData: DropdownItem[] = [];
   protected selectedDoctor?: DropdownItem;
 
-  constructor(private route: ActivatedRoute,
+  protected noDoctors = false;
+
+  constructor(
+    private route: ActivatedRoute,
     private readonly scheduleService: ScheduleServiceImpl,
     private readonly appointmentService: AppointmentService,
     private readonly departmentService: DepartmentServiceImpl,
     private readonly doctorService: DoctorServiceImpl,
     private readonly keycloakService: KeycloakService,
     private readonly navigationService: NavigationService,
-    private readonly toastService: ToastService) {
-  }
+    private readonly toastService: ToastService
+  ) {}
 
   ngOnInit() {
-    this.pathSubscription = this.route.params.subscribe(params => {
+    this.pathSubscription = this.route.params.subscribe((params) => {
       this.unsubscribeAll();
-      this.specialization = params['spec']
-      this.departmentSubscription = this.departmentService.getDepartmentById(params['id'])
-        .subscribe(data => {
+      this.specialization = params['spec'];
+      this.departmentSubscription = this.departmentService
+        .getDepartmentById(params['id'])
+        .subscribe((data) => {
           this.department = data;
+        });
+      this.doctorService
+        .getAllDoctors({
+          departmentId: params['id'],
+          specialization: params['spec'],
         })
-      this.doctorService.getAllDoctors({
-        departmentId: params['id'],
-        specialization: params['spec']
-      })
         .subscribe({
-          next: doctors => {
-            this.doctors = doctors
-            this.doctorsDropdownData = doctors.map(doc => this.mapToDropdownItem(`${doc.firstname} ${doc.lastname}`, doc.doctorUUID))
+          next: (doctors) => {
+            this.doctors = doctors;
+            this.doctorsDropdownData = doctors.map((doc) =>
+              this.mapToDropdownItem(
+                `${doc.firstname} ${doc.lastname}`,
+                doc.doctorUUID
+              )
+            );
             if (this.doctors.length > 0) {
-              this.selectedDoctor = this.mapToDropdownItem(`${doctors[0].firstname} ${doctors[0].lastname}`, doctors[0].doctorUUID)
-              this.onDoctorSelect()
+              this.selectedDoctor = this.mapToDropdownItem(
+                `${doctors[0].firstname} ${doctors[0].lastname}`,
+                doctors[0].doctorUUID
+              );
+              this.onDoctorSelect();
+            } else {
+              this.schedulesByDay = [];
             }
           },
-          error: err => this.toastService.showError("Something went wrong while loading doctor, please try again later.")
-        })
-      this.currentDate$.subscribe(data => {
+          error: (err) =>
+            this.toastService.showError(
+              'Something went wrong while loading doctor, please try again later.'
+            ),
+        });
+      this.currentDate$.subscribe((data) => {
         this.currentDate = data;
         //   this.schedulesByDay = undefined
         //   this.schedulesSubscription = this.scheduleService.getSchedulesWithAppointments(this.selectedDoctor!.code, {
@@ -104,8 +123,7 @@ export class AppointmentCreateVisitComponent {
         //       this.schedulesByDay = this.getSchedulesByDay(this.appointmentSchedules!.schedules, this.appointmentSchedules!.appointments);
         //     })
       });
-    }
-    );
+    });
   }
 
   private handleData(data: SchedulesAppointmentsRS) {
@@ -122,16 +140,22 @@ export class AppointmentCreateVisitComponent {
   }
 
   public onDoctorSelect() {
+    console.log(this.selectedDoctor);
+
     if (!!this.selectedDoctor) {
       this.schedulesByDay = undefined;
-      this.schedulesSubscription = this.scheduleService.getSchedulesWithAppointments(this.selectedDoctor.code, {
-        startDateTime: getFirstDayOfWeek(this.currentDate!),
-        endDateTime: getTheLastDayOfWeek(this.currentDate!)
-      })
-        .subscribe(data => {
-          this.handleData(data);
-          this.schedulesByDay = this.getSchedulesByDay(this.appointmentSchedules!.schedules, this.appointmentSchedules!.appointments);
+      this.schedulesSubscription = this.scheduleService
+        .getSchedulesWithAppointments(this.selectedDoctor.code, {
+          startDateTime: getFirstDayOfWeek(this.currentDate!),
+          endDateTime: getTheLastDayOfWeek(this.currentDate!),
         })
+        .subscribe((data) => {
+          this.handleData(data);
+          this.schedulesByDay = this.getSchedulesByDay(
+            this.appointmentSchedules!.schedules,
+            this.appointmentSchedules!.appointments
+          );
+        });
     }
     // this.schedulesSubscription = this.scheduleService.getSchedulesWithAppointments(this.selectedDoctor.code, {
     //   startDateTime: getFirstDayOfWeek(this.currentDate!),
@@ -160,47 +184,72 @@ export class AppointmentCreateVisitComponent {
   }
 
   public getTestTypeName() {
-    const typeName = this.specialization ?? "";
+    const typeName = this.specialization ?? '';
     return getFriendlyEnumName(typeName);
   }
 
   public linkToGoogleMaps(address: Address) {
-    const baseUrl = "https://www.google.com/maps/search/";
-    const linkEnd = getUserFriendlyAddress(address).replace('/', '+').replace(' ', '+') + '+' + address.city;
+    const baseUrl = 'https://www.google.com/maps/search/';
+    const linkEnd =
+      getUserFriendlyAddress(address).replace('/', '+').replace(' ', '+') +
+      '+' +
+      address.city;
 
     return new URL(baseUrl + linkEnd);
   }
 
-  private getSchedulesByDay(schedules: ScheduleRS[], assignedSchedules: ScheduleRS[]): AppointmentScheduleDayRec[] {
+  private getSchedulesByDay(
+    schedules: ScheduleRS[],
+    assignedSchedules: ScheduleRS[]
+  ): AppointmentScheduleDayRec[] {
     schedules = this.createSchedulesByTestDuration(schedules);
     let allDaysInWeekByDate = getAllDaysInWeekByDate(this.currentDate!);
     let schedulesByDay = new Map<Date, ScheduleRS[]>();
     let assignedSchedulesByDay = new Map<Date, ScheduleRS[]>();
-    allDaysInWeekByDate.forEach(date => {
+    allDaysInWeekByDate.forEach((date) => {
       schedulesByDay.set(date, []);
       assignedSchedulesByDay.set(date, []);
-    })
-    schedulesByDay = this.groupPerDay(schedulesByDay, schedules, allDaysInWeekByDate);
-    assignedSchedulesByDay = this.groupPerDay(assignedSchedulesByDay, assignedSchedules, allDaysInWeekByDate);
+    });
+    schedulesByDay = this.groupPerDay(
+      schedulesByDay,
+      schedules,
+      allDaysInWeekByDate
+    );
+    assignedSchedulesByDay = this.groupPerDay(
+      assignedSchedulesByDay,
+      assignedSchedules,
+      allDaysInWeekByDate
+    );
 
-    console.log(schedulesByDay)
-    let testDays = []
+    console.log(schedulesByDay);
+    let testDays = [];
     for (let day of allDaysInWeekByDate) {
-      let markedSchedules = this.markAsBusy(schedulesByDay.get(day)!, assignedSchedulesByDay.get(day)!);
+      let markedSchedules = this.markAsBusy(
+        schedulesByDay.get(day)!,
+        assignedSchedulesByDay.get(day)!
+      );
       testDays.push({
         day: day,
-        schedules: markedSchedules
+        schedules: markedSchedules,
       } as AppointmentScheduleDayRec);
     }
     return testDays;
   }
 
-  private markAsBusy(schedules: ScheduleRS[], assignedSchedules: ScheduleRS[]): TestDateRS[] {
-    let marked = []
+  private markAsBusy(
+    schedules: ScheduleRS[],
+    assignedSchedules: ScheduleRS[]
+  ): TestDateRS[] {
+    let marked = [];
     for (let schedule of schedules) {
       let busy = false;
       for (let assigned of assignedSchedules) {
-        if (schedule.startDateTime.getHours() == assigned.startDateTime.getHours() && assigned.startDateTime.getMinutes() == schedule.startDateTime.getMinutes()) {
+        if (
+          schedule.startDateTime.getHours() ==
+            assigned.startDateTime.getHours() &&
+          assigned.startDateTime.getMinutes() ==
+            schedule.startDateTime.getMinutes()
+        ) {
           busy = true;
           break;
         }
@@ -208,8 +257,8 @@ export class AppointmentCreateVisitComponent {
       marked.push({
         startDateTime: schedule.startDateTime,
         endDateTime: schedule.endDateTime,
-        busy: busy
-      } as TestDateRS)
+        busy: busy,
+      } as TestDateRS);
     }
     return marked;
   }
@@ -219,22 +268,26 @@ export class AppointmentCreateVisitComponent {
     for (let schedule of schedules) {
       let start = schedule.startDateTime;
       while (start < schedule.endDateTime) {
-        let end = new Date(start.getTime() + 1000 * 60 * 15)
+        let end = new Date(start.getTime() + 1000 * 60 * 15);
         divByDuration.push({
           startDateTime: start,
-          endDateTime: end
+          endDateTime: end,
         } as ScheduleRS);
         start = end;
       }
     }
-    return divByDuration
+    return divByDuration;
   }
 
-  private groupPerDay(schedulesByDay: Map<Date, ScheduleRS[]>, schedules: ScheduleRS[], allDaysInWeekByDate: Date[]): Map<Date, ScheduleRS[]> {
+  private groupPerDay(
+    schedulesByDay: Map<Date, ScheduleRS[]>,
+    schedules: ScheduleRS[],
+    allDaysInWeekByDate: Date[]
+  ): Map<Date, ScheduleRS[]> {
     for (let schedule of schedules) {
       for (let day of allDaysInWeekByDate) {
         if (this.isTheSameDay(day, schedule)) {
-          schedulesByDay.get(day)!.push(schedule)
+          schedulesByDay.get(day)!.push(schedule);
         }
       }
     }
@@ -243,14 +296,16 @@ export class AppointmentCreateVisitComponent {
 
   private isTheSameDay(date: Date, schedule: ScheduleRS): boolean {
     let st = schedule.startDateTime;
-    return date.getFullYear() == st.getFullYear() && date.getMonth() == st.getMonth() && date.getDate() == st.getDate();
+    return (
+      date.getFullYear() == st.getFullYear() &&
+      date.getMonth() == st.getMonth() &&
+      date.getDate() == st.getDate()
+    );
   }
-
 
   private addMinutes(date: Date, minutes: number): Date {
     return new Date(date.getTime() + minutes * 60000);
   }
-
 
   ngOnDestroy(): void {
     this.unsubscribeAll();
@@ -280,41 +335,55 @@ export class AppointmentCreateVisitComponent {
 
   submitMedicalTest() {
     if (this.selectedDoctor) {
-      this.keycloakService.getKeycloakInstance()
+      this.keycloakService
+        .getKeycloakInstance()
         .loadUserProfile()
-        .then(profile => {
+        .then((profile) => {
           let visitRQ = {
             doctorUUID: this.selectedDoctor!.code,
             patientUUID: this.patient?.patientUUID,
-            appointmentDateTime: this.addMinutes(this.chosenDate?.startDateTime!, 2 * 60)
+            appointmentDateTime: this.addMinutes(
+              this.chosenDate?.startDateTime!,
+              2 * 60
+            ),
           } as AppointmentRQ;
 
-          console.log(visitRQ)
-          this.resultSubscription = this.appointmentService.createAppointment(visitRQ)
-            .subscribe(data => {
-              this.toastService.showSuccess('Visit created');
-              this.navigationService.toMedicalTestById(data.id)
-            }, error => {
-              console.log(error)
-              this.toastService.showError('Error during creating visit. Try again later');
-            }, () => {
-            })
+          console.log(visitRQ);
+          this.resultSubscription = this.appointmentService
+            .createAppointment(visitRQ)
+            .subscribe(
+              (data) => {
+                this.toastService.showSuccess('Visit created');
+                this.navigationService.toMedicalTestById(data.id);
+              },
+              (error) => {
+                console.log(error);
+                this.toastService.showError(
+                  'Error during creating visit. Try again later'
+                );
+              },
+              () => {}
+            );
         });
     }
   }
 
   elo() {
-    console.log('elo')
+    console.log('elo');
   }
 
   incrementCurrentDate() {
-    this.currentDate$.next(new Date(this.currentDate!.getTime() + ONE_WEEK_IN_MILLISECONDS));
-    this.onDoctorSelect()
+    this.currentDate$.next(
+      new Date(this.currentDate!.getTime() + ONE_WEEK_IN_MILLISECONDS)
+    );
+    this.onDoctorSelect();
   }
 
   decrementCurrentDate() {
-    this.currentDate$.next(new Date(this.currentDate!.getTime() - ONE_WEEK_IN_MILLISECONDS));
-    this.onDoctorSelect()
+    this.currentDate$.next(
+      new Date(this.currentDate!.getTime() - ONE_WEEK_IN_MILLISECONDS)
+    );
+    this.onDoctorSelect();
   }
 
   getFriendlyEnumName(testType: string) {
@@ -326,28 +395,34 @@ export class AppointmentCreateVisitComponent {
       let visitRQ = {
         doctorUUID: this.selectedDoctor.code,
         patientUUID: this.patient?.patientUUID,
-        appointmentDateTime: this.addMinutes(this.chosenDate?.startDateTime!, 2 * 60)
+        appointmentDateTime: this.addMinutes(
+          this.chosenDate?.startDateTime!,
+          2 * 60
+        ),
       } as AppointmentRQ;
 
-      console.log(visitRQ)
-      this.resultSubscription = this.appointmentService.createAppointment(visitRQ)
+      console.log(visitRQ);
+      this.resultSubscription = this.appointmentService
+        .createAppointment(visitRQ)
         .subscribe({
-          next: data => {
+          next: (data) => {
             this.toastService.showSuccess('Visit created');
-            this.navigationService.toAppointmentDetailsReceptionist(data.id)
+            this.navigationService.toAppointmentDetailsReceptionist(data.id);
           },
-          error: error => {
-            console.log(error)
-            this.toastService.showError('Error during creating visit. Try again later');
-          }
-        })
+          error: (error) => {
+            console.log(error);
+            this.toastService.showError(
+              'Error during creating visit. Try again later'
+            );
+          },
+        });
     }
   }
 
   private mapToDropdownItem(name: string, code?: string): DropdownItem {
     return {
       name: name,
-      code: code ?? name
-    }
+      code: code ?? name,
+    };
   }
 }

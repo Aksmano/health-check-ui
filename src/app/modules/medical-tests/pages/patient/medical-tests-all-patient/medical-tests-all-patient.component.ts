@@ -6,6 +6,7 @@ import { Subscription } from "rxjs";
 import { ToastService } from "../../../../../core/services/toast/toast.service";
 import { NavigationService } from "../../../../../core/services/navigation/navigation.service";
 import { TestStatus } from "../../../../../data/model/common/TestStatus";
+import { getFriendlyEnumName } from 'src/app/utils';
 
 @Component({
   selector: 'app-medical-tests-all-patient',
@@ -40,6 +41,9 @@ export class MedicalTestsAllPatientComponent implements OnInit, OnDestroy {
     });
   }
 
+  getFriendlyEnum(text: string) {
+    return getFriendlyEnumName(text);
+  }
 
   ngOnDestroy(): void {
     this.removeSubscriptions();

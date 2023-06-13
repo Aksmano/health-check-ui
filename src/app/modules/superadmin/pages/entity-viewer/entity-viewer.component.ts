@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { KeycloakService } from 'keycloak-angular';
 import { NavigationService } from 'src/app/core/services/navigation/navigation.service';
+import { ToastService } from 'src/app/core/services/toast/toast.service';
 import { UserInfo } from 'src/app/core/user-info';
 import { MainEntityType } from 'src/app/data/model/common/MainEntityType';
 import { UserType } from 'src/app/data/model/common/UserType';
@@ -23,9 +24,10 @@ export class EntityViewerComponent {
   readonly viewType = MainEntityType;
 
   constructor(
+    protected readonly toastService: ToastService,
     private readonly navigationService: NavigationService,
     private readonly route: ActivatedRoute,
-    private readonly keycloak: KeycloakService
+    private readonly keycloak: KeycloakService,
   ) {
     this.route.queryParamMap
       .subscribe(params => {

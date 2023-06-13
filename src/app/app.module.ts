@@ -26,7 +26,7 @@ function initializeKeycloak(keycloak: KeycloakService) {
   return () =>
     keycloak.init({
       config: {
-        url: 'http://keycloak/auth',
+        url: 'http://localhost:8443',
         realm: 'health-check',
         clientId: 'health-check-ui',
       },

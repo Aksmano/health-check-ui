@@ -29,7 +29,7 @@
     </ng-template>
     <ng-template pTemplate="body" let-visit>
       <tr>
-        <td>{{visit.type}}</td>
+        <td>{{getFriendlyEnum(visit.type)}}</td>
         <td>{{visit.patient!.firstName}}</td>
         <td>{{visit.patient!.lastName}}</td>
         <td>{{visit.testDateTime | date:'short'}}</td>

@@ -25,7 +25,7 @@
         <td>
           <p-tag [value]=" getMessageByTestType(test.testStatus)" [severity]="getSeverity(test.testStatus)"></p-tag>
         </td>
-        <td>{{ test.type }}</td>
+        <td>{{ getFriendlyEnum(test.type) }}</td>
         <td>
           <p-button type="button" icon="pi pi-eye" styleClass="p-button-text" (onClick)="goToTest(test.id)"></p-button>
         </td>
